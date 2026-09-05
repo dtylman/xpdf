@@ -1,0 +1,932 @@
+Page 1:
+Header: Design and build
+accessible PDF tables
+
+Sample tables
+
+Table 1
+Row: 1 Col: 1: Column header (TH)
+Row: 1 Col: 2: Column header (TH)
+Row: 1 Col: 3: Column header (TH)
+Row: 2 Col: 1: Row header (TH)
+Row: 2 Col: 2: Data cell (TD)
+Row: 2 Col: 3: Data cell (TD)
+Row: 3 Col: 1: Row header(TH)
+Row: 3 Col: 2: Data cell (TD)
+Row: 3 Col: 3: Data cell (TD)
+Row: 4 Col: 1: Table 2: example of foo
+Row: 4 Col: 2: tnotes referenced from
+Row: 4 Col: 3: w
+Row: 4 Col: 4: ithin a tab
+Row: 4 Col: 5: le
+Row: 5 Col: 1: Expenditure by function £
+Row: 5 Col: 2: million
+Row: 5 Col: 3: 2009/10
+Row: 5 Col: 4: 2010/11 1
+Row: 6 Col: 1: Policy functions
+Row: 6 Col: 2: Financial
+Row: 6 Col: 3: 22.5
+Row: 6 Col: 4: 30.57
+Row: 7 Col: 2: Information 2
+Row: 7 Col: 3: 10.2
+Row: 7 Col: 4: 14.8
+Row: 8 Col: 2: Contingency
+Row: 8 Col: 3: 2.6
+Row: 8 Col: 4: 1.2
+Row: 9 Col: 1: Remunerated functions
+Row: 9 Col: 2: Agency services 3
+Row: 9 Col: 3: 44.7
+Row: 9 Col: 4: 35.91
+Row: 10 Col: 2: Payments
+Row: 10 Col: 3: 22.41
+Row: 10 Col: 4: 19.88
+Row: 11 Col: 2: Banking
+Row: 11 Col: 3: 22.90
+Row: 11 Col: 4: 44.23
+Row: 12 Col: 2: Other
+Row: 12 Col: 3: 12.69
+Row: 12 Col: 4: 10.32
+Row: 13 Col: 1: (1) Provisional t
+(2) Costs assoc
+(3) From the m
+Row: 13 Col: 2: otal as of pu
+iated with on
+anagement a
+
+        Table
+Row: 13 Col: 3: blication date
+-going inform
+ccounts, net
+
+ 3: "film cr
+Row: 13 Col: 4: .
+ation programme
+of recoveries, incl
+
+edits" style la
+Row: 13 Col: 5:  s.
+ uding inter
+
+yout
+Row: 13 Col: 6: est
+Row: 13 Col: 7: charges.
+Row: 14 Col: 1: Main character
+Row: 14 Col: 2: Daniel Radcliffe
+Row: 15 Col: 1: Sidekick 1
+Row: 15 Col: 2: Rupert Grint
+Row: 16 Col: 1: Sidekick 2
+Row: 16 Col: 2: Emma Watson
+Row: 17 Col: 1: Lovable ogre
+Row: 17 Col: 2: Robbie Coltrane
+Row: 18 Col: 1: Professor
+Row: 18 Col: 2: Maggie Smith
+Row: 19 Col: 1: Headmaster
+Row: 19 Col: 2: Richard Harris
+
+Page 2:
+Header: Table 4: table 3 with column headers added
+Row: 1 Col: 1: Role
+Row: 1 Col: 2: Actor
+Row: 2 Col: 1: Main character
+Row: 2 Col: 2: Daniel Radcliffe
+Row: 3 Col: 1: Sidekick 1
+Row: 3 Col: 2: Rupert Grint
+Row: 4 Col: 1: Sidekick 2
+Row: 4 Col: 2: Emma Watson
+Row: 5 Col: 1: Lovable ogre
+Row: 5 Col: 2: Robbie Coltrane
+Row: 6 Col: 1: Professor
+Row: 6 Col: 2: Maggie Smith
+Row: 7 Col: 1: Headmaster
+Row: 7 Col: 2: Richard Harris
+Row: 8 Col: 1: Table 5: year
+Row: 8 Col: 2: -end financial
+Row: 8 Col: 3: statem
+Row: 8 Col: 4: ent (£, t
+Row: 8 Col: 5: housands)
+Row: 9 Col: 2: 2010
+Row: 9 Col: 3: 2009
+Row: 9 Col: 4: 2008
+Row: 10 Col: 1: Non-current assets
+Row: 11 Col: 1: Property
+Row: 11 Col: 2: 345
+Row: 11 Col: 3: 445
+Row: 11 Col: 4: 222
+Row: 12 Col: 1: Investment
+Row: 12 Col: 2: 567
+Row: 12 Col: 3: 654
+Row: 12 Col: 4: 423
+Row: 13 Col: 1: Intangibles
+Row: 13 Col: 2: 423
+Row: 13 Col: 3: 123
+Row: 13 Col: 4: 453
+Row: 14 Col: 1: Current assets
+Row: 15 Col: 1: Trade and other receivables
+Row: 15 Col: 2: 435
+Row: 15 Col: 3: 634
+Row: 15 Col: 4: 231
+Row: 16 Col: 1: Cash and cash equivalents
+Row: 16 Col: 2: 524
+Row: 16 Col: 3: 123
+Row: 16 Col: 4: 482
+Row: 17 Col: 1: Other
+Row: 17 Col: 2: 223
+Row: 17 Col: 3: 211
+Row: 17 Col: 4: 254
+Row: 18 Col: 1: Table 6: a tab
+Row: 18 Col: 2: le with a more
+Row: 18 Col: 4: serious headi
+Row: 18 Col: 5: ngs problem
+Row: 19 Col: 1: Rainfall
+(inches)
+Row: 19 Col: 2: Americas
+Row: 19 Col: 3: Asia
+Row: 19 Col: 4: Europe
+Row: 19 Col: 5: Africa
+Row: 20 Col: 3: 2010
+Row: 21 Col: 1: Average
+Row: 21 Col: 2: 104
+Row: 21 Col: 3: 201
+Row: 21 Col: 4: 193
+Row: 21 Col: 5: 144
+Row: 22 Col: 1: 24 hour high
+Row: 22 Col: 2: 15
+Row: 22 Col: 3: 26
+Row: 22 Col: 4: 27
+Row: 22 Col: 5: 18
+Row: 23 Col: 1: 12 hour high
+Row: 23 Col: 2: 9
+Row: 23 Col: 3: 10
+Row: 23 Col: 4: 11
+Row: 23 Col: 5: 12
+Row: 24 Col: 3: 2009
+Row: 25 Col: 1: Average
+Row: 25 Col: 2: 133
+Row: 25 Col: 3: 244
+Row: 25 Col: 4: 155
+Row: 25 Col: 5: 166
+Row: 26 Col: 1: 24 hour high
+Row: 26 Col: 2: 27
+Row: 26 Col: 3: 28
+Row: 26 Col: 4: 29
+Row: 26 Col: 5: 20
+Row: 27 Col: 1: 12 hour high
+Row: 27 Col: 2: 11
+Row: 27 Col: 3: 12
+Row: 27 Col: 4: 13
+Row: 27 Col: 5: 16
+
+Page 3:
+Header: Table 7: year-end statement, non-current assets (£, thousands)
+Row: 1 Col: 1: Non-current assets
+Row: 1 Col: 2: 2010
+Row: 1 Col: 3: 2009
+Row: 1 Col: 4: 2008
+Row: 2 Col: 1: Property
+Row: 2 Col: 2: 345
+Row: 2 Col: 3: 445
+Row: 2 Col: 4: 222
+Row: 3 Col: 1: Investment
+Row: 3 Col: 2: 567
+Row: 3 Col: 3: 654
+Row: 3 Col: 4: 423
+Row: 4 Col: 1: Intangibles
+Row: 4 Col: 2: 423
+Row: 4 Col: 3: 123
+Row: 4 Col: 4: 453
+Row: 5 Col: 1: Table 8: year-end statemen
+Row: 5 Col: 2: t, current asse
+Row: 5 Col: 3: ts (£, thousan
+Row: 5 Col: 4: ds)
+Row: 6 Col: 1: Current assets
+Row: 6 Col: 2: 2010
+Row: 6 Col: 3: 2009
+Row: 6 Col: 4: 2008
+Row: 7 Col: 1: Trade and other receivables
+Row: 7 Col: 2: 435
+Row: 7 Col: 3: 634
+Row: 7 Col: 4: 231
+Row: 8 Col: 1: Cash and cash equivalents
+Row: 8 Col: 2: 524
+Row: 8 Col: 3: 123
+Row: 8 Col: 4: 482
+Row: 9 Col: 1: Other
+Row: 9 Col: 2: 223
+Row: 9 Col: 3: 211
+Row: 9 Col: 4: 254
+Row: 10 Col: 1: Table 9: rainfall by c
+Row: 10 Col: 2: ontinen
+Row: 10 Col: 3: t, 20
+Row: 10 Col: 4: 09
+Row: 11 Col: 1: Rainfall (inches)
+Row: 11 Col: 2: Americas
+Row: 11 Col: 3: Asia
+Row: 11 Col: 4: Europe
+Row: 11 Col: 5: Africa
+Row: 12 Col: 1: Average
+Row: 12 Col: 2: 133
+Row: 12 Col: 3: 244
+Row: 12 Col: 4: 155
+Row: 12 Col: 5: 166
+Row: 13 Col: 1: 24 hour high
+Row: 13 Col: 2: 27
+Row: 13 Col: 3: 28
+Row: 13 Col: 4: 29
+Row: 13 Col: 5: 20
+Row: 14 Col: 1: 12 hour high
+Row: 14 Col: 2: 11
+Row: 14 Col: 3: 12
+Row: 14 Col: 4: 13
+Row: 14 Col: 5: 16
+
+Page 4:
+Header: Table 10: self-contained year-end statement (£, thousands) (multiple
+layout problems)
+Row: 1 Col: 2: 20
+Row: 1 Col: 3: 11
+Row: 1 Col: 4: 2010 re
+Row: 1 Col: 5: stated
+Row: 2 Col: 1: General income
+Row: 2 Col: 3: 250,000
+Row: 2 Col: 5: 200,000
+Row: 3 Col: 1: Increase in value, WIP
+Row: 3 Col: 3: 15,000
+Row: 3 Col: 5: 30,000
+Row: 4 Col: 3: 265,000
+Row: 4 Col: 5: 230,000
+Row: 5 Col: 1: Administrative costs
+Row: 6 Col: 1: Staff costs
+Row: 6 Col: 2: (200,000)
+Row: 6 Col: 4: (150,000)
+Row: 7 Col: 1: Early departures
+Row: 7 Col: 2: (10,000)
+Row: 7 Col: 4: (20,000)
+Row: 8 Col: 1: Other
+Row: 8 Col: 2: (25,000)
+Row: 8 Col: 4: (10,000)
+Row: 9 Col: 1: Depreciation
+Row: 9 Col: 2: (10,000)
+Row: 9 Col: 4: (10,000)
+Row: 10 Col: 1: Programme costs
+Row: 11 Col: 1: Impairment loss
+Row: 11 Col: 2: (10,000)
+Row: 11 Col: 4: (5,000)
+Row: 12 Col: 1: Other
+Row: 12 Col: 2: (5,000)
+Row: 12 Col: 4: (5,000)
+Row: 13 Col: 2: (260,000)
+Row: 13 Col: 4: (200,000)
+Row: 14 Col: 1: Surplus
+Row: 14 Col: 3: 5,000
+Row: 14 Col: 5: 30,000
+Row: 15 Col: 1: Table 11: self-contained
+problems resolved)
+Row: 15 Col: 2: year-end st
+Row: 15 Col: 3: atemen
+Row: 15 Col: 4: t (£,
+Row: 15 Col: 5: thousan
+Row: 15 Col: 6: ds)
+Row: 15 Col: 7: (multiple
+Row: 16 Col: 3: 2011
+Row: 16 Col: 4: 2010 restated
+Row: 17 Col: 1: Income
+Row: 17 Col: 2: General income
+Row: 17 Col: 3: 250,000
+Row: 17 Col: 4: 200,000
+Row: 18 Col: 2: Increase in value
+Row: 18 Col: 3: 15,000
+Row: 18 Col: 4: 30,000
+Row: 19 Col: 2: Total income
+Row: 19 Col: 3: 265,000
+Row: 19 Col: 4: 230,000
+Row: 20 Col: 1: Administrative costs
+Row: 20 Col: 2: Staff costs
+Row: 20 Col: 3: (200,000)
+Row: 20 Col: 4: (150,000)
+Row: 21 Col: 2: Early departures
+Row: 21 Col: 3: (10,000)
+Row: 21 Col: 4: (20,000)
+Row: 22 Col: 2: Other operating costs
+Row: 22 Col: 3: (25,000)
+Row: 22 Col: 4: (10,000)
+Row: 23 Col: 2: Depreciation
+Row: 23 Col: 3: (10,000)
+Row: 23 Col: 4: (10,000)
+Row: 24 Col: 1: Programme costs
+Row: 24 Col: 2: Impairment loss
+Row: 24 Col: 3: (10,000)
+Row: 24 Col: 4: (5,000)
+Row: 25 Col: 2: Other
+Row: 25 Col: 3: (5,000)
+Row: 25 Col: 4: (5,000)
+Row: 26 Col: 2: Total costs
+Row: 26 Col: 3: (260,000)
+Row: 26 Col: 4: (200,000)
+Row: 27 Col: 2: Surplus
+Row: 27 Col: 3: 5,000
+Row: 27 Col: 4: 30,000
+
+Page 5:
+Header: Table 12: merged data cells are not recommended
+Row: 1 Col: 2: 20
+Row: 1 Col: 3: 08
+Row: 1 Col: 4: 20
+Row: 1 Col: 5: 09
+Row: 2 Col: 1: Name
+Row: 2 Col: 2: Yes
+Row: 2 Col: 3: No
+Row: 2 Col: 4: Yes
+Row: 2 Col: 5: No
+Row: 3 Col: 1: Bob
+Row: 3 Col: 2: 2
+Row: 3 Col: 3: 5
+Row: 3 Col: 4: 6
+Row: 3 Col: 5: 7
+Row: 4 Col: 1: Sue
+Row: 4 Col: 2: 3
+Row: 4 Col: 3: 8
+Row: 4 Col: 4: 4
+Row: 4 Col: 5: 7
+Row: 5 Col: 1: Sam
+Row: 5 Col: 2: [data relating to
+a single cell span
+Row: 5 Col: 3: both columns in
+ning both]
+Row: 5 Col: 4: [data relating to
+a single cell span
+Row: 5 Col: 5: both columns in
+ning both]
+Row: 6 Col: 1: Table 13: use
+Row: 6 Col: 2: of graphic sy
+Row: 6 Col: 3: mbols
+Row: 7 Col: 1: Question
+Row: 7 Col: 2: Respondent A
+Row: 7 Col: 3: Respondent B
+Row: 7 Col: 4: Respondent C
+Row: 8 Col: 1: Are you a UK citizen?
+Row: 9 Col: 1: Are you currently employed?
+Row: 10 Col: 1: Do you have a driving licence?
+Row: 11 Col: 1: Table 14: symbols replaced
+Row: 11 Col: 2: by real text
+Row: 12 Col: 1: Question
+Row: 12 Col: 2: Respondent A
+Row: 12 Col: 3: Respondent B
+Row: 12 Col: 4: Respondent C
+Row: 13 Col: 1: Are you a UK citizen?
+Row: 13 Col: 2: No
+Row: 13 Col: 3: Yes
+Row: 13 Col: 4: No
+Row: 14 Col: 1: Are you currently employed?
+Row: 14 Col: 2: Yes
+Row: 14 Col: 3: No
+Row: 14 Col: 4: Yes
+Row: 15 Col: 1: Do you have a driving licence?
+Row: 15 Col: 2: No
+Row: 15 Col: 3: No
+Row: 15 Col: 4: Yes
+Row: 16 Col: 1: Table 15: courses offer
+B = Bachelor of Arts, C
+Row: 16 Col: 2: ed b
+=M
+Row: 16 Col: 3: y Instit
+asters,
+Row: 16 Col: 4: ution X
+D = Do
+Row: 16 Col: 5: .A=
+ctora
+Row: 16 Col: 6: Bachelor
+te, E = Di
+Row: 16 Col: 7: of
+plo
+Row: 16 Col: 8: Science,
+ma
+Row: 17 Col: 2: 2006
+Row: 17 Col: 3: 2007
+Row: 17 Col: 4: 2008
+Row: 17 Col: 5: 2009
+Row: 18 Col: 1: Economics
+Row: 18 Col: 2: A, B
+Row: 18 Col: 3: A, C
+Row: 18 Col: 4: A, B
+Row: 18 Col: 5: A, C
+Row: 19 Col: 1: International relations
+Row: 19 Col: 2: A, E
+Row: 19 Col: 3: A, E
+Row: 19 Col: 4: A, B
+Row: 19 Col: 5: A, E
+Row: 20 Col: 1: Philosophy
+Row: 20 Col: 2: A
+Row: 20 Col: 3: A
+Row: 20 Col: 4: A
+Row: 20 Col: 5: A, D
+Row: 21 Col: 1: Politics
+Row: 21 Col: 2: A, D
+Row: 21 Col: 3: A, D
+Row: 21 Col: 4: A, D
+Row: 21 Col: 5: A
+Row: 22 Col: 1: Mathematics
+Row: 22 Col: 2: B, C
+Row: 22 Col: 3: B
+Row: 22 Col: 4: A, E
+Row: 22 Col: 5: A, B
+Row: 23 Col: 1: English
+Row: 23 Col: 2: A, C
+Row: 23 Col: 3: A, B
+Row: 23 Col: 4: A,B
+Row: 23 Col: 5: C
+
+Page 6:
+Header: Table 16: Masters courses offered by Institution X
+Row: 1 Col: 2: 2006
+Row: 1 Col: 3: 2007
+Row: 1 Col: 4: 2008
+Row: 1 Col: 5: 2009
+Row: 2 Col: 1: Economics
+Row: 2 Col: 2: No
+Row: 2 Col: 3: Yes
+Row: 2 Col: 4: Yes
+Row: 2 Col: 5: Yes
+Row: 3 Col: 1: International relations
+Row: 3 Col: 2: No
+Row: 3 Col: 3: No
+Row: 3 Col: 4: No
+Row: 3 Col: 5: No
+Row: 4 Col: 1: Philosophy
+Row: 4 Col: 2: No
+Row: 4 Col: 3: No
+Row: 4 Col: 4: No
+Row: 4 Col: 5: No
+Row: 5 Col: 1: Politics
+Row: 5 Col: 2: No
+Row: 5 Col: 3: No
+Row: 5 Col: 4: No
+Row: 5 Col: 5: No
+Row: 6 Col: 1: Mathematics
+Row: 6 Col: 2: Yes
+Row: 6 Col: 3: No
+Row: 6 Col: 4: No
+Row: 6 Col: 5: No
+Row: 7 Col: 1: English
+Row: 7 Col: 2: Yes
+Row: 7 Col: 3: Yes
+Row: 7 Col: 4: Yes
+Row: 7 Col: 5: Yes
+Row: 8 Col: 1: Table 17: accounts, 20
+Row: 8 Col: 2: 11 (£, thous
+Row: 8 Col: 3: ands)
+Row: 9 Col: 1: Accounting item
+Row: 9 Col: 3: 2011
+Row: 10 Col: 1: Income
+Row: 10 Col: 2: General income
+Row: 10 Col: 3: 200,000
+Row: 11 Col: 2: Increase in value, WIP
+Row: 11 Col: 3: 30,000
+Row: 12 Col: 2: Income subtotal
+Row: 12 Col: 3: 230,000
+Row: 13 Col: 1: Administrative costs
+Row: 13 Col: 2: Staff
+Row: 13 Col: 3: 150,000
+Row: 14 Col: 2: Early departures
+Row: 14 Col: 3: 20,000
+Row: 15 Col: 2: Other operating costs
+Row: 15 Col: 3: 10,000
+Row: 16 Col: 2: Depreciation
+Row: 16 Col: 3: 10,000
+Row: 17 Col: 1: Programme costs
+Row: 17 Col: 2: Impairment loss
+Row: 17 Col: 3: 10,000
+Row: 18 Col: 2: Costs subtotal
+Row: 18 Col: 3: 200,000
+Row: 19 Col: 2: Balance
+Row: 19 Col: 3: 30,000
+Row: 20 Col: 1: Table 18: accounts, 2011 (£, thousands)
+Row: 21 Col: 1: Accounting item
+Row: 21 Col: 3: 2011
+Row: 22 Col: 1: Income
+Row: 22 Col: 2: General income
+Row: 22 Col: 3: 200,000
+Row: 23 Col: 2: Increase in value, WIP
+Row: 23 Col: 3: 30,000
+Row: 24 Col: 2: Income subtotal
+Row: 24 Col: 3: 230,000
+Row: 25 Col: 1: Administrative costs
+Row: 25 Col: 2: Staff
+Row: 25 Col: 3: (150,000)
+Row: 26 Col: 2: Early departures
+Row: 26 Col: 3: (20,000)
+Row: 27 Col: 2: Other operating costs
+Row: 27 Col: 3: (10,000)
+Row: 28 Col: 2: Depreciation
+Row: 28 Col: 3: (10,000)
+Row: 29 Col: 1: Programme costs
+Row: 29 Col: 2: Impairment loss
+Row: 29 Col: 3: (10,000)
+Row: 30 Col: 2: Costs subtotal
+Row: 30 Col: 3: (200,000)
+Row: 31 Col: 2: Balance
+Row: 31 Col: 3: 30,000
+
+Page 7:
+Header: Table 19: Human Development Index (HDI)
+trends, 1980 to 2010. Source: Barro-Lee March, 2010
+Row: 1 Col: 1: Country
+Row: 1 Col: 2: 1980
+Row: 1 Col: 3: 1990
+Row: 1 Col: 4: 2000
+Row: 1 Col: 5: 2010
+Row: 2 Col: 1: Afghanistan
+Row: 2 Col: 2: 0.78
+Row: 2 Col: 3: 1.48
+Row: 2 Col: 4: 2.16
+Row: 2 Col: 5: 3.33
+Row: 3 Col: 1: Albania
+Row: 3 Col: 2: 8.89
+Row: 3 Col: 3: 9.67
+Row: 3 Col: 4: 9.89
+Row: 3 Col: 5: 10.38
+Row: 4 Col: 1: Algeria
+Row: 4 Col: 2: 4.74
+Row: 4 Col: 3: 3.33
+Row: 4 Col: 4: 5.50
+Row: 4 Col: 5: 7.24
+Row: 5 Col: 1: Andorra
+Row: 5 Col: 2: 4.98
+Row: 5 Col: 3: 5.63
+Row: 5 Col: 4: 9.09
+Row: 5 Col: 5: 10.35
+Row: 6 Col: 1: Angola
+Row: 6 Col: 2: -
+Row: 6 Col: 3: -
+Row: 6 Col: 4: 4.42
+Row: 6 Col: 5: 4.42
+Row: 7 Col: 1: Table 20: foot
+Row: 7 Col: 2: notes refe
+Row: 7 Col: 3: renced fro
+Row: 7 Col: 4: m within a
+Row: 7 Col: 5: tab
+Row: 7 Col: 6: le
+Row: 8 Col: 1: Expenditure by function £
+Row: 8 Col: 2: million
+Row: 8 Col: 3: 2009/10
+Row: 8 Col: 4: 2010/11 1
+Row: 9 Col: 1: Policy functions
+Row: 9 Col: 2: Financial
+Row: 9 Col: 3: 22.5
+Row: 9 Col: 4: 30.57
+Row: 10 Col: 2: Information 2
+Row: 10 Col: 3: 10.2
+Row: 10 Col: 4: 14.8
+Row: 11 Col: 2: Contingency
+Row: 11 Col: 3: 2.6
+Row: 11 Col: 4: 1.2
+Row: 12 Col: 1: Remunerated functions
+Row: 12 Col: 2: Agency services 3
+Row: 12 Col: 3: 44.7
+Row: 12 Col: 4: 35.91
+Row: 13 Col: 2: Payments
+Row: 13 Col: 3: 22.41
+Row: 13 Col: 4: 19.88
+Row: 14 Col: 2: Banking
+Row: 14 Col: 3: 22.90
+Row: 14 Col: 4: 44.23
+Row: 15 Col: 2: Other
+Row: 15 Col: 3: 12.69
+Row: 15 Col: 4: 10.32
+Footnotes: (1) Provisional total as of publication date.
+(2) Costs associated with on-going information programmes.
+(3) From the management accounts, net of recoveries and including interest charges
+
+Page 8:
+Header: Table 21: footnotes replaced by additional table summary text
+Row: 1 Col: 1: Expenditure by function £
+Row: 1 Col: 2: million
+Row: 1 Col: 3: 2009/10
+Row: 1 Col: 4: 2010/11
+Row: 2 Col: 1: Policy functions
+Row: 2 Col: 2: Financial
+Row: 2 Col: 3: 22.5
+Row: 2 Col: 4: 30.57
+Row: 3 Col: 2: Information
+Row: 3 Col: 3: 10.2
+Row: 3 Col: 4: 14.8
+Row: 4 Col: 2: Contingency
+Row: 4 Col: 3: 2.6
+Row: 4 Col: 4: 1.2
+Row: 5 Col: 1: Remunerated functions
+Row: 5 Col: 2: Agency services
+Row: 5 Col: 3: 44.7
+Row: 5 Col: 4: 35.91
+Row: 6 Col: 2: Payments
+Row: 6 Col: 3: 22.41
+Row: 6 Col: 4: 19.88
+Row: 7 Col: 2: Banking
+Row: 7 Col: 3: 22.90
+Row: 7 Col: 4: 44.23
+Row: 8 Col: 2: Other
+Row: 8 Col: 3: 12.69
+Row: 8 Col: 4: 10.32
+Row: 9 Col: 1: Table 22: referencing
+Row: 9 Col: 3: multiple endnotes from wi
+Row: 9 Col: 4: thin a table
+Row: 10 Col: 1: Expenditure £m
+Row: 10 Col: 2:                 Notes
+(Notes located on page [n])
+Row: 10 Col: 3: 2010
+Row: 10 Col: 4: 2011
+Row: 12 Col: 1: Information
+Row: 12 Col: 2: 1
+Row: 12 Col: 3: 10.2
+Row: 12 Col: 4: 14.8
+Row: 13 Col: 1: Contingency
+Row: 13 Col: 3: 2.6
+Row: 13 Col: 4: 1.2
+Row: 14 Col: 1: Payments
+Row: 14 Col: 2: 3
+Row: 14 Col: 3: 22.41
+Row: 14 Col: 4: 19.88
+Row: 15 Col: 1: Banking services
+Row: 15 Col: 2: 4
+Row: 15 Col: 3: 22.90
+Row: 15 Col: 4: 44.23
+Row: 16 Col: 1: Interest
+Row: 16 Col: 3: 0.23
+Row: 16 Col: 4: 0.10
+Row: 17 Col: 1: Dividends
+Row: 17 Col: 2: 23
+Row: 17 Col: 3: 2.5
+Row: 17 Col: 4: 3.68
+Row: 18 Col: 1: Other
+Row: 18 Col: 2: 9
+Row: 18 Col: 3: 12.69
+Row: 18 Col: 4: 10.32
+Row: 19 Col: 1: Table 23: sim
+structure
+Row: 19 Col: 2: ulated ta
+Row: 19 Col: 3: ble created using ta
+Row: 19 Col: 4: bs an
+Row: 19 Col: 5: d containing
+Row: 19 Col: 6: no
+Row: 20 Col: 2: 20
+Row: 20 Col: 3: 08
+Row: 20 Col: 4: 20
+Row: 20 Col: 5: 09
+Row: 21 Col: 1: Name
+Row: 21 Col: 2: Entered
+Row: 21 Col: 3: Completed
+Row: 21 Col: 4: Entered
+Row: 21 Col: 5: Completed
+Row: 22 Col: 1: Bob
+Row: 22 Col: 2: 22
+Row: 22 Col: 3: 21
+Row: 22 Col: 4: 20
+Row: 22 Col: 5: 19
+Row: 23 Col: 1: Sue
+Row: 23 Col: 2: 44
+Row: 23 Col: 3: 12
+Row: 23 Col: 4: 12
+Row: 23 Col: 5: 10
+
+Page 9:
+Header: Table 24: year-end financial statement (£, thousands)
+Row: 1 Col: 2: 2010
+Row: 1 Col: 3: 2009
+Row: 1 Col: 4: 2008
+Row: 2 Col: 1: Non-current assets
+Row: 3 Col: 1: Buildings
+Row: 3 Col: 2: 345
+Row: 3 Col: 3: 445
+Row: 3 Col: 4: 222
+Row: 4 Col: 1: Investment
+Row: 4 Col: 2: 567
+Row: 4 Col: 3: 654
+Row: 4 Col: 4: 423
+Row: 5 Col: 1: Intangibles
+Row: 5 Col: 2: 423
+Row: 5 Col: 3: 123
+Row: 5 Col: 4: 453
+Row: 6 Col: 1: Current assets
+Row: 7 Col: 1: Trade
+Row: 7 Col: 2: 435
+Row: 7 Col: 3: 634
+Row: 7 Col: 4: 231
+Row: 8 Col: 1: Cash
+Row: 8 Col: 2: 524
+Row: 8 Col: 3: 123
+Row: 8 Col: 4: 482
+Row: 9 Col: 1: Other
+Row: 9 Col: 2: 223
+Row: 9 Col: 3: 211
+Row: 9 Col: 4: 254
+Row: 10 Col: 1: Current liabilities
+Row: 11 Col: 1: Trade liabilities
+Row: 11 Col: 2: 154
+Row: 11 Col: 3: 125
+Row: 11 Col: 4: 421
+Row: 12 Col: 1: Financial debt
+Row: 12 Col: 2: 231
+Row: 12 Col: 3: 474
+Row: 12 Col: 4: 572
+Row: 13 Col: 1: Provisions
+Row: 13 Col: 2: 111
+Row: 13 Col: 3: 312
+Row: 13 Col: 4: 347
+Row: 14 Col: 1: Table 25: sett
+Row: 14 Col: 2: ing column an
+Row: 14 Col: 3: d row scope vi
+Row: 14 Col: 4: a the tags pan
+Row: 14 Col: 5: el
+Row: 15 Col: 2: 20
+Row: 15 Col: 3: 08
+Row: 15 Col: 4: 20
+Row: 15 Col: 5: 09
+Row: 16 Col: 1: Name
+Row: 16 Col: 2: Entered
+Row: 16 Col: 3: Won
+Row: 16 Col: 4: Entered
+Row: 16 Col: 5: Won
+Row: 17 Col: 1: Bob
+Row: 17 Col: 2: 22
+Row: 17 Col: 3: 21
+Row: 17 Col: 4: 20
+Row: 17 Col: 5: 19
+Row: 18 Col: 1: Sue
+Row: 18 Col: 2: 44
+Row: 18 Col: 3: 12
+Row: 18 Col: 4: 12
+Row: 18 Col: 5: 10
+Row: 19 Col: 1: Sam
+Row: 19 Col: 2: 16
+Row: 19 Col: 3: 4
+Row: 19 Col: 4: 45
+Row: 19 Col: 5: 30
+Row: 20 Col: 1: Table 26: cou
+B = Bachelor
+Row: 20 Col: 2: rses offer
+of Arts, C
+Row: 20 Col: 3: ed b
+= Ma
+Row: 20 Col: 4: y Insti
+ sters,
+Row: 20 Col: 5: tution X.
+ D = Doc
+Row: 20 Col: 6: A
+to
+Row: 20 Col: 7: = Bachelor
+rate, E = D
+Row: 20 Col: 8: i
+Row: 20 Col: 9: of Science
+ploma
+Row: 20 Col: 10: ,
+Row: 21 Col: 2: 2006
+Row: 21 Col: 3: 2007
+Row: 21 Col: 4: 2008
+Row: 21 Col: 5: 2009
+Row: 22 Col: 1: Economics
+Row: 22 Col: 2: A, B
+Row: 22 Col: 3: A, C
+Row: 22 Col: 4: A, C
+Row: 22 Col: 5: A, C
+Row: 23 Col: 1: International relations
+Row: 23 Col: 2: A, E
+Row: 23 Col: 3: A, E
+Row: 23 Col: 4: A, B
+Row: 23 Col: 5: A, B
+Row: 24 Col: 1: Philosophy
+Row: 24 Col: 2: A
+Row: 24 Col: 3: A
+Row: 24 Col: 4: A
+Row: 24 Col: 5: A
+Row: 25 Col: 1: Politics
+Row: 25 Col: 2: A, D
+Row: 25 Col: 3: A, D
+Row: 25 Col: 4: A, B
+Row: 25 Col: 5: A
+Row: 26 Col: 1: Mathematics
+Row: 26 Col: 2: B, C
+Row: 26 Col: 3: B
+Row: 26 Col: 4: A, B
+Row: 26 Col: 5: A, B
+Row: 27 Col: 1: English
+Row: 27 Col: 2: A, C
+Row: 27 Col: 3: A, B
+Row: 27 Col: 4: A,B
+Row: 27 Col: 5: A, C
+
+Page 10:
+Header: Table 27: "table" with columns simulated by using tab stops
+Row: 1 Col: 1: Name
+Row: 1 Col: 2: Apples
+Row: 1 Col: 3: Pears
+Row: 2 Col: 1: Bob Scott
+Row: 2 Col: 2: 20
+Row: 2 Col: 3: 25
+Row: 3 Col: 1: Susan. P. Arnold-Jones, BA, FRSA, MD
+Row: 3 Col: 2: 24
+Row: 3 Col: 3: 15
+Row: 4 Col: 1: Sam Holder-Dickinson
+Row: 4 Col: 2: 14
+Row: 4 Col: 3: 10
+Row: 5 Col: 1: Table 28: year-end financia
+revisited
+Row: 5 Col: 2: l table (£, th
+Row: 5 Col: 3: ou
+Row: 5 Col: 4: sands) ­ head
+Row: 5 Col: 5: ings problem
+Row: 6 Col: 2: 2010
+Row: 6 Col: 3: 2009
+Row: 6 Col: 4: 2008
+Row: 7 Col: 1: Non-current assets
+Row: 8 Col: 1: Buildings
+Row: 8 Col: 2: 345
+Row: 8 Col: 3: 445
+Row: 8 Col: 4: 222
+Row: 9 Col: 1: Investment
+Row: 9 Col: 2: 567
+Row: 9 Col: 3: 654
+Row: 9 Col: 4: 423
+Row: 10 Col: 1: Intangibles
+Row: 10 Col: 2: 423
+Row: 10 Col: 3: 123
+Row: 10 Col: 4: 453
+Row: 11 Col: 1: Current assets
+Row: 12 Col: 1: Trade
+Row: 12 Col: 2: 435
+Row: 12 Col: 3: 634
+Row: 12 Col: 4: 231
+Row: 13 Col: 1: Cash
+Row: 13 Col: 2: 524
+Row: 13 Col: 3: 123
+Row: 13 Col: 4: 482
+Row: 14 Col: 1: Other
+Row: 14 Col: 2: 223
+Row: 14 Col: 3: 211
+Row: 14 Col: 4: 254
+Row: 15 Col: 1: Current liabilities
+Row: 16 Col: 1: Trade liabilities
+Row: 16 Col: 2: 154
+Row: 16 Col: 3: 125
+Row: 16 Col: 4: 421
+Row: 17 Col: 1: Financial debt
+Row: 17 Col: 2: 231
+Row: 17 Col: 3: 474
+Row: 17 Col: 4: 572
+Row: 18 Col: 1: Provisions
+Row: 18 Col: 2: 111
+Row: 18 Col: 3: 312
+Row: 18 Col: 4: 347
+
+Page 11:
+Header: Table 29: multiple headers attributes for each data cell
+Row: 1 Col: 2: South America
+Row: 1 Col: 3: Asia
+Row: 1 Col: 4: Africa
+Row: 1 Col: 5: Australia
+Row: 2 Col: 2: 2010
+Row: 3 Col: 1: Highest average
+Row: 3 Col: 2: 523.6
+Row: 3 Col: 3: 467.4
+Row: 3 Col: 4: 405.0
+Row: 3 Col: 5: 340.5
+Row: 4 Col: 1: Highest in 24 hours
+Row: 4 Col: 2: 73.1
+Row: 4 Col: 3: 54.1
+Row: 4 Col: 4: 27.2
+Row: 4 Col: 5: 66.3
+Row: 5 Col: 1: Highest in 12 hours
+Row: 5 Col: 2: 42.4
+Row: 5 Col: 3: 30.1
+Row: 5 Col: 4: 15.9
+Row: 5 Col: 5: 40.3
+Row: 6 Col: 2: 2009
+Row: 7 Col: 1: Highest average
+Row: 7 Col: 2: 487.7
+Row: 7 Col: 3: 453.6
+Row: 7 Col: 4: 398.7
+Row: 7 Col: 5: 356
+Row: 8 Col: 1: Highest in 24 hours
+Row: 8 Col: 2: 67.2
+Row: 8 Col: 3: 53.2
+Row: 8 Col: 4: 44.3
+Row: 8 Col: 5: 53.8
+Row: 9 Col: 1: Highest in 12 hours
+Row: 9 Col: 2: 34.7
+Row: 9 Col: 3: 34.1
+Row: 9 Col: 4: 29.8
+Row: 9 Col: 5: 31.0
+Row: 10 Col: 2: 2008
+Row: 11 Col: 1: Highest average
+Row: 11 Col: 2: 496.7
+Row: 11 Col: 3: 444.3
+Row: 11 Col: 4: 502.1
+Row: 11 Col: 5: 399.6
+Row: 12 Col: 1: Highest in 24 hours
+Row: 12 Col: 2: 44.2
+Row: 12 Col: 3: 56.7
+Row: 12 Col: 4: 32.1
+Row: 12 Col: 5: 63.2
+Row: 13 Col: 1: Highest in 12 hours
+Row: 13 Col: 2: 30.1
+Row: 13 Col: 3: 32.7
+Row: 13 Col: 4: 21.9
+Row: 13 Col: 5: 40.2
+
