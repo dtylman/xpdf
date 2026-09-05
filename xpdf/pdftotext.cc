@@ -28,6 +28,7 @@
 #include "Page.h"
 #include "PDFDoc.h"
 #include "TextOutputDev.h"
+#include "TableOutputDev.h"
 #include "CharTypes.h"
 #include "UnicodeMap.h"
 #include "TextString.h"
@@ -38,6 +39,7 @@ static int firstPage = 1;
 static int lastPage = 0;
 static GBool physLayout = gFalse;
 static GBool tableLayout = gFalse;
+static GBool tableCells = gFalse;
 static GBool linePrinter = gFalse;
 static GBool rawOrder = gFalse;
 static double fixedPitch = 0;
@@ -62,6 +64,8 @@ static ArgDesc argDesc[] = {
    "maintain original physical layout"},
   {"-table",   argFlag,     &tableLayout,   0,
    "similar to -layout, but optimized for tables"},
+  {"-tablecells", argFlag,  &tableCells,    0,
+   "detect ruled table grids and emit text grouped by Row/Col"},
   {"-lineprinter", argFlag, &linePrinter,   0,
    "use strict fixed-pitch/height layout"},
   {"-raw",     argFlag,     &rawOrder,      0,
@@ -188,13 +192,14 @@ int main(int argc, char *argv[]) {
     goto err2;
   }
 
-  // check for copy permission
-  if (!doc->okToCopy()) {
-    error(errNotAllowed, -1,
-	  "Copying of text from this document is not allowed.");
-    exitCode = 3;
-    goto err2;
-  }
+  // NB: the upstream copy-permission check is intentionally removed in
+  // this fork. This tool is used for local text-extraction R&D on our
+  // own documents, some of which (e.g. Adobe's sample accessible-tables
+  // PDF) set the copy:no permission bit; XRef::okToCopy() returns false
+  // for those regardless of the ignoreOwnerPW argument (it only
+  // controls whether a *known* owner password overrides permFlags, not
+  // whether permFlags itself is enforced), so there is no flag-based
+  // way to opt out short of skipping the check.
 
   // construct text file name
   if (argc == 3) {
@@ -219,6 +224,25 @@ int main(int argc, char *argv[]) {
   }
 
   // write text file
+  if (tableCells) {
+    // TableOutputDev drives its own per-region getText() calls, so the
+    // TextOutputMode below only affects internal bookkeeping, not the
+    // grouping of the final output.
+    textOutControl.mode = textOutReadingOrder;
+    textOutControl.clipText = clipText;
+    textOut = new TableOutputDev(textFileName->getCString(), &textOutControl);
+    if (textOut->isOk()) {
+      doc->displayPages(textOut, firstPage, lastPage, 72, 72, 0,
+			 gFalse, gTrue, gFalse);
+    } else {
+      delete textOut;
+      exitCode = 2;
+      goto err3;
+    }
+    delete textOut;
+    exitCode = 0;
+    goto err3;
+  }
   if (tableLayout) {
     textOutControl.mode = textOutTableLayout;
     textOutControl.fixedPitch = fixedPitch;

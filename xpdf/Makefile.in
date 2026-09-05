@@ -92,6 +92,7 @@ CXX_SRC = \
 	$(srcdir)/SecurityHandler.cc \
 	$(srcdir)/SplashOutputDev.cc \
 	$(srcdir)/Stream.cc \
+	$(srcdir)/TableOutputDev.cc \
 	$(srcdir)/TextOutputDev.cc \
 	$(srcdir)/TextString.cc \
 	$(srcdir)/UnicodeMap.cc \
@@ -279,6 +280,7 @@ PDFTOTEXT_OBJS = \
 	PSTokenizer.o \
 	SecurityHandler.o \
 	Stream.o \
+	TableOutputDev.o \
 	TextOutputDev.o \
 	TextString.o \
 	UnicodeMap.o \

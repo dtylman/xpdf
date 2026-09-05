@@ -78,3 +78,4 @@ xpdf/pdftotext
 xpdf/xpdf
 aconf.h
 config.status
+docs/sample-tables.txt
