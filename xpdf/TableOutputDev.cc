@@ -254,35 +254,48 @@ void TableOutputDev::endPage() {
   } else {
     emitRegion(tp, "Header:", 0, 0, pageW, rowBounds.front());
 
-    int nRows = (int)rowBounds.size() - 1;
-    for (int r = 0; r < nRows; ++r) {
-      double rowY0 = rowBounds[r], rowY1 = rowBounds[r+1];
+    int nBands = (int)rowBounds.size() - 1;
+    int tableRow = 0; // current row number within the table currently
+                       // open; 0 means no table is open, so the next
+                       // grid row starts a fresh table at Row 1
+    for (int band = 0; band < nBands; ++band) {
+      double rowY0 = rowBounds[band], rowY1 = rowBounds[band+1];
+      double rowH = rowY1 - rowY0;
 
       // Column boundaries are local to this row band: only vertical
       // rules that actually span (part of) this row can divide it.
       // This is what lets several independently-laid-out tables share
       // one page without their column grids bleeding into each other.
+      // Requiring the rule to cover most of the band's height (not
+      // just graze it) filters out a neighboring table's own border
+      // bleeding a point or two into the gap between two tables.
       std::vector<double> xs;
       for (size_t i = 0; i < vLines.size(); ++i) {
-	if (vLines[i].a0 <= rowY1 + snapTolerance &&
-	    vLines[i].a1 >= rowY0 - snapTolerance) {
+	double ov0 = std::max(vLines[i].a0, rowY0);
+	double ov1 = std::min(vLines[i].a1, rowY1);
+	if (ov1 - ov0 >= 0.5 * rowH) {
 	  xs.push_back(vLines[i].pos);
 	}
       }
       std::vector<double> colBounds = clusterCoords(xs, snapTolerance);
 
       if (colBounds.size() < 2) {
-	// no vertical rule crosses this row -- one full-width cell
+	// No vertical rule substantially crosses this band, so it isn't
+	// a ruled table row at all -- it's free text sitting between
+	// (or around) tables, e.g. a caption introducing the next
+	// table. Emit it as plain text and close out the current table,
+	// so the next real grid row starts renumbering at Row 1 instead
+	// of continuing this band's would-be row number.
 	double xMin, xMax;
 	rowXExtent(rowY0, rowY1, &xMin, &xMax);
-	char label[64];
-	snprintf(label, sizeof(label), "Row: %d Col: 1:", r + 1);
-	emitRegion(tp, label, xMin, rowY0, xMax, rowY1);
+	emitRegion(tp, "Text:", xMin, rowY0, xMax, rowY1);
+	tableRow = 0;
       } else {
+	++tableRow;
 	int nCols = (int)colBounds.size() - 1;
 	for (int c = 0; c < nCols; ++c) {
 	  char label[64];
-	  snprintf(label, sizeof(label), "Row: %d Col: %d:", r + 1, c + 1);
+	  snprintf(label, sizeof(label), "Row: %d Col: %d:", tableRow, c + 1);
 	  emitRegion(tp, label,
 		     colBounds[c], rowY0,
 		     colBounds[c+1], rowY1);
