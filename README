@@ -1,4 +1,93 @@
-# XPdf
+# XPdf — Sicil (Ottoman Court Register) Reader Fork
+
+A fork of xpdf (v3.04, Glyph & Cog) for extracting text from PDFs of Ottoman
+*sicil* (شريعة court register) scans, such as `data/24_Sicil_no.031.pdf`
+(408 pages, produced by GPL Ghostscript 10.02.1 via `gs -sDEVICE=pdfwrite`).
+
+## The problem
+
+Two separate problems stand between these PDFs and usable text:
+
+1. **The text is table data, and plain text extraction ignores the table
+   structure.** These registers (and other structured documents, e.g.
+   `data/sample-tables.pdf`) lay text out in ruled grids. Standard
+   `pdftotext` only knows reading order, so a page with several
+   independent tables stacked on it comes out as a single scrambled
+   stream of words with no row/column boundaries.
+
+2. **The Arabic font's `/ToUnicode` CMap is wrong.** The sicil body text
+   uses embedded CID TrueType fonts (e.g. `YXKNPC+HuseyinGunday`) with
+   `/Encoding /Identity-H`. The glyph *outlines* render correctly — the
+   page looks perfect and a human can read it — but the `/ToUnicode`
+   CMap that maps each CID to a Unicode codepoint is corrupt (a known
+   Ghostscript `pdfwrite` subsetting defect). The most frequent
+   Arabic-letter CIDs are mapped to ASCII space/digits/slash, and others
+   to the wrong Arabic-block codepoints. Every extractor that trusts
+   `/ToUnicode` — xpdf's own `pdftotext`, Poppler, MuPDF — emits garbage
+   instead of the Arabic words. This can't be repaired from the
+   `/ToUnicode` CMap itself, because the CMap *is* the wrong mapping;
+   the correct CID→letter assignment has to come from somewhere else.
+
+## Approach: two passes
+
+### Pass 1 — `pdftoglyphs`: build a glyph database
+
+`xpdf/pdftoglyphs` (a new tool, driven by a `SplashOutputDev` subclass,
+`GlyphDbOutputDev`) walks every page of a document exactly as `pdftoppm`
+would, but instead of writing page images, it captures one clean, isolated
+bitmap per unique glyph — keyed by `(font, CID)`, **not** by the (broken)
+Unicode value — the first time that glyph is seen. Because the glyph
+shapes are correct even though their Unicode labels aren't, a human can
+look at each captured bitmap and write down the correct letter, building a
+`CID → Unicode` correction table that never has to consult `/ToUnicode` at
+all.
+
+The font key strips the random Ghostscript subset-tag prefix
+(`YXKNPC+HuseyinGunday` → `HuseyinGunday`), since for an
+Identity-mapped CID TrueType font the CID is tied to the *master* font's
+glyph table, not to which subset of glyphs a given document happens to
+embed. The intent is that one hand-labelled correction table, built once,
+should be reusable across every register in the archive rather than
+redone per document — this is still an assumption to validate as more
+sicil documents are processed.
+
+**Status:** glyph capture is implemented and working. Turning the
+captured bitmaps into a labelled `CID → Unicode` table, and feeding that
+table into pass 2 to actually correct the Arabic text, is not built yet.
+
+### Pass 2 — `pdftotext -tablecells`: extract structured text
+
+`xpdf/pdftotext -tablecells` uses another new `TextOutputDev` subclass,
+`TableOutputDev`, which:
+
+- watches `fill`/`eoFill`/`stroke` for thin filled rectangles or straight
+  lines and records them as horizontal/vertical table-ruling segments,
+  per page;
+- clusters those rulings into row bands, and — independently *within
+  each row band* (so that several differently-laid-out tables stacked on
+  one page don't bleed into a single bogus grid) — into column
+  boundaries;
+- for each detected cell, calls `TextPage::getText()` on that cell's
+  bounding box to pull its text in proper reading order (reusing xpdf's
+  existing word/line clustering rather than reimplementing it), and
+  emits `Row: r Col: c: <text>`; text above the first ruling is emitted
+  as `Header:`, text below the last as `Footnotes:`; a page with no
+  detected grid falls back to a single full-page `Text:` block.
+
+**Status:** implemented and working (validated against
+`data/sample-tables.pdf`). The `/ToUnicode` correction from pass 1 is not
+yet wired in — running this against the sicil PDF today still produces
+correctly-shaped table cells full of garbled Arabic, until pass 1's
+output is joined in.
+
+## Project layout
+
+```
+data/
+  *.pdf          input documents (e.g. 24_Sicil_no.031.pdf, sample-tables.pdf)
+  gylph_db/      pass 1 output: one <font>_<CIDhex>.ppm bitmap per unique glyph
+  out/           pass 2 output: extracted text (one file per input document)
+```
 
 ## Build
 
@@ -7,7 +96,21 @@ sudo apt-get install libmotif-dev libfreetype6-dev
 
 ./configure --with-freetype2-includes=/usr/include/freetype2
 
-make 
+make
 ```
 
+## Usage
 
+```bash
+# Pass 1: capture every unique glyph in a document into data/gylph_db/
+xpdf/pdftoglyphs data/24_Sicil_no.031.pdf data/gylph_db
+
+# Pass 2: extract table-structured text
+xpdf/pdftotext -tablecells data/sample-tables.pdf data/out/sample-tables.txt
+```
+
+`pdftoglyphs` accepts `-f`/`-l` (page range) and `-r` (rasterization DPI,
+default 150) as well as the usual `-opw`/`-upw`/`-q`/`-cfg`. `pdftotext`'s
+existing flags are unchanged; `-tablecells` is additive and doesn't affect
+the default reading-order mode or the other layout modes (`-layout`,
+`-table`, `-lineprinter`, `-raw`).
