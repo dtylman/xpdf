@@ -79,3 +79,4 @@ xpdf/xpdf
 aconf.h
 config.status
 docs/sample-tables.txt
+xpdf/pdftoglyphs
