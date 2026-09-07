@@ -291,6 +291,12 @@ class GlyphEditorApp:
         self._show_image(r.font, r.cid)
         self.dirty_var.set("")
 
+    # target on-screen size for the glyph preview: small glyphs get
+    # upscaled (crisp, nearest-neighbor) to at least this size; large ones
+    # (high-DPI captures can run past 400px) get downscaled to fit.
+    _PREVIEW_TARGET = 260
+    _PREVIEW_MAX = 300
+
     def _show_image(self, font, cid):
         path = os.path.join(self.glyph_dir, f"{font}_{cid}.ppm")
         try:
@@ -299,8 +305,19 @@ class GlyphEditorApp:
             self.image_label.configure(image="", text=f"(missing: {os.path.basename(path)})")
             self.photo = None
             return
-        scale = max(1, min(10, 200 // max(im.width, im.height)))
-        im2 = im.resize((im.width * scale, im.height * scale), Image.NEAREST)
+        longest = max(im.width, im.height)
+        if longest > self._PREVIEW_MAX:
+            # large capture (high -r): downscale to fit, smoothly
+            factor = self._PREVIEW_MAX / longest
+            im2 = im.resize(
+                (max(1, int(im.width * factor)), max(1, int(im.height * factor))),
+                Image.LANCZOS,
+            )
+        else:
+            # small capture: upscale with nearest-neighbor so individual
+            # pixels/dots stay sharp instead of blurring
+            scale = max(1, min(12, self._PREVIEW_TARGET // longest))
+            im2 = im.resize((im.width * scale, im.height * scale), Image.NEAREST)
         self.photo = ImageTk.PhotoImage(im2)
         self.image_label.configure(image=self.photo, text="")
 
