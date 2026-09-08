@@ -15,8 +15,12 @@ Both arguments default to ../data/gylph_index.db and ../data/gylph_db
 relative to this script, matching the project layout in README.md.
 """
 
+import glob
 import os
+import re
+import subprocess
 import sys
+import tempfile
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -75,11 +79,15 @@ class GlyphEditorApp:
         self.root = root
         self.index_path = index_path
         self.glyph_dir = glyph_dir
-        self.rows = load_rows(index_path)
+        if os.path.isfile(index_path):
+            self.rows = load_rows(index_path)
+        else:
+            self.rows = []
         self.filtered = list(range(len(self.rows)))
         self.current_idx = None
         self.photo = None  # keep a reference so Tk doesn't GC it
         self._sort_reverse = {}
+        self._sync_stop = False
 
         root.title(f"Glyph Index Editor — {os.path.basename(index_path)}")
         root.geometry("1150x650")
@@ -130,6 +138,10 @@ class GlyphEditorApp:
         ttk.Button(bar, text="Clear", command=self._clear_filters).pack(
             side="left", padx=(4, 0)
         )
+
+        ttk.Button(
+            bar, text="Sync from glyphs", command=self._sync_from_glyphs
+        ).pack(side="left", padx=(8, 0))
 
         for var in (self.font_var, self.style_var, self.cid_var, self.char_var):
             var.trace_add("write", lambda *_: self._refresh_list())
@@ -390,16 +402,165 @@ class GlyphEditorApp:
         self.tree.selection_set(new_iid)
         self.tree.see(new_iid)
 
+    # ---- Sync from glyph folder ---------------------------------------
 
+    def _parse_glyph_filename(self, fname):
+        """Parse <name>_<style>_<cid>_<md5>.ppm -> (name, style, cid, md5)
+        or None if the name doesn't match the expected pattern."""
+        if not fname.endswith(".ppm"):
+            return None
+        stem = fname[:-4]
+        parts = stem.split("_")
+        if len(parts) < 4:
+            return None
+        md5 = parts[-1]
+        cid = parts[-2]
+        style = parts[-3]
+        name = "_".join(parts[:-3])
+        if not re.fullmatch(r"[0-9a-f]{32}", md5):
+            return None
+        return (name, style, cid, md5)
+
+    def _run_tesseract(self, png_path, lang):
+        """Run tesseract on a single glyph, return (text, conf or 0)."""
+        try:
+            r = subprocess.run(
+                ["tesseract", png_path, "stdout", "-l", lang,
+                 "--psm", "10", "hocr"],
+                capture_output=True, text=True, timeout=15,
+            )
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            return "", 0
+        confs = [int(c) for c in re.findall(r"x_wconf (\d+)", r.stdout)]
+        texts = re.findall(
+            r"<span class='ocrx_word'[^>]*>(.*?)</span>",
+            r.stdout, re.DOTALL,
+        )
+        for t in texts:
+            t = re.sub(r"&[^;]+;", "", t).strip()
+            if t:
+                return t, confs[0] if confs else 0
+        return "", 0
+
+    def _ocr_glyph(self, ppm_path):
+        """Preprocess the PPM and run tesseract (ara + eng). Return
+        (char, conf_letter) where conf_letter is H/L/C."""
+        try:
+            im = Image.open(ppm_path).convert("RGB")
+        except (FileNotFoundError, OSError):
+            return "?", "C"
+        w, h = im.size
+        # upsample 4x with LANCZOS + 30px white border so tesseract has
+        # enough pixels to work with on small glyphs
+        scale = 4
+        border = 30
+        out = Image.new(
+            "RGB", (w * scale + border * 2, h * scale + border * 2), "white"
+        )
+        out.paste(
+            im.resize((w * scale, h * scale), Image.LANCZOS), (border, border)
+        )
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+            png_path = tmp.name
+        try:
+            out.save(png_path, "PNG")
+            ara_text, ara_conf = self._run_tesseract(png_path, "ara")
+            eng_text, eng_conf = self._run_tesseract(png_path, "eng")
+        finally:
+            os.unlink(png_path)
+        # pick the higher-confidence result
+        if eng_conf > ara_conf:
+            text, conf = eng_text, eng_conf
+        else:
+            text, conf = ara_text, ara_conf
+        # tesseract on isolated glyphs often returns multi-char garbage;
+        # only accept single-char results with conf >= 50
+        if conf >= 80 and len(text) == 1:
+            return text, "H"
+        elif conf >= 50 and len(text) == 1:
+            return text, "L"
+        else:
+            return "?", "C"
+
+    def _sync_from_glyphs(self):
+        """Scan the glyph folder, add missing entries to the index,
+        running tesseract (ara+eng) to guess the char for each new glyph."""
+        all_ppm = [f for f in os.listdir(self.glyph_dir) if f.endswith(".ppm")]
+        parsed = []
+        for fname in all_ppm:
+            p = self._parse_glyph_filename(fname)
+            if p:
+                parsed.append(p)
+        if not parsed:
+            messagebox.showinfo("Sync", f"No .ppm glyphs in {self.glyph_dir}")
+            return
+        existing = {(r.name, r.style, r.cid) for r in self.rows}
+        new_glyphs = [p for p in parsed if (p[0], p[1], p[2]) not in existing]
+        if not new_glyphs:
+            messagebox.showinfo(
+                "Sync", f"All {len(parsed)} glyphs already in the index."
+            )
+            return
+
+        # progress popup (keeps the main window responsive while tesseract runs
+        # one glyph at a time via root.after)
+        popup = tk.Toplevel(self.root)
+        popup.title("Syncing glyphs")
+        popup.transient(self.root)
+        popup.geometry("450x120")
+        popup.resizable(False, False)
+        msg_var = tk.StringVar(value=f"OCR-ing 0/{len(new_glyphs)} glyphs...")
+        ttk.Label(popup, textvariable=msg_var).pack(pady=(10, 4))
+        pb = ttk.Progressbar(popup, maximum=len(new_glyphs), mode="determinate")
+        pb.pack(fill="x", padx=20, pady=4)
+        self._sync_stop = False
+
+        def do_stop():
+            self._sync_stop = True
+
+        ttk.Button(popup, text="Stop", command=do_stop).pack(pady=4)
+        popup.grab_set()
+
+        added = [0]
+
+        def process_one(i):
+            if self._sync_stop or i >= len(new_glyphs):
+                save_rows(self.index_path, self.rows)
+                self._refresh_list()
+                popup.grab_release()
+                popup.destroy()
+                if self._sync_stop:
+                    messagebox.showinfo(
+                        "Sync stopped",
+                        f"Added {added[0]} of {len(new_glyphs)} glyphs (stopped).",
+                    )
+                else:
+                    messagebox.showinfo(
+                        "Sync done",
+                        f"Added {added[0]} glyphs from tesseract OCR.",
+                    )
+                return
+            name, style, cid, md5 = new_glyphs[i]
+            msg_var.set(f"OCR-ing {i+1}/{len(new_glyphs)}: {name}_{style}_{cid}")
+            pb["value"] = i
+            ppm_path = os.path.join(
+                self.glyph_dir, f"{name}_{style}_{cid}_{md5}.ppm"
+            )
+            char, conf = self._ocr_glyph(ppm_path)
+            self.rows.append(GlyphRow(md5, name, style, cid, char, conf))
+            added[0] += 1
+            self.root.after(10, process_one, i + 1)
+
+        self.root.after(10, process_one, 0)
 def main():
     index_path = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else DEFAULT_INDEX)
     glyph_dir = os.path.abspath(sys.argv[2] if len(sys.argv) > 2 else DEFAULT_GLYPH_DIR)
-    if not os.path.isfile(index_path):
-        print(f"Index file not found: {index_path}", file=sys.stderr)
-        sys.exit(1)
     if not os.path.isdir(glyph_dir):
         print(f"Glyph directory not found: {glyph_dir}", file=sys.stderr)
         sys.exit(1)
+    # the index file may not exist yet (first run / before "Sync") -- that's
+    # fine; the editor starts empty and the Sync button builds it from the
+    # glyph folder.
 
     root = tk.Tk()
     GlyphEditorApp(root, index_path, glyph_dir)
