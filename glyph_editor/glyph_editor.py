@@ -26,15 +26,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_INDEX = os.path.join(HERE, "..", "data", "gylph_index.db")
 DEFAULT_GLYPH_DIR = os.path.join(HERE, "..", "data", "gylph_db")
 
-COLUMNS = ("source", "font", "cid", "char", "confidence")
+COLUMNS = ("font", "cid", "char", "confidence")
 CONF_VALUES = ("H", "L", "C")
 
 
 class GlyphRow:
-    __slots__ = ("source", "font", "cid", "char", "confidence")
+    __slots__ = ("font", "cid", "char", "confidence")
 
-    def __init__(self, source, font, cid, char, confidence):
-        self.source = source
+    def __init__(self, font, cid, char, confidence):
         self.font = font
         self.cid = cid
         self.char = char
@@ -49,9 +48,9 @@ def load_rows(path):
             if not line:
                 continue
             parts = line.split("\t")
-            if len(parts) != 5:
+            if len(parts) != 4:
                 raise ValueError(
-                    f"{path}:{lineno}: expected 5 tab-separated fields, "
+                    f"{path}:{lineno}: expected 4 tab-separated fields, "
                     f"got {len(parts)}: {line!r}"
                 )
             rows.append(GlyphRow(*parts))
@@ -63,7 +62,7 @@ def save_rows(path, rows):
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         for r in rows:
-            f.write(f"{r.source}\t{r.font}\t{r.cid}\t{r.char}\t{r.confidence}\n")
+            f.write(f"{r.font}\t{r.cid}\t{r.char}\t{r.confidence}\n")
     os.replace(tmp, path)
 
 
@@ -140,7 +139,7 @@ class GlyphEditorApp:
         self.tree = ttk.Treeview(
             list_frame, columns=COLUMNS, show="headings", selectmode="browse"
         )
-        widths = {"source": 170, "font": 150, "cid": 60, "char": 60, "confidence": 90}
+        widths = {"font": 150, "cid": 60, "char": 60, "confidence": 90}
         for c in COLUMNS:
             self.tree.heading(
                 c, text=c.capitalize(), command=lambda c=c: self._sort_by(c)
@@ -254,7 +253,7 @@ class GlyphEditorApp:
     def _insert_row(self, i):
         r = self.rows[i]
         self.tree.insert(
-            "", "end", iid=str(i), values=(r.source, r.font, r.cid, r.char, r.confidence)
+            "", "end", iid=str(i), values=(r.font, r.cid, r.char, r.confidence)
         )
 
     def _update_status(self):
@@ -287,7 +286,7 @@ class GlyphEditorApp:
         r = self.rows[idx]
         self.edit_char_var.set(r.char)
         self.edit_conf_var.set(r.confidence)
-        self.info_var.set(f"Font: {r.font}\nCID: {r.cid}\nSource: {r.source}")
+        self.info_var.set(f"Font: {r.font}\nCID: {r.cid}")
         self._show_image(r.font, r.cid)
         self.dirty_var.set("")
 
@@ -349,7 +348,7 @@ class GlyphEditorApp:
             save_rows(self.index_path, self.rows)
         iid = str(self.current_idx)
         if self.tree.exists(iid):
-            self.tree.item(iid, values=(r.source, r.font, r.cid, r.char, r.confidence))
+            self.tree.item(iid, values=(r.font, r.cid, r.char, r.confidence))
         self.dirty_var.set("")
         self._update_status()
 
