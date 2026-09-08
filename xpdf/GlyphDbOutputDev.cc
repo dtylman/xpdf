@@ -24,7 +24,6 @@
 #include "GfxState.h"
 #include "SplashFont.h"
 #include "SplashGlyphBitmap.h"
-#include "Decrypt.h"
 #include "GlyphDbOutputDev.h"
 
 // White border, in pixels, added around each captured glyph so ink
@@ -88,66 +87,6 @@ std::string GlyphDbOutputDev::makeKey(GfxFont *gfxFont, CharCode c) {
   char hex[8];
   snprintf(hex, sizeof(hex), "%04X", (unsigned)(c & 0xffff));
   return name + "_" + hex;
-}
-
-// Build the full PPM (header + white margins + glyph rows) into <buf>.
-// The byte stream is identical to the old file writer's output, so md5 of
-// <buf> equals the on-disk .ppm md5, and matches the converter's
-// md5(file bytes).  Returns gFalse for a degenerate glyph.
-GBool GlyphDbOutputDev::buildPpmBuffer(const SplashGlyphBitmap *glyph,
-				       std::string &buf) {
-  buf.clear();
-  if (!(glyph->w > 0 && glyph->h > 0 && glyph->data)) {
-    return gFalse;
-  }
-  int w = glyph->w + 2 * glyphMargin;
-  int h = glyph->h + 2 * glyphMargin;
-  char hdr[40];
-  int hdrLen = snprintf(hdr, sizeof(hdr), "P6\n%d %d\n255\n", w, h);
-  buf.append(hdr, hdrLen);
-
-  std::vector<unsigned char> blankRow(w * 3, 0xff);
-  std::vector<unsigned char> row(w * 3);
-  int rowBytes = (glyph->w + 7) / 8; // only used when !glyph->aa
-
-  for (int i = 0; i < glyphMargin; ++i) {
-    buf.append((const char *)blankRow.data(), blankRow.size());
-  }
-  for (int y = 0; y < glyph->h; ++y) {
-    row = blankRow;
-    for (int x = 0; x < glyph->w; ++x) {
-      unsigned char ink;
-      if (glyph->aa) {
-	// 8-bit alpha: 0 = no ink, 255 = full ink
-	unsigned char a = glyph->data[y * glyph->w + x];
-	ink = (unsigned char)(255 - a);
-      } else {
-	// 1 bit per pixel, packed MSB-first, byte-aligned per row
-	unsigned char byte = glyph->data[y * rowBytes + x / 8];
-	GBool set = (byte >> (7 - (x % 8))) & 1;
-	ink = set ? 0 : 255;
-      }
-      row[(glyphMargin + x) * 3 + 0] = ink;
-      row[(glyphMargin + x) * 3 + 1] = ink;
-      row[(glyphMargin + x) * 3 + 2] = ink;
-    }
-    buf.append((const char *)row.data(), row.size());
-  }
-  for (int i = 0; i < glyphMargin; ++i) {
-    buf.append((const char *)blankRow.data(), blankRow.size());
-  }
-  return gTrue;
-}
-
-std::string GlyphDbOutputDev::md5Hex(const std::string &bytes) {
-  unsigned char digest[16];
-  md5((Guchar *)bytes.data(), (int)bytes.size(), digest);
-  char hex[33];
-  for (int i = 0; i < 16; ++i) {
-    snprintf(hex + 2 * i, 3, "%02x", digest[i]);
-  }
-  hex[32] = '\0';
-  return std::string(hex);
 }
 
 std::string GlyphDbOutputDev::toKebab(const std::string &s) {
@@ -245,14 +184,7 @@ void GlyphDbOutputDev::writeGlyphPPM(const std::string &name,
 				     const std::string &style,
 				     const std::string &cidHex,
 				     const SplashGlyphBitmap *glyph) {
-  std::string buf;
-  if (!buildPpmBuffer(glyph, buf)) {
-    return;
-  }
-  std::string md5 = md5Hex(buf);
-
-  std::string path = outDir + "/" + name + "_" + style + "_" + cidHex
-		     + "_" + md5 + ".ppm";
+  std::string path = outDir + "/" + name + "_" + style + "_" + cidHex + ".ppm";
   FILE *f = fopen(path.c_str(), "wb");
   if (!f) {
     if (!globalParams || !globalParams->getErrQuiet()) {
@@ -261,11 +193,45 @@ void GlyphDbOutputDev::writeGlyphPPM(const std::string &name,
     hadWriteError = gTrue;
     return;
   }
-  fwrite(buf.data(), 1, buf.size(), f);
+
+  int w = glyph->w + 2 * glyphMargin;
+  int h = glyph->h + 2 * glyphMargin;
+  fprintf(f, "P6\n%d %d\n255\n", w, h);
+
+  std::vector<unsigned char> blankRow(w * 3, 0xff);
+  std::vector<unsigned char> row(w * 3);
+  int rowBytes = (glyph->w + 7) / 8; // only used when !glyph->aa
+
+  for (int i = 0; i < glyphMargin; ++i) {
+    fwrite(blankRow.data(), 1, blankRow.size(), f);
+  }
+  for (int y = 0; y < glyph->h; ++y) {
+    row = blankRow;
+    for (int x = 0; x < glyph->w; ++x) {
+      unsigned char ink;
+      if (glyph->aa) {
+	// 8-bit alpha: 0 = no ink, 255 = full ink
+	unsigned char a = glyph->data[y * glyph->w + x];
+	ink = (unsigned char)(255 - a);
+      } else {
+	// 1 bit per pixel, packed MSB-first, byte-aligned per row
+	unsigned char byte = glyph->data[y * rowBytes + x / 8];
+	GBool set = (byte >> (7 - (x % 8))) & 1;
+	ink = set ? 0 : 255;
+      }
+      row[(glyphMargin + x) * 3 + 0] = ink;
+      row[(glyphMargin + x) * 3 + 1] = ink;
+      row[(glyphMargin + x) * 3 + 2] = ink;
+    }
+    fwrite(row.data(), 1, row.size(), f);
+  }
+  for (int i = 0; i < glyphMargin; ++i) {
+    fwrite(blankRow.data(), 1, blankRow.size(), f);
+  }
+
   fclose(f);
   if (!globalParams || !globalParams->getErrQuiet()) {
-    fprintf(stderr, "pdftoglyphs: created %s (md5 %s)\n",
-	    path.c_str(), md5.c_str());
+    fprintf(stderr, "pdftoglyphs: created %s\n", path.c_str());
   }
 }
 

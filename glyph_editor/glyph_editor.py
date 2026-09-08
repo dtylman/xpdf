@@ -30,15 +30,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_INDEX = os.path.join(HERE, "..", "data", "gylph_index.db")
 DEFAULT_GLYPH_DIR = os.path.join(HERE, "..", "data", "gylph_db")
 
-COLUMNS = ("md5", "name", "style", "cid", "char", "confidence")
+COLUMNS = ("name", "style", "cid", "char", "confidence")
 CONF_VALUES = ("H", "L", "C")
 
 
 class GlyphRow:
-    __slots__ = ("md5", "name", "style", "cid", "char", "confidence")
+    __slots__ = ("name", "style", "cid", "char", "confidence")
 
-    def __init__(self, md5, name, style, cid, char, confidence):
-        self.md5 = md5
+    def __init__(self, name, style, cid, char, confidence):
         self.name = name
         self.style = style
         self.cid = cid
@@ -54,9 +53,9 @@ def load_rows(path):
             if not line:
                 continue
             parts = line.split("\t")
-            if len(parts) != 6:
+            if len(parts) != 5:
                 raise ValueError(
-                    f"{path}:{lineno}: expected 6 tab-separated fields, "
+                    f"{path}:{lineno}: expected 5 tab-separated fields, "
                     f"got {len(parts)}: {line!r}"
                 )
             rows.append(GlyphRow(*parts))
@@ -69,7 +68,7 @@ def save_rows(path, rows):
     with open(tmp, "w", encoding="utf-8") as f:
         for r in rows:
             f.write(
-                f"{r.md5}\t{r.name}\t{r.style}\t{r.cid}\t{r.char}\t{r.confidence}\n"
+                f"{r.name}\t{r.style}\t{r.cid}\t{r.char}\t{r.confidence}\n"
             )
     os.replace(tmp, path)
 
@@ -162,8 +161,8 @@ class GlyphEditorApp:
             list_frame, columns=COLUMNS, show="headings", selectmode="browse"
         )
         widths = {
-            "md5": 220, "name": 130, "style": 70,
-            "cid": 60, "char": 60, "confidence": 90,
+            "name": 160, "style": 70, "cid": 60,
+            "char": 60, "confidence": 90,
         }
         for c in COLUMNS:
             self.tree.heading(
@@ -283,7 +282,7 @@ class GlyphEditorApp:
         r = self.rows[i]
         self.tree.insert(
             "", "end", iid=str(i),
-            values=(r.md5, r.name, r.style, r.cid, r.char, r.confidence),
+            values=(r.name, r.style, r.cid, r.char, r.confidence),
         )
 
     def _update_status(self):
@@ -316,10 +315,8 @@ class GlyphEditorApp:
         r = self.rows[idx]
         self.edit_char_var.set(r.char)
         self.edit_conf_var.set(r.confidence)
-        self.info_var.set(
-            f"Name: {r.name}\nStyle: {r.style}\nCID: {r.cid}\nMD5: {r.md5}"
-        )
-        self._show_image(r.name, r.style, r.cid, r.md5)
+        self.info_var.set(f"Name: {r.name}\nStyle: {r.style}\nCID: {r.cid}")
+        self._show_image(r.name, r.style, r.cid)
         self.dirty_var.set("")
 
     # target on-screen size for the glyph preview: small glyphs get
@@ -328,10 +325,8 @@ class GlyphEditorApp:
     _PREVIEW_TARGET = 260
     _PREVIEW_MAX = 300
 
-    def _show_image(self, name, style, cid, md5):
-        path = os.path.join(
-            self.glyph_dir, f"{name}_{style}_{cid}_{md5}.ppm"
-        )
+    def _show_image(self, name, style, cid):
+        path = os.path.join(self.glyph_dir, f"{name}_{style}_{cid}.ppm")
         try:
             im = Image.open(path).convert("RGB")
         except (FileNotFoundError, OSError):
@@ -384,7 +379,7 @@ class GlyphEditorApp:
         if self.tree.exists(iid):
             self.tree.item(
                 iid,
-                values=(r.md5, r.name, r.style, r.cid, r.char, r.confidence),
+                values=(r.name, r.style, r.cid, r.char, r.confidence),
             )
         self.dirty_var.set("")
         self._update_status()
@@ -405,21 +400,18 @@ class GlyphEditorApp:
     # ---- Sync from glyph folder ---------------------------------------
 
     def _parse_glyph_filename(self, fname):
-        """Parse <name>_<style>_<cid>_<md5>.ppm -> (name, style, cid, md5)
+        """Parse <name>_<style>_<cid>.ppm -> (name, style, cid)
         or None if the name doesn't match the expected pattern."""
         if not fname.endswith(".ppm"):
             return None
         stem = fname[:-4]
         parts = stem.split("_")
-        if len(parts) < 4:
+        if len(parts) < 3:
             return None
-        md5 = parts[-1]
-        cid = parts[-2]
-        style = parts[-3]
-        name = "_".join(parts[:-3])
-        if not re.fullmatch(r"[0-9a-f]{32}", md5):
-            return None
-        return (name, style, cid, md5)
+        cid = parts[-1]
+        style = parts[-2]
+        name = "_".join(parts[:-2])
+        return (name, style, cid)
 
     def _run_tesseract(self, png_path, lang):
         """Run tesseract on a single glyph, return (text, conf or 0)."""
@@ -495,7 +487,7 @@ class GlyphEditorApp:
             messagebox.showinfo("Sync", f"No .ppm glyphs in {self.glyph_dir}")
             return
         existing = {(r.name, r.style, r.cid) for r in self.rows}
-        new_glyphs = [p for p in parsed if (p[0], p[1], p[2]) not in existing]
+        new_glyphs = [p for p in parsed if p not in existing]
         if not new_glyphs:
             messagebox.showinfo(
                 "Sync", f"All {len(parsed)} glyphs already in the index."
@@ -540,14 +532,14 @@ class GlyphEditorApp:
                         f"Added {added[0]} glyphs from tesseract OCR.",
                     )
                 return
-            name, style, cid, md5 = new_glyphs[i]
+            name, style, cid = new_glyphs[i]
             msg_var.set(f"OCR-ing {i+1}/{len(new_glyphs)}: {name}_{style}_{cid}")
             pb["value"] = i
             ppm_path = os.path.join(
-                self.glyph_dir, f"{name}_{style}_{cid}_{md5}.ppm"
+                self.glyph_dir, f"{name}_{style}_{cid}.ppm"
             )
             char, conf = self._ocr_glyph(ppm_path)
-            self.rows.append(GlyphRow(md5, name, style, cid, char, conf))
+            self.rows.append(GlyphRow(name, style, cid, char, conf))
             added[0] += 1
             self.root.after(10, process_one, i + 1)
 

@@ -61,17 +61,6 @@ private:
   // re-rasterizing the same glyph on every page it appears on.
   std::string makeKey(GfxFont *font, CharCode c);
 
-  // Build the full PPM (header + white margins + glyph rows) into <buf>.
-  // The bytes are identical to the old file writer's output, so the md5
-  // of <buf> equals the on-disk .ppm md5.  Returns gFalse for a
-  // degenerate glyph (nothing to write).
-  static GBool buildPpmBuffer(const SplashGlyphBitmap *glyph,
-			      std::string &buf);
-
-  // hex-stringify the MD5 of <bytes> -> 32 lower-hex chars.  Uses xpdf's
-  // own md5() (Decrypt.h) -- no new dependency.
-  static std::string md5Hex(const std::string &bytes);
-
   // lowercase kebab: collapse non-[a-z0-9] to '-', strip ends.  No
   // CamelCase split, so distinct master fonts stay distinct
   // (TimesNewRoman -> timesnewroman vs "Times New Roman" ->
@@ -83,11 +72,12 @@ private:
   static void splitNameStyle(const std::string &font,
 			     std::string &name, std::string &style);
 
-  // md5-keyed: build the ppm, md5 it, and write the .ppm (named
-  // <name>_<style>_<cid>_<md5>.ppm).  Always writes -- overwrites if the
-  // file already exists (re-runs produce identical bytes -> same filename
-  // -> same content).  Does NOT touch the index; the .ppm folder is the
-  // source of truth, the index is derived from it (see glyph_editor).
+  // Write the glyph as <name>_<style>_<cid>.ppm.  Overwrites if it exists
+  // (a re-run or a different PDF with the same (font, CID) simply
+  // overwrites -- the bitmap is the same glyph at 900 DPI except for
+  // cosmetic sub-pixel variance).  Logs "created"; does NOT touch the
+  // index (the .ppm folder is the source of truth, the index is derived
+  // from it; see glyph_editor).
   void writeGlyphPPM(const std::string &name, const std::string &style,
 		     const std::string &cidHex,
 		     const SplashGlyphBitmap *glyph);
