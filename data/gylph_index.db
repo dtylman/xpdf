@@ -1,392 +1,380 @@
-AL-MohanadBold	0010	لح	C
-AL-MohanadBold	0017	ير	C
-AL-MohanadBold	0031	ا	H
-AL-MohanadBold	0033	٣	C
-AL-MohanadBold	0041	ا	H
-AL-MohanadBold	0042	ا	H
-AL-MohanadBold	004A	ب	C
-AL-MohanadBold	004E	ت	C
-AL-MohanadBold	0050	ت	H
-AL-MohanadBold	0051	ث	H
-AL-MohanadBold	0055	ج	H
-AL-MohanadBold	0056	ج	H
-AL-MohanadBold	0057	ج	H
-AL-MohanadBold	0058	ج	C
-AL-MohanadBold	0059	ح	H
-AL-MohanadBold	005A	ح	H
-AL-MohanadBold	0061	خ	H
-AL-MohanadBold	0065	د	C
-AL-MohanadBold	0066	د	C
-AL-MohanadBold	0067	ذ	C
-AL-MohanadBold	0069	ر	H
-AL-MohanadBold	006A	ر	C
-AL-MohanadBold	006C	ز	H
-AL-MohanadBold	006E	س	H
-AL-MohanadBold	0070	س	H
-AL-MohanadBold	0075	ص	H
-AL-MohanadBold	0076	ص	H
-AL-MohanadBold	007C	ض	H
-AL-MohanadBold	0087	لح	C
-AL-MohanadBold	0098	نم	C
-AL-MohanadBold	009D	لم	L
-AL-MohanadBold	00A2	ظ	C
-AL-MohanadBold	00A6	ع	C
-AL-MohanadBold	00A7	ع	C
-AL-MohanadBold	00A8	ع	C
-AL-MohanadBold	00AA	غ	C
-AL-MohanadBold	00AE	ف	C
-AL-MohanadBold	00AF	ف	C
-AL-MohanadBold	00B0	ف	C
-AL-MohanadBold	00B2	ق	C
-AL-MohanadBold	00B3	ق	C
-AL-MohanadBold	00B4	ق	C
-AL-MohanadBold	00B6	ك	C
-AL-MohanadBold	00B7	ك	C
-AL-MohanadBold	00BA	ل	L
-AL-MohanadBold	00BB	ل	C
-AL-MohanadBold	00BC	ل	C
-AL-MohanadBold	00BE	م	C
-AL-MohanadBold	00BF	م	C
-AL-MohanadBold	00C0	م	C
-AL-MohanadBold	00C1	م	C
-AL-MohanadBold	00C3	ن	C
-AL-MohanadBold	00C4	ن	C
-AL-MohanadBold	00C6	ه	C
-AL-MohanadBold	00C7	ه	C
-AL-MohanadBold	00CA	و	C
-AL-MohanadBold	00CB	و	C
-AL-MohanadBold	00CC	ي	C
-AL-MohanadBold	00CD	ي	C
-AL-MohanadBold	00D0	ة	C
-AL-MohanadBold	00D1	ة	C
-AL-MohanadBold	00D5	ئ	C
-AL-MohanadBold	00DD	لأ	C
-AL-MohanadBold	00F0	ط	C
-Calibri	0004	A	H
-Calibri	0011	B	H
-Calibri	0026	F	H
-Calibri	0028	(	H
-Calibri	0029	)	H
-Calibri	002B	+	H
-Calibri	002C	H	H
-Calibri	002D	-	H
-Calibri	002E	·	H
-Calibri	0030	0	H
-Calibri	0031	1	H
-Calibri	0032	2	H
-Calibri	0033	3	H
-Calibri	0034	4	H
-Calibri	0035	5	H
-Calibri	0036	6	H
-Calibri	0037	i	C
-Calibri	0038	8	H
-Calibri	0039	9	H
-Calibri	003A	:	H
-Calibri	003E	L	H
-Calibri	0040	@	H
-Calibri	0041	A	H
-Calibri	0042	B	H
-Calibri	0043	C	H
-Calibri	0044	D	H
-Calibri	0045	N	H
-Calibri	0046	F	H
-Calibri	0049	I	H
-Calibri	004E	N	H
-Calibri	0052	R	H
-Calibri	0054	T	H
-Calibri	005E	S	H
-Calibri	0061	a	H
-Calibri	0062	b	H
-Calibri	0063	C	H
-Calibri	0064	d	H
-Calibri	0065	e	H
-Calibri	0067	g	H
-Calibri	0068	U	H
-Calibri	0069	i	H
-Calibri	006B	k	H
-Calibri	006C	l	H
-Calibri	006D	m	H
-Calibri	006F	O	H
-Calibri	0072	r	H
-Calibri	0073	S	H
-Calibri	0077	w	H
-Calibri	00A9	©	H
-Calibri	0150	g	H
-Calibri	015D	i	H
-Calibri	0166	I	C
-Calibri	016F	|	C
-Calibri	018C	r	H
-Calibri	0194	$	H
-Calibri	03EC	0	H
-Calibri	03ED	1	H
-Calibri	03EF	3	H
-Calibri	03F0	4	H
-DederonDOT-Bold	0032	2	H
-DederonDOT-Bold	0034	4	H
-DederonLOT-SemiBold	0032	2	H
-DederonLOT-SemiBold	0034	4	H
-HuseyinGunday	0003	‖	L
-HuseyinGunday	0009	(	H
-HuseyinGunday	000A	)	H
-HuseyinGunday	000D	،	H
-HuseyinGunday	000E	—	H
-HuseyinGunday	000F	·	H
-HuseyinGunday	0010	/	H
-HuseyinGunday	001B	:	H
-HuseyinGunday	003C	[	H
-HuseyinGunday	003E	]	H
-HuseyinGunday	005C	{	H
-HuseyinGunday	005E	}	H
-HuseyinGunday	007F	¾	H
-HuseyinGunday	009F	—	H
-HuseyinGunday	00B1	٤	H
-HuseyinGunday	00B2	٥	H
-HuseyinGunday	00B6	٠	C
-HuseyinGunday	00B7	ا	H
-HuseyinGunday	00B8	 ٢	C
-HuseyinGunday	00B9	٣	C
-HuseyinGunday	00BA	٤	C
-HuseyinGunday	00BB	٥	C
-HuseyinGunday	00BC	٦	C
-HuseyinGunday	00BD	٧	C
-HuseyinGunday	00BE	٨	C
-HuseyinGunday	00BF	٩	H
-HuseyinGunday	00C3	-	C
-HuseyinGunday	00C5	ء	C
-HuseyinGunday	00C6	آ	C
-HuseyinGunday	00C7	آ	C
-HuseyinGunday	00C8	أ	H
-HuseyinGunday	00C9	أ	H
-HuseyinGunday	00CA	ؤ	H
-HuseyinGunday	00CB	ؤ	H
-HuseyinGunday	00CC	إ	C
-HuseyinGunday	00CD	إ	C
-HuseyinGunday	00CE	ئ	H
-HuseyinGunday	00D0	دء	L
-HuseyinGunday	00D1	?	L
-HuseyinGunday	00D2	ا	H
-HuseyinGunday	00D3	ا	C
-HuseyinGunday	00D4	ب	H
-HuseyinGunday	00D5	ب	H
-HuseyinGunday	00D6	ب	C
-HuseyinGunday	00D7	ي	H
-HuseyinGunday	00D8	ق	H
-HuseyinGunday	00D9	ت	H
-HuseyinGunday	00DA	ت	H
-HuseyinGunday	00DB	ت	H
-HuseyinGunday	00DC	ت	H
-HuseyinGunday	00DD	ت	C
-HuseyinGunday	00DE	ث	H
-HuseyinGunday	00DF	ث	H
-HuseyinGunday	00E0	ث	C
-HuseyinGunday	00E1	ث	C
-HuseyinGunday	00E2	ج	H
-HuseyinGunday	00E3	ج	C
-HuseyinGunday	00E4	ج	C
-HuseyinGunday	00E5	ج	C
-HuseyinGunday	00E6	ح	H
-HuseyinGunday	00E7	ج	H
-HuseyinGunday	00E8	ح	H
-HuseyinGunday	00E9	خ	H
-HuseyinGunday	00EA	خ	H
-HuseyinGunday	00EB	خ	H
-HuseyinGunday	00EC	خ	H
-HuseyinGunday	00ED	خ	H
-HuseyinGunday	00EE	د	H
-HuseyinGunday	00EF	د	H
-HuseyinGunday	00F0	ذ	H
-HuseyinGunday	00F1	ذ	H
-HuseyinGunday	00F2	ر	H
-HuseyinGunday	00F3	ر	H
-HuseyinGunday	00F4	ز	H
-HuseyinGunday	00F5	ز	H
-HuseyinGunday	00F6	س	H
-HuseyinGunday	00F7	س	H
-HuseyinGunday	00F8	ش	H
-HuseyinGunday	00F9	ش	H
-HuseyinGunday	00FA	ش	H
-HuseyinGunday	00FB	ش	H
-HuseyinGunday	00FC	ش	H
-HuseyinGunday	00FD	ش	H
-HuseyinGunday	00FE	ص	H
-HuseyinGunday	00FF	ص	H
-HuseyinGunday	0100	ص	H
-HuseyinGunday	0101	ص	H
-HuseyinGunday	0102	ض	H
-HuseyinGunday	0103	ض	H
-HuseyinGunday	0104	ض	H
-HuseyinGunday	0105	ض	H
-HuseyinGunday	0106	ط	H
-HuseyinGunday	0107	ط	H
-HuseyinGunday	0108	ط	H
-HuseyinGunday	0109	ط	H
-HuseyinGunday	010A	ظ	H
-HuseyinGunday	010B	ظ	H
-HuseyinGunday	010C	ظ	H
-HuseyinGunday	010D	ظ	H
-HuseyinGunday	010E	ع	H
-HuseyinGunday	010F	ع	H
-HuseyinGunday	0110	ع	H
-HuseyinGunday	0111	غ	H
-HuseyinGunday	0112	غ	H
-HuseyinGunday	0113	غ	H
-HuseyinGunday	0114	غ	H
-HuseyinGunday	0115	ف	H
-HuseyinGunday	0116	ف	H
-HuseyinGunday	0117	ف	H
-HuseyinGunday	0118	ف	H
-HuseyinGunday	0119	ف	H
-HuseyinGunday	011A	ق	H
-HuseyinGunday	011B	ق	H
-HuseyinGunday	011C	ق	H
-HuseyinGunday	011D	ك	H
-HuseyinGunday	011E	ك	H
-HuseyinGunday	011F	ك	H
-HuseyinGunday	0120	ك	H
-HuseyinGunday	0121	ك	H
-HuseyinGunday	0122	ل	H
-HuseyinGunday	0123	ل	H
-HuseyinGunday	0124	ل	H
-HuseyinGunday	0125	ل	H
-HuseyinGunday	0126	م	H
-HuseyinGunday	0127	م	H
-HuseyinGunday	0128	ه	H
-HuseyinGunday	0129	ه	H
-HuseyinGunday	012A	ن	H
-HuseyinGunday	012B	ن	H
-HuseyinGunday	012C	ن	H
-HuseyinGunday	012D	ن	H
-HuseyinGunday	012E	ه	H
-HuseyinGunday	012F	ه	H
-HuseyinGunday	0130	ه	H
-HuseyinGunday	0131	و	H
-HuseyinGunday	0132	و	H
-HuseyinGunday	0133	و	H
-HuseyinGunday	0134	ى	H
-HuseyinGunday	0135	ى	H
-HuseyinGunday	0138	ي	H
-HuseyinGunday	0139	ي	H
-HuseyinGunday	013A	ي	H
-HuseyinGunday	013B	ي	H
-HuseyinGunday	0173	الله	H
-HuseyinGunday	0174	لا	H
-HuseyinGunday	0176	لأ	H
-HuseyinGunday	0177	لأ	H
-HuseyinGunday	0178	لا	H
-HuseyinGunday	0179	لا	H
-HuseyinGunday	017A	لا	H
-HuseyinGunday	017B	لا	H
-HuseyinGunday	017E	ّ	L
-HuseyinGunday	0183	ً	L
-HuseyinGunday	0185	ٍ	L
-HuseyinGunday	0186	ـ	L
-HuseyinGunday	0187	ُ	L
-HuseyinGunday	0188	ِ	L
-HuseyinGunday	01AA	?	L
-HuseyinGunday	01AB	?	L
-SimplifiedArabic	0010	ـ	H
-Symbol	0078	•	H
-Times New Roman	0028	(	H
-Times New Roman	0029	)	H
-Times New Roman	002B	+	H
-Times New Roman	002D	-	H
-Times New Roman	002E	·	H
-Times New Roman	0030	0	H
-Times New Roman	0031	1	H
-Times New Roman	0032	2	H
-Times New Roman	0033	3	H
-Times New Roman	0034	4	H
-Times New Roman	0035	5	H
-Times New Roman	0036	6	H
-Times New Roman	0037	7	H
-Times New Roman	0038	8	H
-Times New Roman	0039	9	H
-Times New Roman	003A	:	H
-Times New Roman	0042	B	H
-Times New Roman	0049	I	H
-Times New Roman	004E	N	H
-Times New Roman	0050	P	H
-Times New Roman	0053	S	H
-Times New Roman	0054	T	H
-Times New Roman	0063	c	H
-Times New Roman	0064	d	H
-Times New Roman	0065	e	H
-Times New Roman	0066	f	H
-Times New Roman	0069	i	H
-Times New Roman	006C	l	H
-Times New Roman	006D	m	H
-Times New Roman	006E	n	H
-Times New Roman	006F	o	H
-Times New Roman	0072	r	H
-Times New Roman	0073	s	H
-Times New Roman	0074	t	H
-Times New Roman	0076	v	H
-Times New Roman	0077	w	H
-Times New Roman	0078	x	H
-TimesNewRoman	0011	·	H
-TimesNewRoman	0012	/	H
-TimesNewRoman	0025	B	H
-TimesNewRoman	0028	E	H
-TimesNewRoman	002E	K	H
-TimesNewRoman	002F	L	H
-TimesNewRoman	0032	O	H
-TimesNewRoman	0035	R	H
-TimesNewRoman	0036	S	H
-TimesNewRoman	0037	T	H
-TimesNewRoman	0038	U	H
-TimesNewRoman	003C	Y	H
-TimesNewRoman	0044	a	H
-TimesNewRoman	0045	b	H
-TimesNewRoman	0047	d	H
-TimesNewRoman	0048	e	H
-TimesNewRoman	0049	f	H
-TimesNewRoman	004C	i	H
-TimesNewRoman	004F	l	H
-TimesNewRoman	0051	n	H
-TimesNewRoman	0055	r	H
-TimesNewRoman	0056	s	H
-TimesNewRoman	0057	t	H
-TimesNewRoman	0058	u	H
-TimesNewRoman	005C	y	H
-TimesNewRoman	006F	ç	H
-TimesNewRoman	00D5	1	H
-TimesNewRoman	00F7	ğ	H
-TimesNewRoman	00F8	İ	H
-TimesNewRoman	00F9	Ş	H
-TimesNewRoman	0383	ا	H
-TimesNewRoman	038F	ب	H
-TimesNewRoman	0395	ت	H
-TimesNewRoman	0399	ث	H
-TimesNewRoman	039D	ج	H
-TimesNewRoman	03A1	ح	H
-TimesNewRoman	03A5	خ	H
-TimesNewRoman	03A9	د	H
-TimesNewRoman	03AB	ذ	H
-TimesNewRoman	03AD	ر	H
-TimesNewRoman	03AF	ز	H
-TimesNewRoman	03B1	س	H
-TimesNewRoman	03B5	ش	H
-TimesNewRoman	03B9	ص	H
-TimesNewRoman	03BD	ض	H
-TimesNewRoman	03C1	ط	H
-lOTUS2007-Bold	0008	)	C
-lOTUS2007-Bold	0028	(	C
-lOTUS2007-Bold	0047	س	H
-lOTUS2007-Bold	0052	ق	H
-lOTUS2007-Bold	0068	ن	H
-lOTUS2007-Bold	006D	ل	H
-lOTUS2007-Bold	0089	ل	H
-lOTUS2007-Bold	008A	م	H
-lOTUS2007-Bold	008D	و	H
-lOTUS2007-Bold	0097	ب	C
-lOTUS2007-Bold	0099	ت	C
-lOTUS2007-Bold	009B	ج	C
-lOTUS2007-Bold	00BB	٠	C
-lOTUS2007-Bold	00BC	١	H
-lOTUS2007-Bold	00BD	٢	H
-lOTUS2007-Bold	00BE	٣	H
-lOTUS2007-Bold	00C4	٩	H
-lOTUS2007-Bold	00D0	ا	H
-lOTUS2007-Bold	00DA	ر	H
-lOTUS2007-Bold	00E9	ل	H
-lOTUS2007-Bold	00EA	م	H
+5dd0d4b79372a16d87658424f87f6644	al-mohanad	bold	0010	لح	C
+877f6bf83c128ead5eb3cc68e0837b42	al-mohanad	bold	0017	ير	C
+88600fc723d63d66350200f9308fe3ad	al-mohanad	bold	0031	ا	H
+b4829dfc61bd911cde0a365b06a9213a	al-mohanad	bold	0033	٣	C
+e8e91cb4e3baebb18f8a196257656240	al-mohanad	bold	0041	ا	H
+dcdfb65632b6f6ff1c66f4f6eafd80ee	al-mohanad	bold	0042	ا	H
+799180d2bb14e2442060e34ba8cb5fcc	al-mohanad	bold	004A	ب	C
+9e719b3003743d42c1927d31fe2d159f	al-mohanad	bold	004E	ت	C
+09297f1c938e3801bb7c965181845d30	al-mohanad	bold	0050	ت	H
+2afefa119b9cfd8a10658e95dbf06734	al-mohanad	bold	0051	ث	H
+a8f0a3549460a83940356e988e94e66f	al-mohanad	bold	0055	ج	H
+ff9b056e2a02fce2c874e64a742a953d	al-mohanad	bold	0056	ج	H
+a0ec562295059a3ef355d40d4539a871	al-mohanad	bold	0057	ج	H
+603d6ffe159636177ce281e4ae8889d8	al-mohanad	bold	0058	ج	C
+5adc3796f74139e3c3e6c1597bc5a621	al-mohanad	bold	0059	ح	H
+89ab0dc9dd27f07a4147b089217b3db7	al-mohanad	bold	005A	ح	H
+ca40ebd57080a2f041ede0d55fb34909	al-mohanad	bold	0061	خ	H
+befcab466ac81639c5f32461f5b72e5d	al-mohanad	bold	0065	د	C
+a061c6dbbe4b8014e2cad1de3917aa93	al-mohanad	bold	0066	د	C
+82546a1e7e5b8b82d38026cea5153b6b	al-mohanad	bold	0067	ذ	C
+07550acb42771e9de7fb0113a14b4781	al-mohanad	bold	0069	ر	H
+e2fbf87883efdd27ad049fb3cd08e722	al-mohanad	bold	006A	ر	C
+7b6aa800fa8226004aca6a16eab0650c	al-mohanad	bold	006C	ز	H
+116c213524c6e42878275d7dba27ec85	al-mohanad	bold	006E	س	H
+a89b27db150cc1751d8dc26f5ac33750	al-mohanad	bold	0070	س	H
+b5fce2b2c39766b81b397c6b9b581938	al-mohanad	bold	0075	ص	H
+ff6911803e0aa99681039230507d1496	al-mohanad	bold	0076	ص	H
+bf3e1f7c5bb87f4e93b0031ad520d73b	al-mohanad	bold	007C	ض	H
+7f1a172144bdea79847e91a15938499c	al-mohanad	bold	0087	لح	C
+c19f529852651a63485948133164f10d	al-mohanad	bold	0098	نم	C
+9e30c47cbb95fde4b19d12c091521110	al-mohanad	bold	009D	لم	L
+ddf645cf5107b872e9c0a7b8d0085b60	al-mohanad	bold	00A2	ظ	C
+0619e9e1b615ccb9efd9a1f9abccce57	al-mohanad	bold	00A6	ع	C
+08dec4504be042f12f7bed2ce25d0337	al-mohanad	bold	00A7	ع	C
+d88ecd8b99d7ea59132ae3378b99a664	al-mohanad	bold	00A8	ع	C
+200ea724c71defcf533d1f4439336c3f	al-mohanad	bold	00AA	غ	C
+53928389cc31c085899a31e205107b91	al-mohanad	bold	00AE	ف	C
+ffdfcc7d60eda140ea5cc4927e2db7e4	al-mohanad	bold	00AF	ف	C
+fd38774b2953ba44671e1163f94cea0c	al-mohanad	bold	00B0	ف	C
+013b7d6efba6eebed6d5a43f6aa1b856	al-mohanad	bold	00B2	ق	C
+d8a6c2445240a63c9b09a2b38d9a89c5	al-mohanad	bold	00B3	ق	C
+f20ebe32e000200854e15e8e9ede6f0d	al-mohanad	bold	00B4	ق	C
+52cfec0e84b6b3d6271c06069fe76227	al-mohanad	bold	00B6	ك	C
+f4688085f3fee71a9f42ca578795849f	al-mohanad	bold	00B7	ك	C
+e1f0b36f20880f64eb00292bf91210f1	al-mohanad	bold	00BA	ل	L
+817b8bc68643a4f42a5287765558820f	al-mohanad	bold	00BB	ل	C
+6977d1e7a4a51ad8e4a5ad2f0dd9b786	al-mohanad	bold	00BC	ل	C
+35659ad258f2110997d813281cff4f59	al-mohanad	bold	00BE	م	C
+54100561292317dac535ee4756d1bea4	al-mohanad	bold	00BF	م	C
+a2ddf74a109ad7680b47d5108eccd8b6	al-mohanad	bold	00C0	م	C
+e78885960fe071a5e491436ee8ff8509	al-mohanad	bold	00C1	م	C
+8f39ca5a367bc339d31ff01d1fb12d9c	al-mohanad	bold	00C3	ن	C
+6ef0adc1be41da421e4b600649aef111	al-mohanad	bold	00C4	ن	C
+4fd4c68c841446c9d34b94259fbe5e51	al-mohanad	bold	00C6	ه	C
+80f664e1c506c32e485c3dfc99416fc0	al-mohanad	bold	00C7	ه	C
+c44c0f7a3a40b2cca069253fdf5e3907	al-mohanad	bold	00CA	و	C
+f247ce824c80e413aab2f2682643770d	al-mohanad	bold	00CB	و	C
+bf288920a51aa0f527896d99ca2f776b	al-mohanad	bold	00CC	ي	C
+0de554ed844557fc699dc87be756cf3e	al-mohanad	bold	00CD	ي	C
+2a1c5a0078dd82ff2b5715db9e2e1917	al-mohanad	bold	00D0	ة	C
+59f98178f1915224ef7084669bdddca5	al-mohanad	bold	00D1	ة	C
+5439065f4a56dc0cc3700b78f75611c0	al-mohanad	bold	00D5	ئ	C
+3019fdb8f6febb0f81faf772e008a60d	al-mohanad	bold	00DD	لأ	C
+7cd8e7046493c47a2a3c3bcb582ae33f	al-mohanad	bold	00F0	ط	C
+98b8067f1b5b3d87acff10d04043fe27	calibri	regular	0004	A	H
+ea6d7a164937d63ea569e3ad2a799f61	calibri	regular	0011	B	H
+b480eb2835a90fac01ab1dc2473cfce9	calibri	regular	0026	F	H
+c8af88d9b75ca66c066abe31805a4af7	calibri	regular	0028	(	H
+0bf9f99503e904f5abc1bfea303735b2	calibri	regular	0029	)	H
+c0f2e4baff4dbdc3158d3e57d34ac07c	calibri	regular	002B	+	H
+b3fd44aab3e870bf9b823186fb2fb7be	calibri	regular	002C	H	H
+a273b1deadad40d38448a8966334357e	calibri	regular	002D	-	H
+31fd794a953e0fc7899a17a2f7ddad9f	calibri	regular	002E	·	H
+9b197c256fca0bfe786206e48f243bce	calibri	regular	0030	0	H
+5517747bdd942fc76b8f4aecdf8c6088	calibri	regular	0031	1	H
+45007e7705684c20c0892438ded3048e	calibri	regular	0032	2	H
+33e4bf8cf8b111aae282b6a2abd738d4	calibri	regular	0033	3	H
+0254f3e3f11a6468f0855798f187c0aa	calibri	regular	0034	4	H
+4bdb0db2d24158f476be973bcc2558f6	calibri	regular	0035	5	H
+af2676a8fb914dd68c935415379d3018	calibri	regular	0036	6	H
+aaa03617a66b30743c3535d81743b7e6	calibri	regular	0037	i	C
+59edf2fe5ba727e27cb8bfe954153cd5	calibri	regular	0038	8	H
+1436349189fe751071844083dfe36b68	calibri	regular	0039	9	H
+9d971c11ada19b7564af1f0e3fb76046	calibri	regular	003A	:	H
+e5bdbc9287de0d01aae63a6d3ad33757	calibri	regular	003E	L	H
+a6d4dafb1a33c1ab9081076fc11294a3	calibri	regular	0040	@	H
+26cb767f5f650719218c1bc63f88b8ab	calibri	regular	0043	C	H
+aba14940a6d5e5b4f6b8ad668f86d974	calibri	regular	0044	D	H
+c3473d5934025ca574b959d342de8784	calibri	regular	0045	N	H
+e45ad4d885cf1f3ace477af839903344	calibri	regular	0049	I	H
+5969a6efd755bbc5168cc2bc72993550	calibri	regular	0052	R	H
+ce22007da31dda113ffaacdb7cd9cce1	calibri	regular	0054	T	H
+fcd457489ba6f73a78c09e52f6a16d32	calibri	regular	005E	S	H
+d718a002e22d83394f03db6676caaaa3	calibri	regular	0061	a	H
+bd9d41cc755aada45fd4aab0b9c72ed8	calibri	regular	0062	b	H
+7451680c6f576b538445df3cb390985e	calibri	regular	0063	C	H
+3251cbd67094fba0d1ce42a691a79f82	calibri	regular	0064	d	H
+02dc46dcb5ac7b54064ef3e8f8cc47a3	calibri	regular	0065	e	H
+d834e8d0faa9bfd4baa2288816e50bc8	calibri	regular	0067	g	H
+0c46b5ebf0775619f66d8c6da20857ea	calibri	regular	0068	U	H
+24a48635f44912510a2cd1fe70ad4dfb	calibri	regular	0069	i	H
+d78c57b882de31d0944912ec13630389	calibri	regular	006B	k	H
+abccb9ada019f2e1034ad7ff88d3a28b	calibri	regular	006C	l	H
+351abd2dcb54d39595342f3bfae1be91	calibri	regular	006D	m	H
+144c4c3446174ceb135bd99349fa544a	calibri	regular	006F	O	H
+755d7663f74d63e2eabc305a95e8538f	calibri	regular	0072	r	H
+b94805bb3b00705df243dddc4dda7025	calibri	regular	0073	S	H
+04fd9e2c1f95385e85046c47c0d29d85	calibri	regular	0077	w	H
+c5352a964254a791f85699abf5c04b6a	calibri	regular	00A9	©	H
+9b55877d2a4aef224b65734e75960cd4	calibri	regular	0166	I	C
+3f432a6667c10b144d7d5422b1fd7f9a	calibri	regular	0194	$	H
+a9ff7d92feabf915cf8ffb99e37c70a2	dederondot	bold	0032	2	H
+77700946d27f96b31769bc4de3265e44	dederondot	bold	0034	4	H
+a669191de2f369a3d747acd1c1cce4b9	dederonlot	semibold	0032	2	H
+070c174a95207618bc53ddd263af1627	dederonlot	semibold	0034	4	H
+f6fabf5e06f1cdf099ebbc9c3f559a90	huseyingunday	regular	0003	‖	L
+893ff5580609a84cb330eec93fb37a27	huseyingunday	regular	0009	(	H
+5b85289baafa9f4ca303939a01874574	huseyingunday	regular	000A	)	H
+5cf1b3716aaa86295d3e39a080d90d1b	huseyingunday	regular	000D	،	H
+1f2e652de1e390eb51eecd626a7c1d22	huseyingunday	regular	000E	—	H
+2602c294b6b0d57b158e2ee42ac8a634	huseyingunday	regular	000F	·	H
+0159ff77afd5b2b9f12e569e7f4fe0eb	huseyingunday	regular	0010	/	H
+724fb6e6611afe3a5d5fe0b48bb645aa	huseyingunday	regular	001B	:	H
+f6b293b8b30b0050b770b1966afb924d	huseyingunday	regular	003C	[	H
+05a068871a3ba778ca2298a03d49f124	huseyingunday	regular	003E	]	H
+a9ea57fe07761372102082024656e426	huseyingunday	regular	005C	{	H
+c17f8a764e75733dd2845989236eee17	huseyingunday	regular	005E	}	H
+dd759c791445c1a33ac42e6da28bf38e	huseyingunday	regular	007F	¾	H
+e094ce444a88af527a41f719231c2a4d	huseyingunday	regular	009F	—	H
+2f5992ab51887df39c791a62d69b7b80	huseyingunday	regular	00B1	٤	H
+5abfddc5c1e16f5689c8de87d9c20044	huseyingunday	regular	00B2	٥	H
+96faf97daf0a66a58dfdba7df8e23102	huseyingunday	regular	00B6	٠	C
+b66050a5b21b2a26e1c949e08138b5ba	huseyingunday	regular	00B7	ا	H
+74356df363111a85d5f783774e473753	huseyingunday	regular	00B8	 ٢	C
+6ecc44a71d3d72946194648e0f38ca35	huseyingunday	regular	00B9	٣	C
+307fac34a6f2bba1538c96fc552c17a5	huseyingunday	regular	00BA	٤	C
+5c5bac472b150da124916de9cf06fa09	huseyingunday	regular	00BB	٥	C
+cef9975beed8d552e94a8000597ec63d	huseyingunday	regular	00BC	٦	C
+d57eeb23a192a607718540b6ed0ad5c3	huseyingunday	regular	00BD	٧	C
+8657ebfa32100c833aed146c05c002e0	huseyingunday	regular	00BE	٨	C
+87604ac0372052a5240083b075b1f338	huseyingunday	regular	00BF	٩	H
+82b754c4097fca95a9ba95e22b711e30	huseyingunday	regular	00C3	-	C
+2f88bdc0061c0d804af5cb4a1a5b1940	huseyingunday	regular	00C5	ء	C
+5e86b2860c9d4c5c2bd224508ca91366	huseyingunday	regular	00C6	آ	C
+bf47ed4a9bdd77f0d41b82cc8140a148	huseyingunday	regular	00C7	آ	C
+a60dcd10ac9dbacd63d879f562b19b41	huseyingunday	regular	00C8	أ	H
+f23e3b08ee64afa0ea75cbfb01bfe397	huseyingunday	regular	00C9	أ	H
+9e83997f98eb07517ddd0c4904e098c6	huseyingunday	regular	00CA	ؤ	H
+a896cd2fd0c0831dec8ca40a55661481	huseyingunday	regular	00CB	ؤ	H
+6ca27636c1db95b6f37da6829f7eecc6	huseyingunday	regular	00CC	إ	C
+8da3b7368926ec696b85a31b33c3b36d	huseyingunday	regular	00CD	إ	C
+91acac7338f5af742c2085980e46951f	huseyingunday	regular	00CE	ئ	H
+4ec6a1a52ecb2a8b0bbd785724e7169f	huseyingunday	regular	00D0	دء	L
+ebfb5dd883247ae210db542eab2ddef8	huseyingunday	regular	00D1	?	L
+f5f3be400e4a69a44d64cb2f61c58044	huseyingunday	regular	00D2	ا	H
+243990bca7b2fda161486565c47256d5	huseyingunday	regular	00D3	ا	C
+07cdaab502e0a0ccecddc4391a938e56	huseyingunday	regular	00D4	ب	H
+96f47ae46cb5ca570c60afad6c5b69ae	huseyingunday	regular	00D5	ب	H
+41756277405a87b59c784e26b6747dd6	huseyingunday	regular	00D6	ب	C
+b115061c4f2b8e32dc80bddd55d0c06b	huseyingunday	regular	00D7	ي	H
+d544bb9b87789d92ccc0b13b7a14447d	huseyingunday	regular	00D8	ق	H
+47542297e0b363db3d4d674bc5cbbeb6	huseyingunday	regular	00D9	ت	H
+0373210df712cc8c4db4a744959910f2	huseyingunday	regular	00DA	ت	H
+d9b5aaa1a57efe05f4452ea4d530be99	huseyingunday	regular	00DB	ت	H
+b8e9a96e6395848f5e0f0490385347bf	huseyingunday	regular	00DC	ت	H
+d357fce58cb03f2462792b391116cb3c	huseyingunday	regular	00DD	ت	C
+1f24f4f8d4e392b9f8a56b50f3e35851	huseyingunday	regular	00DE	ث	H
+4d9c095b9f4ae61ec6100f4040e918ca	huseyingunday	regular	00DF	ث	H
+49b85be1dd3a20cadf083b7d11cfd792	huseyingunday	regular	00E0	ث	C
+14da7d62c1c29dc32a0831d00c4660d2	huseyingunday	regular	00E1	ث	C
+75ded4b52c0ae1f391ec1ec7d4333409	huseyingunday	regular	00E2	ج	H
+5c1236e38ae1cc89524b686fed8a7c45	huseyingunday	regular	00E3	ج	C
+77dcef53fea9a378f289ce779b2ae476	huseyingunday	regular	00E4	ج	C
+80a805a6d824cd1b78ebda5d3a396d95	huseyingunday	regular	00E5	ج	C
+3c383527360d26954a241828a04723e0	huseyingunday	regular	00E6	ح	H
+220c95aee734c2c438fa3ad501bec0ed	huseyingunday	regular	00E7	ج	H
+1c48eaacd9507582d84b262028d67c44	huseyingunday	regular	00E8	ح	H
+190c8557188c507e6a4810514e7602c7	huseyingunday	regular	00E9	خ	H
+795085fc7a51f027d2e317ff132c27b4	huseyingunday	regular	00EA	خ	H
+ed9d793b8d7fe7722138de655af76397	huseyingunday	regular	00EB	خ	H
+d9a92ea0d6a835b4bebf701194e747c9	huseyingunday	regular	00EC	خ	H
+09364930ebec900d07ed7c221e8cd4f3	huseyingunday	regular	00ED	خ	H
+702f91e9e77abb9cfbe95ea704e6556d	huseyingunday	regular	00EE	د	H
+65343678681a19c77025bab4ae0efb4d	huseyingunday	regular	00EF	د	H
+5d7b005342bbdb7ff6ec89a44fc54c7a	huseyingunday	regular	00F0	ذ	H
+b3ef713e9ed7767177243f7c96a03c6c	huseyingunday	regular	00F1	ذ	H
+4932c6a2e2f9f9f01200341ee2e1b931	huseyingunday	regular	00F2	ر	H
+5eebdc31939d5e3fb2a9f67f36e64fca	huseyingunday	regular	00F3	ر	H
+72522cdb139bd77279eb3b4255bf71a7	huseyingunday	regular	00F4	ز	H
+c59b9b174392b064a90747f16247e06f	huseyingunday	regular	00F5	ز	H
+cdf1633de9e55048add581f864e7234f	huseyingunday	regular	00F6	س	H
+93befa083318fc4c6fdf6641e5877346	huseyingunday	regular	00F7	س	H
+fa8b015f4bcc3993eee685d8b095f11a	huseyingunday	regular	00F8	ش	H
+dc89f18fd66fdaf1ea91ad29cab25202	huseyingunday	regular	00F9	ش	H
+96452de64a08d4623c1b0bc53d5170de	huseyingunday	regular	00FA	ش	H
+9fc08120148af0c0987e12b6348fecab	huseyingunday	regular	00FB	ش	H
+542d22acce3a559de408d67ea1fd3849	huseyingunday	regular	00FC	ش	H
+202d6439ea7c314a9d6f59aeb835353d	huseyingunday	regular	00FD	ش	H
+5635d1259e23e17e6c50352c4e5cf96d	huseyingunday	regular	00FE	ص	H
+d9455decbac252973fdd2c41c7cac708	huseyingunday	regular	00FF	ص	H
+7b37e3438aba858ea4df53c2cf804c50	huseyingunday	regular	0100	ص	H
+cc1bda8a57092e1f394aef1d76a148ec	huseyingunday	regular	0101	ص	H
+a02031e73a0263789148bfce364cdcde	huseyingunday	regular	0102	ض	H
+165518df0f90b92715d95a2924c9154a	huseyingunday	regular	0103	ض	H
+3b679fc832450d3f8265c69c8ac144b4	huseyingunday	regular	0104	ض	H
+20003a414648fd1101c437fc1a2c3186	huseyingunday	regular	0105	ض	H
+4e5d7b52067d193c85044efeb3385561	huseyingunday	regular	0106	ط	H
+29c7e2bafcad12d1ab7b54367a01add3	huseyingunday	regular	0107	ط	H
+a998dbb0921e43a5df8691833e29492d	huseyingunday	regular	0108	ط	H
+49dedfa24d3b8dfc24f49154243d15a3	huseyingunday	regular	0109	ط	H
+948a5c93642f653e9f7a242fa606d842	huseyingunday	regular	010A	ظ	H
+07d00dde6e687d3ba430c191f7fbf0f4	huseyingunday	regular	010B	ظ	H
+2c999fa7ac2d1364f2199c5327cd2970	huseyingunday	regular	010C	ظ	H
+fe47d160d2127e1226e6e657f6bea4aa	huseyingunday	regular	010D	ظ	H
+b67f49fda8e91bc8bf0ab213fc77c175	huseyingunday	regular	010E	ع	H
+ada4b93537dfa87b85bb8ea29481d1f7	huseyingunday	regular	010F	ع	H
+69a1cd2e272f23a6827ba3bccda22777	huseyingunday	regular	0110	ع	H
+3f82d6603ef6ac7002ed6daad71137a0	huseyingunday	regular	0111	غ	H
+119fecf35bb74e952dfc51e5e3b9ef01	huseyingunday	regular	0112	غ	H
+8beb297b7619ab67ace6f24bc3d70ee1	huseyingunday	regular	0113	غ	H
+5959f529d2969dcbb85cfade5294675e	huseyingunday	regular	0114	غ	H
+47ea6e4c9aeb30cf80d036f25a9c370c	huseyingunday	regular	0115	ف	H
+24514a81335b5df75b6fb1c21549cf21	huseyingunday	regular	0116	ف	H
+67322e5f81050a678eef29a3322bda17	huseyingunday	regular	0117	ف	H
+d7c6c2fe64925ad011bc3426243ab4bd	huseyingunday	regular	0118	ف	H
+2fab6fc97072b5eadcd4e59b8973baef	huseyingunday	regular	0119	ف	H
+41423efda96c2d0abe4f2e3bc946e6ff	huseyingunday	regular	011A	ق	H
+39d0d8e5ef8c115be002d6e1978ebb47	huseyingunday	regular	011B	ق	H
+6a03e9dfc44a754e93e60f4936a111c6	huseyingunday	regular	011C	ق	H
+76ca4054b1781910200a96874cead988	huseyingunday	regular	011D	ك	H
+f480a5316d7f7837e21d0a70340a97c3	huseyingunday	regular	011E	ك	H
+931b9af7b4686fcfc39ddb5eea6102f7	huseyingunday	regular	011F	ك	H
+7b4d9bcae02bc7a25444ab94c6c9369f	huseyingunday	regular	0120	ك	H
+746d28918763b45d4dfbcd4a3f6c60a9	huseyingunday	regular	0121	ك	H
+fbb6d1602fcd72c68a892cd367cfc67e	huseyingunday	regular	0122	ل	H
+d9cded811d6485f9e255912eef65359c	huseyingunday	regular	0123	ل	H
+28ab1d85c72a82b2ffea238a8a4f60e7	huseyingunday	regular	0124	ل	H
+7c1ea21309745012a91fde2e6e644a23	huseyingunday	regular	0125	ل	H
+c5d5344ac038ae100c2ec21ce51d5958	huseyingunday	regular	0126	م	H
+0ac3002d7f3a7553b5796eee7e572e83	huseyingunday	regular	0127	م	H
+b3eea1210a6e3b53b83331b02b99fb52	huseyingunday	regular	0128	ه	H
+f004c294f2fa8b19e323b1807937ce04	huseyingunday	regular	0129	ه	H
+dae1ae4890e063e4e9333352a562a0d8	huseyingunday	regular	012A	ن	H
+20c3590ee1f06a73e254694e59f17328	huseyingunday	regular	012B	ن	H
+0df753bb03a02b497a716d5892b84aec	huseyingunday	regular	012C	ن	H
+c719461aaed56bad6928a39830ce4823	huseyingunday	regular	012D	ن	H
+5ea66e036e349c658590daf7e38d47f1	huseyingunday	regular	012E	ه	H
+901e5016d11c28419c217cf641ac0ad6	huseyingunday	regular	012F	ه	H
+10599e52fe937891ffcafded8d47a43f	huseyingunday	regular	0130	ه	H
+878de509725cf0292db40dea7567119b	huseyingunday	regular	0131	و	H
+6415cb8e16dce83f58d59d6209075607	huseyingunday	regular	0132	و	H
+c333b68a3536c5a7a8da226d1d3af0c4	huseyingunday	regular	0133	و	H
+8736bd0a30648462a30acb5b473d9c4c	huseyingunday	regular	0134	ى	H
+34cd74bb4ca63232f160c77968b936f7	huseyingunday	regular	0135	ى	H
+e605098751e26f4b4f177bae55fb3bbe	huseyingunday	regular	0138	ي	H
+84bc91ef5609308ac4487854ffdc9341	huseyingunday	regular	0139	ي	H
+c95af35f8453d23484306043c0faf836	huseyingunday	regular	013A	ي	H
+671cda9197ff41156c812ceaa8235912	huseyingunday	regular	013B	ي	H
+18d5070869cf96672de6c9a6db58b58d	huseyingunday	regular	0173	الله	H
+98bb85cf3f7cca83b4ac8bc3820b0d38	huseyingunday	regular	0174	لا	H
+d4b3523ecdd4d22ef3573ff560fed2fd	huseyingunday	regular	0176	لأ	H
+2232be83f6d57fd448ea4ee0ad619504	huseyingunday	regular	0177	لأ	H
+6e5e412f78160b8ca94bbb4e06a3d01e	huseyingunday	regular	0178	لا	H
+1586b9908b0d6fd45f245ad74e8670bd	huseyingunday	regular	0179	لا	H
+c7d7b0a8aa7925ee051ad8bfdfde5d5e	huseyingunday	regular	017A	لا	H
+651b304222902dfdeab74718ad0b2edb	huseyingunday	regular	017B	لا	H
+8129b497de08d6d8ac7890c38be060ae	huseyingunday	regular	017E	ّ	L
+071aecefdc58d919bff44835bcab9554	huseyingunday	regular	0183	ً	L
+1268c6eb05bc5e7e0755951afd214aa6	huseyingunday	regular	0185	ٍ	L
+a47bed20c8ed922d43c0ff0912b94d2c	huseyingunday	regular	0186	ـ	L
+8e5639a0196a0bf385224b8766fc4042	huseyingunday	regular	0187	ُ	L
+ffc2ad9c6611947dc2d2e250fad96e45	huseyingunday	regular	0188	ِ	L
+e136f05a079031a0ef3796eefcf0305b	huseyingunday	regular	01AA	?	L
+24596d0f2c5c00196ec42787d1b432f7	huseyingunday	regular	01AB	?	L
+1e5701115862f518802d8e71b0f8a496	simplifiedarabic	regular	0010	ـ	H
+44318e2d677e70e2102a7ac5ab013c15	symbol	regular	0078	•	H
+b6590bf2af54960e1b7107be656afd9e	times-new-roman	regular	0028	(	H
+7a068d35cdecc9faa281f03f28bdc8d6	times-new-roman	regular	0029	)	H
+56bb83a29f0bcac29185d7070a42685b	times-new-roman	regular	002B	+	H
+af8f1d6c93caa8317e880c5d90775545	times-new-roman	regular	002D	-	H
+3d554e6fa9cce5c30675592a9c19c9b1	times-new-roman	regular	002E	·	H
+1ae1fc448262611ee708bb5af101a756	times-new-roman	regular	0030	0	H
+0fe739fbc8dd84a487f1911d84da9518	times-new-roman	regular	0031	1	H
+cb3a95646eb3dc461d636243d06be203	times-new-roman	regular	0032	2	H
+27a6045dbbe869819dc3bbed767e3dfd	times-new-roman	regular	0033	3	H
+33ba8edc35d4281ce1ecd6b0b9ba5fa2	times-new-roman	regular	0034	4	H
+a48686b5669c208c2f2b99f7bd07ccdf	times-new-roman	regular	0035	5	H
+8a7a5286edff188bfbbe1c7f2a001334	times-new-roman	regular	0036	6	H
+79ce8f61363083310d9471ca5dd15e4e	times-new-roman	regular	0037	7	H
+04d2313b44f51ccb52eebeb412cd980f	times-new-roman	regular	0038	8	H
+34b943b683414e19f095481389bbefe5	times-new-roman	regular	0039	9	H
+270774145c1ba3fe3ed8f61a3aeec9c7	times-new-roman	regular	003A	:	H
+d7bd7dafa1858d0c220ca6fe271ac597	times-new-roman	regular	0042	B	H
+8bcf6eda9080e751a671ee1e2943ff54	times-new-roman	regular	0049	I	H
+9eaceaa37ec710ab0c2ed72bd2475982	times-new-roman	regular	004E	N	H
+4ae76a0a567e4acf22b3cc57083de383	times-new-roman	regular	0050	P	H
+386c6f2b110a9c7dd8d3d349f9ce2860	times-new-roman	regular	0053	S	H
+7587114f9501b787d72530caaf482acb	times-new-roman	regular	0054	T	H
+31b6d890cae13e5b2e7d2699334bb9bb	times-new-roman	regular	0063	c	H
+1f8a827362580b7bc9eaee7c76aa181f	times-new-roman	regular	0064	d	H
+cea444c9bfaf36f354f68f0291cf1ca3	times-new-roman	regular	0065	e	H
+6b2cad33ac7f150116d74d1cb5f58e68	times-new-roman	regular	0066	f	H
+54c0705e17645723809795bc3d852165	times-new-roman	regular	0069	i	H
+9934cf7ed40f9a8075e0c6238d548691	times-new-roman	regular	006C	l	H
+ee96021e9ff8437bc7f749bec0dcd257	times-new-roman	regular	006D	m	H
+a0500553ed385c01d897ee3ce9427eb3	times-new-roman	regular	006E	n	H
+2cd978ffb09df640c1239e556c26f4cf	times-new-roman	regular	006F	o	H
+673e38c6da8b1f47ec995ef094662fdd	times-new-roman	regular	0072	r	H
+0f1c0a811f75c5ee3fe3302fe6693fb6	times-new-roman	regular	0073	s	H
+e427b682ac141fd5ed9a96f9211f1323	times-new-roman	regular	0074	t	H
+4a8a1d7044e85ff51ad74a97b2871b5b	times-new-roman	regular	0076	v	H
+e08e8049e312aca18bd2745e35154647	times-new-roman	regular	0077	w	H
+5d56908651f915ce1dac5c83e0532651	times-new-roman	regular	0078	x	H
+268dd0e1a3527633f4f69934932f2d7b	timesnewroman	regular	0011	·	H
+e5758eedf6088435b1e3a7c195aa442c	timesnewroman	regular	0012	/	H
+b6e0574e72d1e08f637c8d5eaf22bff5	timesnewroman	regular	0025	B	H
+127c0584f72775342ba8113c9c90ace0	timesnewroman	regular	0028	E	H
+7883ee6556c9a74eab8e575c7830a5f2	timesnewroman	regular	002E	K	H
+947b33497461cf60e17f0ae5cbca392e	timesnewroman	regular	002F	L	H
+6248632ceda77febd4a7a19b7e5ab23f	timesnewroman	regular	0032	O	H
+ef6c9d559eab39c421c41ec342a10b4d	timesnewroman	regular	0035	R	H
+5cdc57e81a9d0018295ca6beb94248b8	timesnewroman	regular	0036	S	H
+4cf0239a06fcdbec2967c87348ef358f	timesnewroman	regular	0037	T	H
+36b3bfee0dfd7eb06851716128ad8f8c	timesnewroman	regular	0038	U	H
+e2191c6db8607219bab02a86053db934	timesnewroman	regular	003C	Y	H
+b9cc6e7ead4bdd0db5636a676b95dfc7	timesnewroman	regular	0044	a	H
+40c75d71a2646c3b4290118a25daefce	timesnewroman	regular	0045	b	H
+9096e323a229e9ec516067a4731639f0	timesnewroman	regular	0047	d	H
+1678670bd37327d66e49599bea2842cb	timesnewroman	regular	0048	e	H
+c24bdfc8d405d27e0e070f7e3a66e419	timesnewroman	regular	0049	f	H
+e376aa5811ab07ef60fa31eb75334062	timesnewroman	regular	004C	i	H
+7bc28defc2837658429ef4b554242899	timesnewroman	regular	004F	l	H
+11ffd371ea8b9c8e994361abca5020df	timesnewroman	regular	0051	n	H
+b684d1a09809872bf18d0a55b58cec68	timesnewroman	regular	0055	r	H
+f221ca65a3803f104b60706e5348c466	timesnewroman	regular	0056	s	H
+c051e26cecb0ea0b3ac91b96c1b4711b	timesnewroman	regular	0057	t	H
+3364a6dee6e58f1fd3b62068e7a83079	timesnewroman	regular	0058	u	H
+6fa4101cb178ad5b7547ec2f45925146	timesnewroman	regular	005C	y	H
+92dd988b5039870a5fb637cfd82ab4ba	timesnewroman	regular	006F	ç	H
+017d59906738a6ee373d8aedfcd55b4a	timesnewroman	regular	00D5	1	H
+ce001218966d224212f88057f786fde1	timesnewroman	regular	00F7	ğ	H
+12272a3903cd42a3730b5d3f7af3d7f6	timesnewroman	regular	00F8	İ	H
+20db0b1208c4b238ebf9d1df0c260472	timesnewroman	regular	00F9	Ş	H
+0725e379bc1ddea25765ea24078b884f	timesnewroman	regular	0383	ا	H
+e3f610b059cd02292c871ce42d7f3522	timesnewroman	regular	038F	ب	H
+c28bc1e21b03da3ecc39cf93110aafa6	timesnewroman	regular	0395	ت	H
+28602877d5687e9c3f3f611651703ac0	timesnewroman	regular	0399	ث	H
+925775e9309ba8248bb0ae8a2c50ae8f	timesnewroman	regular	039D	ج	H
+0019326a7417cab0581814e20b408583	timesnewroman	regular	03A1	ح	H
+7e9d41027bdf5b9d47917ed95fb2f2b0	timesnewroman	regular	03A5	خ	H
+1f5951303befa516f7c2b025a0acbb58	timesnewroman	regular	03A9	د	H
+208e6adecfc8e511305e50be936920e6	timesnewroman	regular	03AB	ذ	H
+ae06200688e80a5298d434d9d9c52ed0	timesnewroman	regular	03AD	ر	H
+d0313117c286e2300c06023a47858635	timesnewroman	regular	03AF	ز	H
+71078d5950d40cec6646f0c4c1c30a69	timesnewroman	regular	03B1	س	H
+84852a5db2538f3dda23fd97067ce0af	timesnewroman	regular	03B5	ش	H
+91449a693bee3787ea399f05e81f71a9	timesnewroman	regular	03B9	ص	H
+8f50a33d5751d4b588cde0e3f4f77ded	timesnewroman	regular	03BD	ض	H
+ac618c0476f3825ae18dd02c0d973df6	timesnewroman	regular	03C1	ط	H
+e436cc1563c694dc54ec4a3fff2168d1	lotus2007	bold	0008	)	C
+ef66535ac8c004fffd12b8bd898776ba	lotus2007	bold	0028	(	C
+aa6eb5d37c38a4608f5416025bb0116c	lotus2007	bold	0047	س	H
+51aaa7b343d49685c2d509537b002ecd	lotus2007	bold	0052	ق	H
+8df9f9f3595c1191007bfb87fc32c4c5	lotus2007	bold	0068	ن	H
+0ed813fe28e990bd5dcd4dd2d1f810b2	lotus2007	bold	006D	ل	H
+399ac4c272f2ff3688a3c25d0d16ec00	lotus2007	bold	0089	ل	H
+3400ace105838cfeb1dedf5c66e8f305	lotus2007	bold	008A	م	H
+330749ed8054c73615042ea9175e7c96	lotus2007	bold	008D	و	H
+625021d24ac507477c2c19d0aa5faa00	lotus2007	bold	0097	ب	C
+0b26dc6db85fafa4dabbfa1d0a5a01d2	lotus2007	bold	0099	ت	C
+07637d65f3d8b4a5d811e00f53fbe3af	lotus2007	bold	009B	ج	C
+d042c5463372bc0d3ff34e9ed6aecc87	lotus2007	bold	00BB	٠	C
+0a922c2e6d0527894a46700e7005b20b	lotus2007	bold	00BC	١	H
+20e06ecb614c3bff040b2e9c44829f8c	lotus2007	bold	00BD	٢	H
+a65dd8e65cd5b636c4d22a2ff9fd5248	lotus2007	bold	00BE	٣	H
+26a6600a4ab30d0f0cbb82df6b8adc04	lotus2007	bold	00C4	٩	H
+737342babe9bbecc303e33a2c5da13b3	lotus2007	bold	00D0	ا	H
+fc75078ca3fba3696f41f2acbddb5a20	lotus2007	bold	00DA	ر	H
+c803acd9dc6271151d014c49170054b8	lotus2007	bold	00E9	ل	H
+dcc8fa2815339e4d95e60d9ca4cb9f7c	lotus2007	bold	00EA	م	H

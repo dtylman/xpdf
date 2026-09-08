@@ -13,7 +13,9 @@
 #endif
 
 #include <cstdio>
+#include <cctype>
 #include <cstring>
+#include <string>
 #include <vector>
 #include "gmem.h"
 #include "GString.h"
@@ -22,6 +24,7 @@
 #include "GfxState.h"
 #include "SplashFont.h"
 #include "SplashGlyphBitmap.h"
+#include "Decrypt.h"
 #include "GlyphDbOutputDev.h"
 
 // White border, in pixels, added around each captured glyph so ink
@@ -37,9 +40,15 @@ GlyphDbOutputDev::GlyphDbOutputDev(char *outDirA):
 {
   outDir = outDirA;
   hadWriteError = gFalse;
+  indexFile = NULL;
+  loadExistingIndex();
 }
 
 GlyphDbOutputDev::~GlyphDbOutputDev() {
+  if (indexFile) {
+    fclose(indexFile);
+    indexFile = NULL;
+  }
 }
 
 // Ghostscript (and most other subsetting tools) prefix a subsetted
@@ -87,28 +96,28 @@ std::string GlyphDbOutputDev::makeKey(GfxFont *gfxFont, CharCode c) {
   return name + "_" + hex;
 }
 
-void GlyphDbOutputDev::writeGlyphPPM(const std::string &key,
-				     SplashGlyphBitmap *glyph) {
-  std::string path = outDir + "/" + key + ".ppm";
-  FILE *f = fopen(path.c_str(), "wb");
-  if (!f) {
-    if (!globalParams || !globalParams->getErrQuiet()) {
-      fprintf(stderr, "pdftoglyphs: couldn't create %s\n", path.c_str());
-    }
-    hadWriteError = gTrue;
-    return;
+// Build the full PPM (header + white margins + glyph rows) into <buf>.
+// The byte stream is identical to the old file writer's output, so md5 of
+// <buf> equals the on-disk .ppm md5, and matches the converter's
+// md5(file bytes).  Returns gFalse for a degenerate glyph.
+GBool GlyphDbOutputDev::buildPpmBuffer(const SplashGlyphBitmap *glyph,
+				       std::string &buf) {
+  buf.clear();
+  if (!(glyph->w > 0 && glyph->h > 0 && glyph->data)) {
+    return gFalse;
   }
-
   int w = glyph->w + 2 * glyphMargin;
   int h = glyph->h + 2 * glyphMargin;
-  fprintf(f, "P6\n%d %d\n255\n", w, h);
+  char hdr[40];
+  int hdrLen = snprintf(hdr, sizeof(hdr), "P6\n%d %d\n255\n", w, h);
+  buf.append(hdr, hdrLen);
 
   std::vector<unsigned char> blankRow(w * 3, 0xff);
   std::vector<unsigned char> row(w * 3);
   int rowBytes = (glyph->w + 7) / 8; // only used when !glyph->aa
 
   for (int i = 0; i < glyphMargin; ++i) {
-    fwrite(blankRow.data(), 1, blankRow.size(), f);
+    buf.append((const char *)blankRow.data(), blankRow.size());
   }
   for (int y = 0; y < glyph->h; ++y) {
     row = blankRow;
@@ -128,16 +137,229 @@ void GlyphDbOutputDev::writeGlyphPPM(const std::string &key,
       row[(glyphMargin + x) * 3 + 1] = ink;
       row[(glyphMargin + x) * 3 + 2] = ink;
     }
-    fwrite(row.data(), 1, row.size(), f);
+    buf.append((const char *)row.data(), row.size());
   }
   for (int i = 0; i < glyphMargin; ++i) {
-    fwrite(blankRow.data(), 1, blankRow.size(), f);
+    buf.append((const char *)blankRow.data(), blankRow.size());
+  }
+  return gTrue;
+}
+
+std::string GlyphDbOutputDev::md5Hex(const std::string &bytes) {
+  unsigned char digest[16];
+  md5((Guchar *)bytes.data(), (int)bytes.size(), digest);
+  char hex[33];
+  for (int i = 0; i < 16; ++i) {
+    snprintf(hex + 2 * i, 3, "%02x", digest[i]);
+  }
+  hex[32] = '\0';
+  return std::string(hex);
+}
+
+std::string GlyphDbOutputDev::toKebab(const std::string &s) {
+  std::string out;
+  out.reserve(s.size());
+  for (size_t i = 0; i < s.size(); ++i) {
+    unsigned char ch = (unsigned char)s[i];
+    if (isalnum(ch) && ch < 0x80) {
+      out.push_back((char)tolower(ch));
+    } else {
+      out.push_back('-');
+    }
+  }
+  // collapse runs of '-'
+  std::string out2;
+  out2.reserve(out.size());
+  GBool prevDash = gFalse;
+  for (size_t i = 0; i < out.size(); ++i) {
+    if (out[i] == '-') {
+      if (!prevDash) {
+	out2.push_back('-');
+      }
+      prevDash = gTrue;
+    } else {
+      out2.push_back(out[i]);
+      prevDash = gFalse;
+    }
+  }
+  // strip leading/trailing '-'
+  size_t a = 0, b = out2.size();
+  while (a < b && out2[a] == '-') {
+    ++a;
+  }
+  while (b > a && out2[b - 1] == '-') {
+    --b;
+  }
+  return out2.substr(a, b - a);
+}
+
+void GlyphDbOutputDev::splitNameStyle(const std::string &font,
+				      std::string &name,
+				      std::string &style) {
+  static const char *styleTokens[] = {
+    "bolditalic", "boldoblique", "semibold",
+    "bold", "italic", "oblique"
+  };
+  static const char *styleSeps[] = { ",", "-", "" };
+
+  std::string n = font;
+  // strip a 'XXXXXX+' subset tag if present
+  if (n.size() > 7 && n[6] == '+') {
+    GBool isSubset = gTrue;
+    for (int i = 0; i < 6; ++i) {
+      if (!isupper((unsigned char)n[i])) {
+	isSubset = gFalse;
+	break;
+      }
+    }
+    if (isSubset) {
+      n = n.substr(7);
+    }
   }
 
+  // lowercase copy for trailing-suffix matching
+  std::string low = n;
+  for (size_t i = 0; i < low.size(); ++i) {
+    low[i] = (char)tolower((unsigned char)low[i]);
+  }
+
+  style.clear();
+  GBool peeled = gFalse;
+  for (int si = 0; si < 3 && !peeled; ++si) {
+    for (int ti = 0; ti < 6 && !peeled; ++ti) {
+      std::string suffix = std::string(styleSeps[si]) + styleTokens[ti];
+      size_t sl = suffix.size();
+      if (low.size() > sl &&
+	  low.compare(low.size() - sl, sl, suffix) == 0) {
+	n.erase(n.size() - sl);
+	style = styleTokens[ti];
+	peeled = gTrue;
+      }
+    }
+  }
+
+  name = toKebab(n);
+  if (name.empty()) {
+    name = "unnamed";
+  }
+  if (style.empty()) {
+    style = "regular";
+  }
+}
+
+void GlyphDbOutputDev::writeGlyphPPM(const std::string &name,
+				     const std::string &style,
+				     const std::string &cidHex,
+				     const SplashGlyphBitmap *glyph) {
+  std::string buf;
+  if (!buildPpmBuffer(glyph, buf)) {
+    return;
+  }
+  std::string md5 = md5Hex(buf);
+
+  if (seenMd5.find(md5) != seenMd5.end()) {
+    // visual duplicate: same bitmap already captured (possibly from
+    // another font / style); keep just one .ppm + one index row.
+    if (!globalParams || !globalParams->getErrQuiet()) {
+      fprintf(stderr, "pdftoglyphs: duplicate %s_%s_%s (md5 %s)\n",
+	      name.c_str(), style.c_str(), cidHex.c_str(), md5.c_str());
+    }
+    return;
+  }
+  seenMd5.insert(md5);
+
+  std::string path = outDir + "/" + name + "_" + style + "_" + cidHex
+		     + "_" + md5 + ".ppm";
+  FILE *f = fopen(path.c_str(), "wb");
+  if (!f) {
+    if (!globalParams || !globalParams->getErrQuiet()) {
+      fprintf(stderr, "pdftoglyphs: couldn't create %s\n", path.c_str());
+    }
+    hadWriteError = gTrue;
+    return;
+  }
+  fwrite(buf.data(), 1, buf.size(), f);
   fclose(f);
   if (!globalParams || !globalParams->getErrQuiet()) {
-    fprintf(stderr, "pdftoglyphs: created %s\n", path.c_str());
+    fprintf(stderr, "pdftoglyphs: created %s (md5 %s)\n",
+	    path.c_str(), md5.c_str());
   }
+  appendIndexRow(md5, name, style, cidHex);
+}
+
+void GlyphDbOutputDev::loadExistingIndex() {
+  indexPath = outDir + "/gylph_index.db";
+  FILE *f = fopen(indexPath.c_str(), "r");
+  if (f) {
+    // an index already exists: seed seenMd5 from it so a re-run rewrites
+    // nothing; refuse if it's the old (e.g. 4-column) format, so hand
+    // labels are never silently lost.
+    char line[2048];
+    int fields = -1;
+    while (fgets(line, sizeof(line), f)) {
+      int tabs = 0;
+      for (char *p = line; *p; ++p) {
+	if (*p == '\t') {
+	  ++tabs;
+	}
+      }
+      if (tabs == 0) {
+	continue;   // blank line
+      }
+      if (fields < 0) {
+	fields = tabs + 1;
+	if (fields != 6) {
+	  break;
+	}
+      }
+      if (fields == 6) {
+	std::string m;
+	for (char *p = line; *p && *p != '\t'; ++p) {
+	  m.push_back(*p);
+	}
+	if (!m.empty()) {
+	  seenMd5.insert(m);
+	}
+      }
+    }
+    fclose(f);
+
+    if (fields != 6 && fields != -1) {
+      // old (e.g. 4-column) or other unexpected format: refuse rather
+      // than risk clobbering hand labels.
+      if (!globalParams || !globalParams->getErrQuiet()) {
+	fprintf(stderr,
+		"pdftoglyphs: index '%s' is the old %d-column format; "
+		"run glyph_editor/convert_index_to_md5.py first.\n",
+		indexPath.c_str(), fields);
+      }
+      hadWriteError = gTrue;
+      indexFile = NULL;
+      return;
+    }
+  }
+
+  // open (or create) the index for append. On a fresh database this is
+  // what creates gylph_index.db in the first place.
+  indexFile = fopen(indexPath.c_str(), "a");
+  if (!indexFile) {
+    if (!globalParams || !globalParams->getErrQuiet()) {
+      fprintf(stderr, "pdftoglyphs: couldn't open index for append: %s\n",
+	      indexPath.c_str());
+    }
+    hadWriteError = gTrue;
+  }
+}
+
+void GlyphDbOutputDev::appendIndexRow(const std::string &md5,
+				     const std::string &name,
+				     const std::string &style,
+				     const std::string &cidHex) {
+  if (!indexFile) {
+    return;
+  }
+  fprintf(indexFile, "%s\t%s\t%s\t%s\t?\tC\n",
+	  md5.c_str(), name.c_str(), style.c_str(), cidHex.c_str());
 }
 
 void GlyphDbOutputDev::drawChar(GfxState *state, double x, double y,
@@ -153,6 +375,12 @@ void GlyphDbOutputDev::drawChar(GfxState *state, double x, double y,
   // duplicated here.
   SplashOutputDev::drawChar(state, x, y, dx, dy, originX, originY,
 			    c, nBytes, u, uLen);
+
+  if (hadWriteError) {
+    // e.g. the index was the old 4-column format and we refused to run;
+    // keep doing nothing rather than risk clobbering hand-labels.
+    return;
+  }
 
   GfxFont *gfxFont = state->getFont();
   if (!gfxFont) {
@@ -177,7 +405,23 @@ void GlyphDbOutputDev::drawChar(GfxState *state, double x, double y,
     return;
   }
   if (glyph.w > 0 && glyph.h > 0 && glyph.data) {
-    writeGlyphPPM(key, &glyph);
+    // name/style from the raw font name (subset tag stripped + style
+    // token peeled); cid as upper-hex for the filename.
+    std::string fontName;
+    GString *gname = gfxFont->getName();
+    if (gname && gname->getLength() > 0) {
+      fontName = gname->getCString();
+    } else {
+      Ref *id = gfxFont->getID();
+      char buf[64];
+      snprintf(buf, sizeof(buf), "unnamed-%d-%d", id->num, id->gen);
+      fontName = buf;
+    }
+    std::string name, style;
+    splitNameStyle(fontName, name, style);
+    char cidHex[8];
+    snprintf(cidHex, sizeof(cidHex), "%04X", (unsigned)(c & 0xffff));
+    writeGlyphPPM(name, style, cidHex, &glyph);
   }
   if (glyph.freeData) {
     gfree(glyph.data);

@@ -26,15 +26,17 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_INDEX = os.path.join(HERE, "..", "data", "gylph_index.db")
 DEFAULT_GLYPH_DIR = os.path.join(HERE, "..", "data", "gylph_db")
 
-COLUMNS = ("font", "cid", "char", "confidence")
+COLUMNS = ("md5", "name", "style", "cid", "char", "confidence")
 CONF_VALUES = ("H", "L", "C")
 
 
 class GlyphRow:
-    __slots__ = ("font", "cid", "char", "confidence")
+    __slots__ = ("md5", "name", "style", "cid", "char", "confidence")
 
-    def __init__(self, font, cid, char, confidence):
-        self.font = font
+    def __init__(self, md5, name, style, cid, char, confidence):
+        self.md5 = md5
+        self.name = name
+        self.style = style
         self.cid = cid
         self.char = char
         self.confidence = confidence
@@ -48,9 +50,9 @@ def load_rows(path):
             if not line:
                 continue
             parts = line.split("\t")
-            if len(parts) != 4:
+            if len(parts) != 6:
                 raise ValueError(
-                    f"{path}:{lineno}: expected 4 tab-separated fields, "
+                    f"{path}:{lineno}: expected 6 tab-separated fields, "
                     f"got {len(parts)}: {line!r}"
                 )
             rows.append(GlyphRow(*parts))
@@ -62,7 +64,9 @@ def save_rows(path, rows):
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         for r in rows:
-            f.write(f"{r.font}\t{r.cid}\t{r.char}\t{r.confidence}\n")
+            f.write(
+                f"{r.md5}\t{r.name}\t{r.style}\t{r.cid}\t{r.char}\t{r.confidence}\n"
+            )
     os.replace(tmp, path)
 
 
@@ -89,9 +93,15 @@ class GlyphEditorApp:
         bar = ttk.Frame(self.root, padding=6)
         bar.pack(side="top", fill="x")
 
-        ttk.Label(bar, text="Font:").pack(side="left")
+        ttk.Label(bar, text="Name:").pack(side="left")
         self.font_var = tk.StringVar()
         ttk.Entry(bar, textvariable=self.font_var, width=18).pack(
+            side="left", padx=(2, 10)
+        )
+
+        ttk.Label(bar, text="Style:").pack(side="left")
+        self.style_var = tk.StringVar()
+        ttk.Entry(bar, textvariable=self.style_var, width=10).pack(
             side="left", padx=(2, 10)
         )
 
@@ -121,7 +131,7 @@ class GlyphEditorApp:
             side="left", padx=(4, 0)
         )
 
-        for var in (self.font_var, self.cid_var, self.char_var):
+        for var in (self.font_var, self.style_var, self.cid_var, self.char_var):
             var.trace_add("write", lambda *_: self._refresh_list())
         self.conf_filter_var.trace_add("write", lambda *_: self._refresh_list())
 
@@ -139,7 +149,10 @@ class GlyphEditorApp:
         self.tree = ttk.Treeview(
             list_frame, columns=COLUMNS, show="headings", selectmode="browse"
         )
-        widths = {"font": 150, "cid": 60, "char": 60, "confidence": 90}
+        widths = {
+            "md5": 220, "name": 130, "style": 70,
+            "cid": 60, "char": 60, "confidence": 90,
+        }
         for c in COLUMNS:
             self.tree.heading(
                 c, text=c.capitalize(), command=lambda c=c: self._sort_by(c)
@@ -224,16 +237,20 @@ class GlyphEditorApp:
 
     def _clear_filters(self):
         self.font_var.set("")
+        self.style_var.set("")
         self.cid_var.set("")
         self.char_var.set("")
         self.conf_filter_var.set("All")
 
     def _matches(self, r):
         f = self.font_var.get().strip().lower()
+        st = self.style_var.get().strip().lower()
         c = self.cid_var.get().strip().lower()
         ch = self.char_var.get().strip()
         cf = self.conf_filter_var.get()
-        if f and f not in r.font.lower():
+        if f and f not in r.name.lower():
+            return False
+        if st and st not in r.style.lower():
             return False
         if c and c not in r.cid.lower():
             return False
@@ -253,7 +270,8 @@ class GlyphEditorApp:
     def _insert_row(self, i):
         r = self.rows[i]
         self.tree.insert(
-            "", "end", iid=str(i), values=(r.font, r.cid, r.char, r.confidence)
+            "", "end", iid=str(i),
+            values=(r.md5, r.name, r.style, r.cid, r.char, r.confidence),
         )
 
     def _update_status(self):
@@ -286,8 +304,10 @@ class GlyphEditorApp:
         r = self.rows[idx]
         self.edit_char_var.set(r.char)
         self.edit_conf_var.set(r.confidence)
-        self.info_var.set(f"Font: {r.font}\nCID: {r.cid}")
-        self._show_image(r.font, r.cid)
+        self.info_var.set(
+            f"Name: {r.name}\nStyle: {r.style}\nCID: {r.cid}\nMD5: {r.md5}"
+        )
+        self._show_image(r.name, r.style, r.cid, r.md5)
         self.dirty_var.set("")
 
     # target on-screen size for the glyph preview: small glyphs get
@@ -296,8 +316,10 @@ class GlyphEditorApp:
     _PREVIEW_TARGET = 260
     _PREVIEW_MAX = 300
 
-    def _show_image(self, font, cid):
-        path = os.path.join(self.glyph_dir, f"{font}_{cid}.ppm")
+    def _show_image(self, name, style, cid, md5):
+        path = os.path.join(
+            self.glyph_dir, f"{name}_{style}_{cid}_{md5}.ppm"
+        )
         try:
             im = Image.open(path).convert("RGB")
         except (FileNotFoundError, OSError):
@@ -348,7 +370,10 @@ class GlyphEditorApp:
             save_rows(self.index_path, self.rows)
         iid = str(self.current_idx)
         if self.tree.exists(iid):
-            self.tree.item(iid, values=(r.font, r.cid, r.char, r.confidence))
+            self.tree.item(
+                iid,
+                values=(r.md5, r.name, r.style, r.cid, r.char, r.confidence),
+            )
         self.dirty_var.set("")
         self._update_status()
 
