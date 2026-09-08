@@ -28,7 +28,6 @@
 
 static int firstPage = 1;
 static int lastPage = 0;
-static int resolution = 900;
 static char enableFreeTypeStr[16] = "";
 static char ownerPassword[33] = "";
 static char userPassword[33] = "";
@@ -42,8 +41,6 @@ static ArgDesc argDesc[] = {
    "first page to process"},
   {"-l",      argInt,      &lastPage,      0,
    "last page to process"},
-  {"-r",      argInt,      &resolution,    0,
-   "resolution, in DPI, used to rasterize glyphs (default is 150)"},
 #if HAVE_FREETYPE_FREETYPE_H | HAVE_FREETYPE_H
   {"-freetype",   argString,      enableFreeTypeStr, sizeof(enableFreeTypeStr),
    "enable FreeType font rasterizer: yes, no"},
@@ -150,7 +147,10 @@ int main(int argc, char *argv[]) {
   glyphOut = new GlyphDbOutputDev(outDir);
   glyphOut->startDoc(doc->getXRef());
   for (pg = firstPage; pg <= lastPage; ++pg) {
-    doc->displayPage(glyphOut, pg, resolution, resolution, 0,
+    // 900 DPI is hard-coded on purpose: the glyph-DB md5 keys are pixel-stable
+    // only across runs at the same resolution, so keeping it non-configurable
+    // keeps the database comparable run to run (see README, pass 1).
+    doc->displayPage(glyphOut, pg, 900, 900, 0,
 		      gFalse, gTrue, gFalse);
   }
   if (!quiet) {

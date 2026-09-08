@@ -109,8 +109,9 @@ xpdf/pdftoglyphs data/24_Sicil_no.031.pdf data/gylph_db
 xpdf/pdftotext -tablecells data/sample-tables.pdf data/out/sample-tables.txt
 ```
 
-`pdftoglyphs` accepts `-f`/`-l` (page range) and `-r` (rasterization DPI,
-default 150) as well as the usual `-opw`/`-upw`/`-q`/`-cfg`. `pdftotext`'s
-existing flags are unchanged; `-tablecells` is additive and doesn't affect
+`pdftoglyphs` rasterizes glyphs at a fixed 900 DPI -- not user-configurable,
+so the glyph-database md5 keys stay pixel-comparable across runs -- and
+accepts `-f`/`-l` (page range) as well as the usual `-opw`/`-upw`/`-q`/`-cfg`.
+`pdftotext`'s existing flags are unchanged; `-tablecells` is additive and doesn't affect
 the default reading-order mode or the other layout modes (`-layout`,
 `-table`, `-lineprinter`, `-raw`).
