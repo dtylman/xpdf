@@ -40,15 +40,9 @@ GlyphDbOutputDev::GlyphDbOutputDev(char *outDirA):
 {
   outDir = outDirA;
   hadWriteError = gFalse;
-  indexFile = NULL;
-  loadExistingIndex();
 }
 
 GlyphDbOutputDev::~GlyphDbOutputDev() {
-  if (indexFile) {
-    fclose(indexFile);
-    indexFile = NULL;
-  }
 }
 
 // Ghostscript (and most other subsetting tools) prefix a subsetted
@@ -257,17 +251,6 @@ void GlyphDbOutputDev::writeGlyphPPM(const std::string &name,
   }
   std::string md5 = md5Hex(buf);
 
-  if (seenMd5.find(md5) != seenMd5.end()) {
-    // visual duplicate: same bitmap already captured (possibly from
-    // another font / style); keep just one .ppm + one index row.
-    if (!globalParams || !globalParams->getErrQuiet()) {
-      fprintf(stderr, "pdftoglyphs: duplicate %s_%s_%s (md5 %s)\n",
-	      name.c_str(), style.c_str(), cidHex.c_str(), md5.c_str());
-    }
-    return;
-  }
-  seenMd5.insert(md5);
-
   std::string path = outDir + "/" + name + "_" + style + "_" + cidHex
 		     + "_" + md5 + ".ppm";
   FILE *f = fopen(path.c_str(), "wb");
@@ -284,82 +267,6 @@ void GlyphDbOutputDev::writeGlyphPPM(const std::string &name,
     fprintf(stderr, "pdftoglyphs: created %s (md5 %s)\n",
 	    path.c_str(), md5.c_str());
   }
-  appendIndexRow(md5, name, style, cidHex);
-}
-
-void GlyphDbOutputDev::loadExistingIndex() {
-  indexPath = outDir + "/gylph_index.db";
-  FILE *f = fopen(indexPath.c_str(), "r");
-  if (f) {
-    // an index already exists: seed seenMd5 from it so a re-run rewrites
-    // nothing; refuse if it's the old (e.g. 4-column) format, so hand
-    // labels are never silently lost.
-    char line[2048];
-    int fields = -1;
-    while (fgets(line, sizeof(line), f)) {
-      int tabs = 0;
-      for (char *p = line; *p; ++p) {
-	if (*p == '\t') {
-	  ++tabs;
-	}
-      }
-      if (tabs == 0) {
-	continue;   // blank line
-      }
-      if (fields < 0) {
-	fields = tabs + 1;
-	if (fields != 6) {
-	  break;
-	}
-      }
-      if (fields == 6) {
-	std::string m;
-	for (char *p = line; *p && *p != '\t'; ++p) {
-	  m.push_back(*p);
-	}
-	if (!m.empty()) {
-	  seenMd5.insert(m);
-	}
-      }
-    }
-    fclose(f);
-
-    if (fields != 6 && fields != -1) {
-      // old (e.g. 4-column) or other unexpected format: refuse rather
-      // than risk clobbering hand labels.
-      if (!globalParams || !globalParams->getErrQuiet()) {
-	fprintf(stderr,
-		"pdftoglyphs: index '%s' is the old %d-column format; "
-		"run glyph_editor/convert_index_to_md5.py first.\n",
-		indexPath.c_str(), fields);
-      }
-      hadWriteError = gTrue;
-      indexFile = NULL;
-      return;
-    }
-  }
-
-  // open (or create) the index for append. On a fresh database this is
-  // what creates gylph_index.db in the first place.
-  indexFile = fopen(indexPath.c_str(), "a");
-  if (!indexFile) {
-    if (!globalParams || !globalParams->getErrQuiet()) {
-      fprintf(stderr, "pdftoglyphs: couldn't open index for append: %s\n",
-	      indexPath.c_str());
-    }
-    hadWriteError = gTrue;
-  }
-}
-
-void GlyphDbOutputDev::appendIndexRow(const std::string &md5,
-				     const std::string &name,
-				     const std::string &style,
-				     const std::string &cidHex) {
-  if (!indexFile) {
-    return;
-  }
-  fprintf(indexFile, "%s\t%s\t%s\t%s\t?\tC\n",
-	  md5.c_str(), name.c_str(), style.c_str(), cidHex.c_str());
 }
 
 void GlyphDbOutputDev::drawChar(GfxState *state, double x, double y,
@@ -377,8 +284,8 @@ void GlyphDbOutputDev::drawChar(GfxState *state, double x, double y,
 			    c, nBytes, u, uLen);
 
   if (hadWriteError) {
-    // e.g. the index was the old 4-column format and we refused to run;
-    // keep doing nothing rather than risk clobbering hand-labels.
+    // a .ppm couldn't be created (e.g. the output dir doesn't exist);
+    // keep doing nothing rather than logging the error again.
     return;
   }
 

@@ -83,30 +83,19 @@ private:
   static void splitNameStyle(const std::string &font,
 			     std::string &name, std::string &style);
 
-  // md5-keyed dedup: build the ppm, md5 it, write the .ppm only for a
-  // genuinely new md5 (named <name>_<style>_<cid>_<md5>.ppm), and append
-  // a row to the index.  Logs "created" / "duplicate" per request.
+  // md5-keyed: build the ppm, md5 it, and write the .ppm (named
+  // <name>_<style>_<cid>_<md5>.ppm).  Always writes -- overwrites if the
+  // file already exists (re-runs produce identical bytes -> same filename
+  // -> same content).  Does NOT touch the index; the .ppm folder is the
+  // source of truth, the index is derived from it (see glyph_editor).
   void writeGlyphPPM(const std::string &name, const std::string &style,
 		     const std::string &cidHex,
 		     const SplashGlyphBitmap *glyph);
 
-  // read <outDir>/gylph_index.db (if present) and seed seenMd5 with its
-  // md5s, so a re-run over the same PDF rewrites nothing.  If the index
-  // is the old 4-column format, refuse (set hadWriteError) and tell the
-  // user to run glyph_editor/convert_index_to_md5.py first, so
-  // hand-labels are never silently lost.
-  void loadExistingIndex();
-
-  // append a brand-new row (md5,name,style,cid,?,C) to the index file.
-  void appendIndexRow(const std::string &md5, const std::string &name,
-		      const std::string &style, const std::string &cidHex);
-
   std::string outDir;
-  std::string indexPath;
-  std::set<std::string> seen;      // raw (font,CID) -> avoid re-raster
-  std::set<std::string> seenMd5;   // ppm-image md5 -> visual dedup
+  std::set<std::string> seen;  // raw (font,CID) -> avoid re-rasterizing
+                               // the same glyph on every page it appears on
   GBool hadWriteError;
-  FILE *indexFile;   // append handle for gylph_index.db (or NULL)
 };
 
 #endif
