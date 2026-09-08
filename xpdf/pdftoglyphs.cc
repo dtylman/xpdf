@@ -28,7 +28,7 @@
 
 static int firstPage = 1;
 static int lastPage = 0;
-static int resolution = 150;
+static int resolution = 600;
 static char enableFreeTypeStr[16] = "";
 static char ownerPassword[33] = "";
 static char userPassword[33] = "";
@@ -157,9 +157,8 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "pdftoglyphs: captured %d unique glyphs\n",
 	    glyphOut->getNumCaptured());
   }
+  exitCode = glyphOut->getHadWriteError() ? 1 : 0;
   delete glyphOut;
-
-  exitCode = 0;
 
   // clean up
  err1:

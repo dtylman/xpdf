@@ -50,6 +50,11 @@ public:
   // Number of distinct (font, CID) glyphs captured so far.
   int getNumCaptured() { return (int)seen.size(); }
 
+  // Returns true if any glyph file could not be created, so the caller
+  // can fail the whole run with a non-zero exit code instead of
+  // silently finishing with exit 0.
+  GBool getHadWriteError() { return hadWriteError; }
+
 private:
 
   // "<strippedFontName>_<CIDhex>", used both as the dedup key and (with
@@ -60,6 +65,7 @@ private:
 
   std::string outDir;
   std::set<std::string> seen;
+  GBool hadWriteError;
 };
 
 #endif

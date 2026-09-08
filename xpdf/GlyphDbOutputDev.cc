@@ -17,6 +17,7 @@
 #include <vector>
 #include "gmem.h"
 #include "GString.h"
+#include "GlobalParams.h"
 #include "GfxFont.h"
 #include "GfxState.h"
 #include "SplashFont.h"
@@ -35,6 +36,7 @@ GlyphDbOutputDev::GlyphDbOutputDev(char *outDirA):
   SplashOutputDev(splashModeRGB8, 1, gFalse, whitePaper)
 {
   outDir = outDirA;
+  hadWriteError = gFalse;
 }
 
 GlyphDbOutputDev::~GlyphDbOutputDev() {
@@ -90,6 +92,10 @@ void GlyphDbOutputDev::writeGlyphPPM(const std::string &key,
   std::string path = outDir + "/" + key + ".ppm";
   FILE *f = fopen(path.c_str(), "wb");
   if (!f) {
+    if (!globalParams || !globalParams->getErrQuiet()) {
+      fprintf(stderr, "pdftoglyphs: couldn't create %s\n", path.c_str());
+    }
+    hadWriteError = gTrue;
     return;
   }
 
@@ -129,6 +135,9 @@ void GlyphDbOutputDev::writeGlyphPPM(const std::string &key,
   }
 
   fclose(f);
+  if (!globalParams || !globalParams->getErrQuiet()) {
+    fprintf(stderr, "pdftoglyphs: created %s\n", path.c_str());
+  }
 }
 
 void GlyphDbOutputDev::drawChar(GfxState *state, double x, double y,
