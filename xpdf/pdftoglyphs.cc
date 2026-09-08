@@ -28,7 +28,7 @@
 
 static int firstPage = 1;
 static int lastPage = 0;
-static int resolution = 600;
+static int resolution = 900;
 static char enableFreeTypeStr[16] = "";
 static char ownerPassword[33] = "";
 static char userPassword[33] = "";
