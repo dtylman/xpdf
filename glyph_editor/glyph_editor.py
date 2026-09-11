@@ -89,12 +89,18 @@ class GlyphEditorApp:
         self._sync_stop = False
 
         root.title(f"Glyph Index Editor — {os.path.basename(index_path)}")
-        root.geometry("1150x650")
+        root.geometry("1150x780")
 
         self._build_ui()
         self._refresh_list()
 
     # ---- UI construction -------------------------------------------------
+
+    # Arabic letters offered on the on-screen keyboard (hamza/alef
+    # variants, ta-marbuta, alef-maqsura, and the 28 base letters).
+    ARABIC_LETTERS = (
+        "ءآأؤإئاابةتثجحخدذرزسشصضطظعغفقكلمنهويى"
+    )
 
     def _build_ui(self):
         bar = ttk.Frame(self.root, padding=6)
@@ -151,11 +157,18 @@ class GlyphEditorApp:
             side="right"
         )
 
-        body = ttk.Frame(self.root)
-        body.pack(side="top", fill="both", expand=True)
+        # master/detail split: the chars table fills the upper pane, the
+        # detail panel (glyph preview + Char/Confidence form + arabic
+        # keyboard) lives in the lower pane. The paned window lets you drag
+        # the divider to resize the two panes.
+        paned = ttk.PanedWindow(self.root, orient="vertical")
+        paned.pack(side="top", fill="both", expand=True)
 
-        list_frame = ttk.Frame(body)
-        list_frame.pack(side="left", fill="both", expand=True)
+        # ---- upper pane: chars table ----
+        list_frame = ttk.Frame(paned)
+        paned.add(list_frame, weight=3)
+        list_frame.rowconfigure(0, weight=1)
+        list_frame.columnconfigure(0, weight=1)
 
         self.tree = ttk.Treeview(
             list_frame, columns=COLUMNS, show="headings", selectmode="browse"
@@ -169,25 +182,44 @@ class GlyphEditorApp:
                 c, text=c.capitalize(), command=lambda c=c: self._sort_by(c)
             )
             self.tree.column(c, width=widths[c], anchor="w")
-        vsb = ttk.Scrollbar(list_frame, orient="vertical", command=self.tree.yview)
-        self.tree.configure(yscrollcommand=vsb.set)
-        self.tree.pack(side="left", fill="both", expand=True)
-        vsb.pack(side="left", fill="y")
+        vsb = ttk.Scrollbar(
+            list_frame, orient="vertical", command=self.tree.yview
+        )
+        hsb = ttk.Scrollbar(
+            list_frame, orient="horizontal", command=self.tree.xview
+        )
+        self.tree.configure(
+            yscrollcommand=vsb.set, xscrollcommand=hsb.set
+        )
+        # grid (not pack) so the vertical scrollbar sits to the RIGHT of the
+        # table and the horizontal one BELOW it, with the table getting all
+        # the remaining space.
+        self.tree.grid(row=0, column=0, sticky="nsew")
+        vsb.grid(row=0, column=1, sticky="ns")
+        hsb.grid(row=1, column=0, sticky="ew")
         self.tree.bind("<<TreeviewSelect>>", self._on_select)
 
-        detail = ttk.Frame(body, padding=10, width=340)
-        detail.pack(side="right", fill="y")
-        detail.pack_propagate(False)
+        # ---- lower pane: detail + arabic keyboard ----
+        detail = ttk.Frame(paned, padding=10)
+        paned.add(detail, weight=2)
 
-        self.image_label = ttk.Label(detail, relief="sunken", anchor="center")
-        self.image_label.pack(fill="x", pady=(0, 10), ipady=40)
+        # left column: glyph preview + index info
+        left = ttk.Frame(detail)
+        left.pack(side="left", fill="y", padx=(0, 14))
+
+        self.image_label = ttk.Label(left, relief="sunken", anchor="center")
+        self.image_label.pack(fill="x", pady=(0, 10), ipady=20)
 
         self.info_var = tk.StringVar(value="(no selection)")
-        ttk.Label(detail, textvariable=self.info_var, justify="left").pack(
+        ttk.Label(left, textvariable=self.info_var, justify="left").pack(
             anchor="w"
         )
 
-        form = ttk.Frame(detail, padding=(0, 15, 0, 0))
+        # right column: Char/Confidence form, nav buttons, arabic keyboard
+        right = ttk.Frame(detail)
+        right.pack(side="left", fill="both", expand=True)
+
+        form = ttk.Frame(right)
         form.pack(fill="x")
         form.columnconfigure(1, weight=1)
 
@@ -209,7 +241,7 @@ class GlyphEditorApp:
             state="readonly",
         ).grid(row=1, column=1, sticky="w", pady=4)
 
-        btns = ttk.Frame(detail, padding=(0, 15, 0, 0))
+        btns = ttk.Frame(right, padding=(0, 8, 0, 0))
         btns.pack(fill="x")
         ttk.Button(btns, text="Save (Enter)", command=self._save_current).pack(
             side="left"
@@ -222,14 +254,60 @@ class GlyphEditorApp:
         )
 
         self.dirty_var = tk.StringVar(value="")
-        ttk.Label(detail, textvariable=self.dirty_var, foreground="#a00").pack(
+        ttk.Label(right, textvariable=self.dirty_var, foreground="#a00").pack(
             anchor="w", pady=(8, 0)
         )
 
-        self.root.bind("<Return>", lambda e: self._save_current())
+        self._build_arabic_keyboard(right)
+
+        # Pressing Enter *inside the Char entry* confirms the edit: it sets
+        # Confidence to 'C', saves, and advances to the next row. We return
+        # "break" so the root-level binding below doesn't also fire. Leaving
+        # the field (focus-out) does nothing, so you can still type a value,
+        # pick H/L from the Confidence box, and Save manually.
+        self.edit_char_entry.bind("<Return>", self._save_confirmed)
+        # Root-level Enter: save with whatever Confidence is currently chosen
+        # and advance to the next row. Ctrl+S just saves (no advance), and the
+        # Save button just saves (no advance).
+        self.root.bind("<Return>", lambda e: self._save_and_next())
         self.root.bind("<Control-s>", lambda e: self._save_current())
         self.edit_char_var.trace_add("write", lambda *_: self._mark_dirty())
         self.edit_conf_var.trace_add("write", lambda *_: self._mark_dirty())
+
+    def _build_arabic_keyboard(self, parent):
+        kb = ttk.LabelFrame(parent, text="Arabic keyboard", padding=6)
+        kb.pack(fill="x", pady=(10, 0))
+        char_font = self._arabic_font()
+        cols = 12
+        for i, letter in enumerate(self.ARABIC_LETTERS):
+            r, c = divmod(i, cols)
+            btn = ttk.Button(
+                kb,
+                text=letter,
+                width=3,
+                command=lambda l=letter: self._keyboard_pick(l),
+            )
+            try:
+                btn.configure(font=char_font)
+            except Exception:
+                pass
+            btn.grid(row=r, column=c, padx=1, pady=1)
+
+    def _keyboard_pick(self, letter):
+        """A letter button was clicked: set Char, force Confidence='C', save."""
+        if self.current_idx is None:
+            return
+        self.edit_char_var.set(letter)
+        self.edit_conf_var.set("C")
+        self._save_current()
+
+    def _save_confirmed(self, _event=None):
+        """Enter inside the Char entry: force Confidence='C', save, and move
+        to the next row so you can correct glyphs in quick succession."""
+        if self.current_idx is None:
+            return "break"
+        self._save_and_next(force_conf_c=True)
+        return "break"
 
     @staticmethod
     def _arabic_font():
@@ -321,9 +399,11 @@ class GlyphEditorApp:
 
     # target on-screen size for the glyph preview: small glyphs get
     # upscaled (crisp, nearest-neighbor) to at least this size; large ones
-    # (high-DPI captures can run past 400px) get downscaled to fit.
-    _PREVIEW_TARGET = 260
-    _PREVIEW_MAX = 300
+    # (high-DPI captures can run past 400px) get downscaled to fit. Kept
+    # modest because the preview now lives in the left column of the lower
+    # (detail) pane.
+    _PREVIEW_TARGET = 200
+    _PREVIEW_MAX = 240
 
     def _show_image(self, name, style, cid):
         path = os.path.join(self.glyph_dir, f"{name}_{style}_{cid}.ppm")
@@ -360,16 +440,16 @@ class GlyphEditorApp:
 
     def _save_current(self):
         if self.current_idx is None:
-            return
+            return False
         r = self.rows[self.current_idx]
         new_char = self.edit_char_var.get()
         new_conf = self.edit_conf_var.get()
         if not new_char:
             messagebox.showerror("Invalid", "Char cannot be empty.")
-            return
+            return False
         if new_conf not in CONF_VALUES:
             messagebox.showerror("Invalid", "Confidence must be H, L, or C.")
-            return
+            return False
         changed = (r.char != new_char) or (r.confidence != new_conf)
         r.char = new_char
         r.confidence = new_conf
@@ -383,6 +463,19 @@ class GlyphEditorApp:
             )
         self.dirty_var.set("")
         self._update_status()
+        return True
+
+    def _save_and_next(self, force_conf_c=False):
+        """Save the current row and, on success, advance to the next one.
+        Used by the Enter handlers so you can correct a glyph and immediately
+        move on. If force_conf_c is set, Confidence is forced to 'C' first
+        (the Char-entry Enter shortcut)."""
+        if self.current_idx is None:
+            return
+        if force_conf_c:
+            self.edit_conf_var.set("C")
+        if self._save_current():
+            self._step(1)
 
     def _step(self, delta):
         children = self.tree.get_children()
