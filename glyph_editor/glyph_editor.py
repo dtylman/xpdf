@@ -99,7 +99,7 @@ class GlyphEditorApp:
     # Arabic letters offered on the on-screen keyboard (hamza/alef
     # variants, ta-marbuta, alef-maqsura, and the 28 base letters).
     ARABIC_LETTERS = (
-        "ءآأؤإئاابةتثجحخدذرزسشصضطظعغفقكلمنهويى"
+        "١٢٣٤٥٦٧٨٩٠ذضصثقفغعهخحجدشسيبلاتنمكطئءؤرلاىةوزظلإإلأأآلآ؟"
     )
 
     def _build_ui(self):
