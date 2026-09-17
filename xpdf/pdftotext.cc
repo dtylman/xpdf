@@ -65,7 +65,7 @@ static ArgDesc argDesc[] = {
   {"-table",   argFlag,     &tableLayout,   0,
    "similar to -layout, but optimized for tables"},
   {"-tablecells", argFlag,  &tableCells,    0,
-   "detect ruled table grids and emit text grouped by Row/Col"},
+   "detect ruled table grids and emit paragraph/table/cell JSON"},
   {"-lineprinter", argFlag, &linePrinter,   0,
    "use strict fixed-pitch/height layout"},
   {"-raw",     argFlag,     &rawOrder,      0,
@@ -149,6 +149,10 @@ int main(int argc, char *argv[]) {
   globalParams = new GlobalParams(cfgFileName);
   if (textEncName[0]) {
     globalParams->setTextEncoding(textEncName);
+  } else if (tableCells) {
+    // JSON text must be UTF-8 (or ASCII); the default Latin1 output
+    // encoding would produce invalid UTF-8 byte sequences.
+    globalParams->setTextEncoding("UTF-8");
   }
   if (textEOL[0]) {
     if (!globalParams->setTextEOL(textEOL)) {
@@ -212,7 +216,7 @@ int main(int argc, char *argv[]) {
     } else {
       textFileName = fileName->copy();
     }
-    textFileName->append(".txt");
+    textFileName->append(tableCells ? ".json" : ".txt");
   }
 
   // get page range

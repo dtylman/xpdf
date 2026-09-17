@@ -69,10 +69,20 @@ table into pass 2 to actually correct the Arabic text, is not built yet.
   boundaries;
 - for each detected cell, calls `TextPage::getText()` on that cell's
   bounding box to pull its text in proper reading order (reusing xpdf's
-  existing word/line clustering rather than reimplementing it), and
-  emits `Row: r Col: c: <text>`; text above the first ruling is emitted
-  as `Header:`, text below the last as `Footnotes:`; a page with no
-  detected grid falls back to a single full-page `Text:` block.
+  existing word/line clustering rather than reimplementing it).
+
+The output is **JSON only** (no text file): a top-level array with one
+object per page, each holding `page`, `width`, `height` and a
+`paragraphs` list. Paragraph types are `header` (text above the first
+ruling), `text` (free text, e.g. a caption between two tables, or the
+whole page when no grid is detected), `table` (with `bbox` and `rows`),
+and `footnotes` (text below the last ruling). Inside a `table`, each
+entry of `rows` is a `row` (with `row` number, `bbox` and `cells`), and
+each entry of `cells` is a `cell` (with `col` number, `text` and
+`bbox`). All text is emitted as UTF-8 (`-tablecells` forces the text
+encoding to UTF-8 unless `-enc` is given), and all strings are
+JSON-escaped. Font name/size are omitted — they are not tracked per
+region by `TextOutputDev`'s region `getText()` path.
 
 **Status:** implemented and working (validated against
 `data/sample-tables.pdf`). The `/ToUnicode` correction from pass 1 is not
@@ -86,7 +96,7 @@ output is joined in.
 data/
   *.pdf          input documents (e.g. 24_Sicil_no.031.pdf, sample-tables.pdf)
   gylph_db/      pass 1 output: one <font>_<CIDhex>.ppm bitmap per unique glyph
-  out/           pass 2 output: extracted text (one file per input document)
+  out/           pass 2 output: extracted JSON (one file per input document)
 ```
 
 ## Build
@@ -105,8 +115,8 @@ make
 # Pass 1: capture every unique glyph in a document into data/gylph_db/
 xpdf/pdftoglyphs data/24_Sicil_no.031.pdf data/gylph_db
 
-# Pass 2: extract table-structured text
-xpdf/pdftotext -tablecells data/sample-tables.pdf data/out/sample-tables.txt
+# Pass 2: extract paragraph/table/cell JSON
+xpdf/pdftotext -tablecells data/sample-tables.pdf data/out/sample-tables.json
 ```
 
 `pdftoglyphs` rasterizes glyphs at a fixed 900 DPI -- not user-configurable,

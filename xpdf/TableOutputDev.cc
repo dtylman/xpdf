@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include "gmem.h"
 #include "GString.h"
 #include "GfxState.h"
@@ -35,16 +36,43 @@ TableOutputDev::TableOutputDev(char *fileName, TextOutputControl *controlA):
   tblOk = gTrue;
   curPageNum = 0;
   pageW = pageH = 0;
+  havePages = gFalse;
+  inPage = gFalse;
+  needParagraphComma = gFalse;
+  tableRows = NULL;
+  tableHasRows = gFalse;
+  tblXMin = tblYMin = tblXMax = tblYMax = 0;
+  rowCells = NULL;
+  rowHasCells = gFalse;
+  curRowNum = 0;
+  rowXMin = rowYMin = rowXMax = rowYMax = 0;
   if (fileName) {
-    if (!(outFile = fopen(fileName, "wb"))) {
+    if (!strcmp(fileName, "-")) {
+      outFile = stdout;
+    } else if (!(outFile = fopen(fileName, "wb"))) {
       tblOk = gFalse;
     }
   } else {
     outFile = stdout;
   }
+  if (outFile) {
+    fprintf(outFile, "[\n");
+  }
 }
 
 TableOutputDev::~TableOutputDev() {
+  // Defensive: if we're destroyed mid-page (error path), close any
+  // dangling structures and the page/document arrays so the output is
+  // still parseable JSON.
+  if (tableRows) {
+    endTable();
+  }
+  if (inPage && outFile) {
+    fprintf(outFile, "\n    ]\n  }");
+  }
+  if (havePages && outFile) {
+    fprintf(outFile, "\n]\n");
+  }
   if (outFile && outFile != stdout) {
     fclose(outFile);
   }
@@ -208,33 +236,241 @@ void TableOutputDev::rowXExtent(double rowY0, double rowY1,
   }
 }
 
-void TableOutputDev::emitRegion(TextPage *tp, const char *label,
-				 double xMin, double yMin,
-				 double xMax, double yMax) {
+// Append a number the way the sample JSON does it: at most two
+// decimals, with trailing zeros stripped except the last one, so 612
+// prints as "612.0" and 200.25 as "200.25".
+static void appendNum(GString *s, double v) {
+  char buf[64];
+  int len;
+
+  snprintf(buf, sizeof(buf), "%.2f", v);
+  len = (int)strlen(buf);
+  while (len > 2 && buf[len-1] == '0' && buf[len-2] != '.') {
+    --len;
+  }
+  s->append(buf, len);
+}
+
+GString *TableOutputDev::formatBBox(double xMin, double yMin,
+				    double xMax, double yMax) {
+  GString *s = new GString("[");
+
+  appendNum(s, xMin);
+  s->append(", ");
+  appendNum(s, yMin);
+  s->append(", ");
+  appendNum(s, xMax);
+  s->append(", ");
+  appendNum(s, yMax);
+  s->append("]");
+  return s;
+}
+
+// Escape a byte string for use inside a JSON string literal.  The text
+// is expected to be UTF-8 (pdftotext forces UTF-8 for -tablecells), so
+// bytes >= 0x80 are passed through unchanged.
+GString *TableOutputDev::escapeJSONString(const char *s, int len) {
+  GString *out = new GString();
+  char buf[8];
+  int i;
+
+  for (i = 0; i < len; ++i) {
+    unsigned char c = (unsigned char)s[i];
+    switch (c) {
+    case '"':  out->append("\\\""); break;
+    case '\\': out->append("\\\\"); break;
+    case '\b': out->append("\\b");  break;
+    case '\f': out->append("\\f");  break;
+    case '\n': out->append("\\n");  break;
+    case '\r': out->append("\\r");  break;
+    case '\t': out->append("\\t");  break;
+    default:
+      if (c < 0x20) {
+	snprintf(buf, sizeof(buf), "\\u%04x", c);
+	out->append(buf);
+      } else {
+	out->append((char)c);
+      }
+      break;
+    }
+  }
+  return out;
+}
+
+// Pull the text inside the given page rect (in reading order) and
+// write it as a paragraph object of the given type.  Regions with no
+// text produce nothing at all, so blank bands don't clutter the JSON.
+void TableOutputDev::writeTextParagraph(TextPage *tp, const char *type,
+					double xMin, double yMin,
+					double xMax, double yMax) {
+  GString *s, *esc, *bbox;
+  int len;
+
   if (xMax <= xMin || yMax <= yMin) {
     return;
   }
-  GString *s = tp->getText(xMin, yMin, xMax, yMax);
+  s = tp->getText(xMin, yMin, xMax, yMax);
+  if (!s) {
+    return;
+  }
+  // trim trailing whitespace/EOL so blank regions produce nothing
+  len = s->getLength();
+  while (len > 0 && (s->getChar(len-1) == '\n' || s->getChar(len-1) == '\r' ||
+		     s->getChar(len-1) == ' ')) {
+    --len;
+  }
+  if (len > 0) {
+    if (needParagraphComma) {
+      fprintf(outFile, ",\n");
+    }
+    needParagraphComma = gTrue;
+    esc = escapeJSONString(s->getCString(), len);
+    bbox = formatBBox(xMin, yMin, xMax, yMax);
+    fprintf(outFile,
+	    "      {\n"
+	    "        \"type\": \"%s\",\n"
+	    "        \"text\": \"%s\",\n"
+	    "        \"bbox\": %s\n"
+	    "      }",
+	    type, esc->getCString(), bbox->getCString());
+    delete esc;
+    delete bbox;
+  }
+  delete s;
+}
+
+void TableOutputDev::beginTable() {
+  tableRows = new GString();
+  tableHasRows = gFalse;
+}
+
+// Close out the open table: its rows were buffered in tableRows so the
+// table's own bbox could be written before them.
+void TableOutputDev::endTable() {
+  GString *bbox;
+
+  if (!tableRows) {
+    return;
+  }
+  if (tableHasRows) {
+    if (needParagraphComma) {
+      fprintf(outFile, ",\n");
+    }
+    needParagraphComma = gTrue;
+    bbox = formatBBox(tblXMin, tblYMin, tblXMax, tblYMax);
+    fprintf(outFile,
+	    "      {\n"
+	    "        \"type\": \"table\",\n"
+	    "        \"bbox\": %s,\n"
+	    "        \"rows\": [\n%s\n        ]\n"
+	    "      }",
+	    bbox->getCString(), tableRows->getCString());
+    delete bbox;
+  }
+  delete tableRows;
+  tableRows = NULL;
+  tableHasRows = gFalse;
+}
+
+void TableOutputDev::beginRow(int rowNum, double xMin, double yMin,
+			      double xMax, double yMax) {
+  rowCells = new GString();
+  rowHasCells = gFalse;
+  curRowNum = rowNum;
+  rowXMin = xMin;
+  rowYMin = yMin;
+  rowXMax = xMax;
+  rowYMax = yMax;
+}
+
+void TableOutputDev::endRow() {
+  GString *bbox;
+
+  if (!rowCells) {
+    return;
+  }
+  if (rowHasCells && tableRows) {
+    if (tableHasRows) {
+      tableRows->append(",\n");
+    }
+    tableHasRows = gTrue;
+    bbox = formatBBox(rowXMin, rowYMin, rowXMax, rowYMax);
+    tableRows->append("          {\n");
+    tableRows->appendf("            \"type\": \"row\",\n"
+		       "            \"row\": {0:d},\n"
+		       "            \"bbox\": {1:t},\n"
+		       "            \"cells\": [\n", curRowNum, bbox);
+    tableRows->append(rowCells);
+    tableRows->append("\n            ]\n          }");
+    delete bbox;
+  }
+  delete rowCells;
+  rowCells = NULL;
+  rowHasCells = gFalse;
+}
+
+// Emit one table cell.  Unlike the non-table paragraphs, an empty cell
+// is still emitted (with an empty "text") so that the column structure
+// of the grid survives in the JSON.
+void TableOutputDev::writeCell(TextPage *tp, int colNum,
+			       double xMin, double yMin,
+			       double xMax, double yMax) {
+  GString *s, *esc, *bbox;
+  int len;
+
+  if (!rowCells || xMax <= xMin || yMax <= yMin) {
+    return;
+  }
+  len = 0;
+  s = tp->getText(xMin, yMin, xMax, yMax);
   if (s) {
-    // trim trailing whitespace/EOL so blank regions produce nothing
-    int len = s->getLength();
+    len = s->getLength();
     while (len > 0 && (s->getChar(len-1) == '\n' || s->getChar(len-1) == '\r' ||
-			s->getChar(len-1) == ' ')) {
+		       s->getChar(len-1) == ' ')) {
       --len;
     }
-    if (len > 0) {
-      fprintf(outFile, "%s ", label);
-      fwrite(s->getCString(), 1, len, outFile);
-      fprintf(outFile, "\n");
-    }
-    delete s;
   }
+  if (rowHasCells) {
+    rowCells->append(",\n");
+  }
+  rowHasCells = gTrue;
+  esc = s ? escapeJSONString(s->getCString(), len) : new GString();
+  bbox = formatBBox(xMin, yMin, xMax, yMax);
+  rowCells->append("              {\n");
+  rowCells->appendf("                \"type\": \"cell\",\n"
+		    "                \"col\": {0:d},\n"
+		    "                \"text\": \"{1:t}\",\n"
+		    "                \"bbox\": {2:t}\n"
+		    "              }", colNum, esc, bbox);
+  delete esc;
+  delete bbox;
+  delete s;
 }
 
 void TableOutputDev::endPage() {
   TextPage *tp = takeText();
 
-  fprintf(outFile, "Page %d:\n", curPageNum);
+  if (havePages) {
+    fprintf(outFile, ",\n");
+  }
+  havePages = gTrue;
+  inPage = gTrue;
+  needParagraphComma = gFalse;
+  fprintf(outFile,
+	  "  {\n"
+	  "    \"page\": %d,\n",
+	  curPageNum);
+  if (pageW > 0 && pageH > 0) {
+    GString *dims = new GString();
+    dims->append("    \"width\": ");
+    appendNum(dims, pageW);
+    dims->append(",\n    \"height\": ");
+    appendNum(dims, pageH);
+    dims->append(",\n");
+    fwrite(dims->getCString(), 1, dims->getLength(), outFile);
+    delete dims;
+  }
+  fprintf(outFile, "    \"paragraphs\": [\n");
 
   // gather candidate grid line coordinates: a horizontal rule only
   // counts if it spans a reasonable width, likewise for vertical
@@ -249,10 +485,11 @@ void TableOutputDev::endPage() {
   std::vector<double> rowBounds = clusterCoords(ys, snapTolerance);
 
   if (rowBounds.size() < 2) {
-    // no usable grid on this page -- treat the whole page as one cell
-    emitRegion(tp, "Text:", 0, 0, pageW, pageH);
+    // no usable grid on this page -- treat the whole page as one text
+    // paragraph
+    writeTextParagraph(tp, "text", 0, 0, pageW, pageH);
   } else {
-    emitRegion(tp, "Header:", 0, 0, pageW, rowBounds.front());
+    writeTextParagraph(tp, "header", 0, 0, pageW, rowBounds.front());
 
     int nBands = (int)rowBounds.size() - 1;
     int tableRow = 0; // current row number within the table currently
@@ -283,30 +520,49 @@ void TableOutputDev::endPage() {
 	// No vertical rule substantially crosses this band, so it isn't
 	// a ruled table row at all -- it's free text sitting between
 	// (or around) tables, e.g. a caption introducing the next
-	// table. Emit it as plain text and close out the current table,
-	// so the next real grid row starts renumbering at Row 1 instead
-	// of continuing this band's would-be row number.
+	// table. Emit it as a plain text paragraph and close out the
+	// current table, so the next real grid row starts a fresh table
+	// numbered from row 1.
+	if (tableRow > 0) {
+	  endTable();
+	}
 	double xMin, xMax;
 	rowXExtent(rowY0, rowY1, &xMin, &xMax);
-	emitRegion(tp, "Text:", xMin, rowY0, xMax, rowY1);
+	writeTextParagraph(tp, "text", xMin, rowY0, xMax, rowY1);
 	tableRow = 0;
       } else {
+	if (tableRow == 0) {
+	  beginTable();
+	  tblXMin = colBounds.front();
+	  tblXMax = colBounds.back();
+	  tblYMin = rowY0;
+	  tblYMax = rowY1;
+	} else {
+	  tblXMin = std::min(tblXMin, colBounds.front());
+	  tblXMax = std::max(tblXMax, colBounds.back());
+	  tblYMin = std::min(tblYMin, rowY0);
+	  tblYMax = std::max(tblYMax, rowY1);
+	}
 	++tableRow;
+	beginRow(tableRow, colBounds.front(), rowY0, colBounds.back(), rowY1);
 	int nCols = (int)colBounds.size() - 1;
 	for (int c = 0; c < nCols; ++c) {
-	  char label[64];
-	  snprintf(label, sizeof(label), "Row: %d Col: %d:", tableRow, c + 1);
-	  emitRegion(tp, label,
-		     colBounds[c], rowY0,
-		     colBounds[c+1], rowY1);
+	  writeCell(tp, c + 1,
+		    colBounds[c], rowY0,
+		    colBounds[c+1], rowY1);
 	}
+	endRow();
       }
     }
+    if (tableRow > 0) {
+      endTable();
+    }
 
-    emitRegion(tp, "Footnotes:", 0, rowBounds.back(), pageW, pageH);
+    writeTextParagraph(tp, "footnotes", 0, rowBounds.back(), pageW, pageH);
   }
 
-  fprintf(outFile, "\n");
+  fprintf(outFile, "\n    ]\n  }");
+  inPage = gFalse;
   fflush(outFile);
 
   delete tp;
