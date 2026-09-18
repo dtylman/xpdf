@@ -16,6 +16,7 @@
 #include <cmath>
 #include <cstring>
 #include "gmem.h"
+#include "GlyphIndex.h"
 #include "GString.h"
 #include "GfxState.h"
 #include "TableOutputDev.h"
@@ -33,6 +34,13 @@ static const double snapTolerance = 2.0;
 TableOutputDev::TableOutputDev(char *fileName, TextOutputControl *controlA):
   TextOutputDev(NULL, controlA, gFalse)
 {
+  // Load the CID -> Unicode correction table (data/gylph_index.db) so
+  // the text GStrings we emit can be translated from ToUnicode-garbled
+  // to correct text.  A missing/unreadable db is not fatal -- load()
+  // warns and translation is simply disabled.
+  glyphIndex = new GlyphIndex();
+  glyphIndex->load();
+
   tblOk = gTrue;
   curPageNum = 0;
   pageW = pageH = 0;
@@ -76,6 +84,7 @@ TableOutputDev::~TableOutputDev() {
   if (outFile && outFile != stdout) {
     fclose(outFile);
   }
+  delete glyphIndex;
 }
 
 void TableOutputDev::startPage(int pageNum, GfxState *state) {

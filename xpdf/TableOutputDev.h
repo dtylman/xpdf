@@ -28,6 +28,7 @@
 #include "TextOutputDev.h"
 
 class GfxState;
+class GlyphIndex;
 
 //------------------------------------------------------------------------
 // TableOutputDev
@@ -109,6 +110,11 @@ private:
 
   std::vector<Segment> hLines;  // horizontal ruling segments, current page
   std::vector<Segment> vLines;  // vertical ruling segments, current page
+
+  // In-memory copy of the CID -> Unicode correction table
+  // (data/gylph_index.db), used to translate extracted text GStrings
+  // from ToUnicode-garbled to correct text.
+  GlyphIndex *glyphIndex;
 };
 
 #endif
