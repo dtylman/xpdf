@@ -23,6 +23,7 @@
 #pragma interface
 #endif
 
+#include <string>
 #include <vector>
 #include <cstdio>
 #include "TextOutputDev.h"
@@ -72,6 +73,17 @@ private:
     double pos;     // position along the perpendicular axis (y for hLines, x for vLines)
   };
 
+  // One glyph-index-translated character drawn on this page: the
+  // device-space position of its origin, plus the normalized font
+  // name/style (the keys used in data/gylph_index.db).  Used to build
+  // the per-paragraph/cell "fonts" arrays so a wrong character can be
+  // traced back to the db rows to fix.
+  struct FontHit {
+    double x, y;
+    std::string name;
+    std::string style;
+  };
+
   void captureRulingsFromPath(GfxState *state);
   void addHSegment(double x0, double x1, double y);
   void addVSegment(double y0, double y1, double x);
@@ -102,6 +114,12 @@ private:
   GString *escapeJSONString(const char *s, int len);
   GString *formatBBox(double xMin, double yMin, double xMax, double yMax);
 
+  // Build the "fonts" JSON array for a region: the unique (name, style)
+  // pairs of glyph-index-translated chars recorded inside the rect, in
+  // first-appearance order ("[]" if there are none).
+  GString *collectFontsJSON(double xMin, double yMin,
+			    double xMax, double yMax);
+
   FILE *outFile;
   GBool tblOk;
   int curPageNum;
@@ -122,6 +140,8 @@ private:
 
   std::vector<Segment> hLines;  // horizontal ruling segments, current page
   std::vector<Segment> vLines;  // vertical ruling segments, current page
+
+  std::vector<FontHit> fontHits;  // glyph-index-translated chars, current page
 
   // In-memory copy of the CID -> Unicode correction table
   // (data/gylph_index.db), used to translate extracted text GStrings

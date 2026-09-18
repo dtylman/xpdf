@@ -82,8 +82,13 @@ entry of `rows` is a `row` (with `row` number, `bbox` and `cells`), and
 each entry of `cells` is a `cell` (with `col` number, `text` and
 `bbox`). All text is emitted as UTF-8 (`-tablecells` forces the text
 encoding to UTF-8 unless `-enc` is given), and all strings are
-JSON-escaped. Font name/size are omitted — they are not tracked per
-region by `TextOutputDev`'s region `getText()` path.
+JSON-escaped. Paragraph and cell objects also carry a `fonts` array —
+the unique normalized `(name, style)` pairs (the same key format as
+`data/gylph_index.db`) of the glyph-index-translated text inside that
+region, so a wrong character in the output can be traced back to the db
+rows to fix (filter `glyph_editor` by that name/style).  Fonts whose
+glyphs pass through untranslated (no index entry) are not listed, and
+font *size* is not tracked.
 
 **Status:** implemented and working (validated against
 `data/sample-tables.pdf`). The `/ToUnicode` correction from pass 1 is

@@ -94,6 +94,7 @@ void TableOutputDev::startPage(int pageNum, GfxState *state) {
   curPageNum = pageNum;
   hLines.clear();
   vLines.clear();
+  fontHits.clear();
   if (state) {
     pageW = state->getPageWidth();
     pageH = state->getPageHeight();
@@ -271,6 +272,8 @@ void TableOutputDev::drawChar(GfxState *state, double x, double y,
   const char *s;
   Unicode uNew[16];
   int uNewLen;
+  FontHit hit;
+  double hitX, hitY;
 
   if (glyphIndex && glyphIndex->isLoaded() && (font = state->getFont())) {
     if ((fontName = font->getName()) && fontName->getLength() > 0) {
@@ -285,6 +288,14 @@ void TableOutputDev::drawChar(GfxState *state, double x, double y,
 				(int)(c & 0xffff))) &&
 	(uNewLen = decodeUTF8(s, uNew,
 			     (int)(sizeof(uNew) / sizeof(uNew[0])))) > 0) {
+      // record the translated char (device-space position + normalized
+      // font name/style) for the per-region "fonts" arrays
+      state->transform(x, y, &hitX, &hitY);
+      hit.x = hitX;
+      hit.y = hitY;
+      hit.name = name;
+      hit.style = style;
+      fontHits.push_back(hit);
       text->addChar(state, x, y, dx, dy, c, nBytes, uNew, uNewLen);
       return;
     }
@@ -373,6 +384,48 @@ GString *TableOutputDev::formatBBox(double xMin, double yMin,
   return s;
 }
 
+// Build the "fonts" JSON array for a region: the unique (name, style)
+// pairs of glyph-index-translated chars recorded inside the rect, in
+// first-appearance order.  The name/style strings are already in the
+// normalized kebab/token form used as db keys, so they need no JSON
+// escaping.  Returns "[]" when there are none.
+GString *TableOutputDev::collectFontsJSON(double xMin, double yMin,
+					  double xMax, double yMax) {
+  GString *s = new GString("[");
+  std::vector<std::string> seen;
+  GBool first = gTrue;
+
+  for (size_t i = 0; i < fontHits.size(); ++i) {
+    const FontHit &hit = fontHits[i];
+    if (hit.x < xMin || hit.x > xMax || hit.y < yMin || hit.y > yMax) {
+      continue;
+    }
+    std::string key = hit.name + "\t" + hit.style;
+    GBool dup = gFalse;
+    for (size_t j = 0; j < seen.size(); ++j) {
+      if (seen[j] == key) {
+	dup = gTrue;
+	break;
+      }
+    }
+    if (dup) {
+      continue;
+    }
+    seen.push_back(key);
+    if (!first) {
+      s->append(", ");
+    }
+    first = gFalse;
+    s->append("{ \"name\": \"");
+    s->append(hit.name.c_str(), hit.name.length());
+    s->append("\", \"style\": \"");
+    s->append(hit.style.c_str(), hit.style.length());
+    s->append("\"}");
+  }
+  s->append("]");
+  return s;
+}
+
 // Escape a byte string for use inside a JSON string literal.  The text
 // is expected to be UTF-8 (pdftotext forces UTF-8 for -tablecells), so
 // bytes >= 0x80 are passed through unchanged.
@@ -410,7 +463,7 @@ GString *TableOutputDev::escapeJSONString(const char *s, int len) {
 void TableOutputDev::writeTextParagraph(TextPage *tp, const char *type,
 					double xMin, double yMin,
 					double xMax, double yMax) {
-  GString *s, *esc, *bbox;
+  GString *s, *esc, *bbox, *fonts;
   int len;
 
   if (xMax <= xMin || yMax <= yMin) {
@@ -432,15 +485,18 @@ void TableOutputDev::writeTextParagraph(TextPage *tp, const char *type,
     }
     needParagraphComma = gTrue;
     esc = escapeJSONString(s->getCString(), len);
+    fonts = collectFontsJSON(xMin, yMin, xMax, yMax);
     bbox = formatBBox(xMin, yMin, xMax, yMax);
     fprintf(outFile,
 	    "      {\n"
 	    "        \"type\": \"%s\",\n"
 	    "        \"text\": \"%s\",\n"
+	    "        \"fonts\": %s,\n"
 	    "        \"bbox\": %s\n"
 	    "      }",
-	    type, esc->getCString(), bbox->getCString());
+	    type, esc->getCString(), fonts->getCString(), bbox->getCString());
     delete esc;
+    delete fonts;
     delete bbox;
   }
   delete s;
@@ -522,7 +578,7 @@ void TableOutputDev::endRow() {
 void TableOutputDev::writeCell(TextPage *tp, int colNum,
 			       double xMin, double yMin,
 			       double xMax, double yMax) {
-  GString *s, *esc, *bbox;
+  GString *s, *esc, *bbox, *fonts;
   int len;
 
   if (!rowCells || xMax <= xMin || yMax <= yMin) {
@@ -542,14 +598,17 @@ void TableOutputDev::writeCell(TextPage *tp, int colNum,
   }
   rowHasCells = gTrue;
   esc = s ? escapeJSONString(s->getCString(), len) : new GString();
+  fonts = collectFontsJSON(xMin, yMin, xMax, yMax);
   bbox = formatBBox(xMin, yMin, xMax, yMax);
   rowCells->append("              {\n");
   rowCells->appendf("                \"type\": \"cell\",\n"
 		    "                \"col\": {0:d},\n"
 		    "                \"text\": \"{1:t}\",\n"
-		    "                \"bbox\": {2:t}\n"
-		    "              }", colNum, esc, bbox);
+		    "                \"fonts\": {2:t},\n"
+		    "                \"bbox\": {3:t}\n"
+		    "              }", colNum, esc, fonts, bbox);
   delete esc;
+  delete fonts;
   delete bbox;
   delete s;
 }
