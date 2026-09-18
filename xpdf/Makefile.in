@@ -291,6 +291,7 @@ PDFTOGLYPHS_OBJS = \
 	XpdfPluginAPI.o \
 	XRef.o \
 	Zoox.o \
+	GlyphIndex.o \
 	pdftoglyphs.o
 PDFTOGLYPHS_LIBS = -L$(GOOLIBDIR) -lGoo $(SPLASHLIBS) $(FTLIBS) \
 	$(OTHERLIBS) -lm

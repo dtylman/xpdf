@@ -15,9 +15,11 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <string>
 #include "gmem.h"
 #include "GlyphIndex.h"
 #include "GString.h"
+#include "GfxFont.h"
 #include "GfxState.h"
 #include "TableOutputDev.h"
 
@@ -194,6 +196,102 @@ void TableOutputDev::fill(GfxState *state) {
 
 void TableOutputDev::eoFill(GfxState *state) {
   captureRulingsFromPath(state);
+}
+
+// Decode a NUL-terminated UTF-8 string into Unicode code points.
+// Returns the number of characters written to <u>, or 0 if the string
+// is empty, malformed, or longer than <max> characters.  (The glyph
+// index stores UTF-8; TextPage wants arrays of Unicode.)
+static int decodeUTF8(const char *s, Unicode *u, int max) {
+  int n = 0;
+
+  while (*s != '\0') {
+    unsigned char c0 = (unsigned char)s[0];
+    Unicode ch;
+    int len;
+    if ((c0 & 0x80) == 0) {
+      ch = (Unicode)c0;
+      len = 1;
+    } else if ((c0 & 0xe0) == 0xc0) {
+      if (((unsigned char)s[1] & 0xc0) != 0x80) {
+	return 0;
+      }
+      ch = ((Unicode)(c0 & 0x1f) << 6) | ((unsigned char)s[1] & 0x3f);
+      len = 2;
+    } else if ((c0 & 0xf0) == 0xe0) {
+      if (((unsigned char)s[1] & 0xc0) != 0x80 ||
+	  ((unsigned char)s[2] & 0xc0) != 0x80) {
+	return 0;
+      }
+      ch = ((Unicode)(c0 & 0x0f) << 12) |
+	   ((Unicode)((unsigned char)s[1] & 0x3f) << 6) |
+	   ((unsigned char)s[2] & 0x3f);
+      len = 3;
+    } else if ((c0 & 0xf8) == 0xf0) {
+      if (((unsigned char)s[1] & 0xc0) != 0x80 ||
+	  ((unsigned char)s[2] & 0xc0) != 0x80 ||
+	  ((unsigned char)s[3] & 0xc0) != 0x80) {
+	return 0;
+      }
+      ch = ((Unicode)(c0 & 0x07) << 18) |
+	   ((Unicode)((unsigned char)s[1] & 0x3f) << 12) |
+	   ((Unicode)((unsigned char)s[2] & 0x3f) << 6) |
+	   ((unsigned char)s[3] & 0x3f);
+      len = 4;
+    } else {
+      return 0;
+    }
+    if (ch > 0x10ffff || n >= max) {
+      return 0;
+    }
+    u[n++] = ch;
+    s += len;
+  }
+  return n;
+}
+
+// If the glyph index has a corrected entry for this glyph, replace the
+// (ToUnicode-garbled) Unicode from the PDF with the corrected text.
+// One glyph can map to more than one character (ligatures); the whole
+// run is handed to TextPage::addChar(), which adds each character and
+// splits the glyph's advance across them (handling RTL ligature
+// order).  If there is no entry for this font/style/CID -- or no font,
+// or the index didn't load -- fall through to the base class, which
+// keeps the original character.
+void TableOutputDev::drawChar(GfxState *state, double x, double y,
+			      double dx, double dy,
+			      double originX, double originY,
+			      CharCode c, int nBytes, Unicode *u, int uLen) {
+  GfxFont *font;
+  GString *fontName;
+  Ref *id;
+  char nameBuf[64];
+  const char *rawName;
+  std::string name, style;
+  const char *s;
+  Unicode uNew[16];
+  int uNewLen;
+
+  if (glyphIndex && glyphIndex->isLoaded() && (font = state->getFont())) {
+    if ((fontName = font->getName()) && fontName->getLength() > 0) {
+      rawName = fontName->getCString();
+    } else {
+      id = font->getID();
+      snprintf(nameBuf, sizeof(nameBuf), "unnamed-%d-%d", id->num, id->gen);
+      rawName = nameBuf;
+    }
+    GlyphIndex::splitNameStyle(rawName, name, style);
+    if ((s = glyphIndex->lookup(name.c_str(), style.c_str(),
+				(int)(c & 0xffff))) &&
+	(uNewLen = decodeUTF8(s, uNew,
+			     (int)(sizeof(uNew) / sizeof(uNew[0])))) > 0) {
+      text->addChar(state, x, y, dx, dy, c, nBytes, uNew, uNewLen);
+      return;
+    }
+  }
+
+  TextOutputDev::drawChar(state, x, y, dx, dy, originX, originY,
+			  c, nBytes, u, uLen);
 }
 
 // Cluster a set of coordinates into a sorted list of unique grid

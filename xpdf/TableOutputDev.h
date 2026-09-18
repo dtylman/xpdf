@@ -53,6 +53,18 @@ public:
   virtual void fill(GfxState *state);
   virtual void eoFill(GfxState *state);
 
+  //----- text drawing (glyph-index translation)
+
+  // Look the glyph up in the glyph index (data/gylph_index.db); on a
+  // hit, replace the (ToUnicode-garbled) Unicode from the PDF with the
+  // corrected text via TextPage::addChar().  One glyph can map to
+  // more than one character (ligatures).  On a miss, fall through to
+  // the base class implementation.
+  virtual void drawChar(GfxState *state, double x, double y,
+			double dx, double dy,
+			double originX, double originY,
+			CharCode c, int nBytes, Unicode *u, int uLen);
+
 private:
 
   struct Segment {

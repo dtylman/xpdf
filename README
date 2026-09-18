@@ -51,9 +51,10 @@ should be reusable across every register in the archive rather than
 redone per document — this is still an assumption to validate as more
 sicil documents are processed.
 
-**Status:** glyph capture is implemented and working. Turning the
-captured bitmaps into a labelled `CID → Unicode` table, and feeding that
-table into pass 2 to actually correct the Arabic text, is not built yet.
+**Status:** glyph capture is implemented and working. The captured
+bitmaps have been hand-labelled (via `glyph_editor`) into
+`data/gylph_index.db`, a `font/style/CID → Unicode` correction table
+that pass 2 loads and applies.
 
 ### Pass 2 — `pdftotext -tablecells`: extract structured text
 
@@ -85,10 +86,13 @@ JSON-escaped. Font name/size are omitted — they are not tracked per
 region by `TextOutputDev`'s region `getText()` path.
 
 **Status:** implemented and working (validated against
-`data/sample-tables.pdf`). The `/ToUnicode` correction from pass 1 is not
-yet wired in — running this against the sicil PDF today still produces
-correctly-shaped table cells full of garbled Arabic, until pass 1's
-output is joined in.
+`data/sample-tables.pdf`). The `/ToUnicode` correction from pass 1 is
+wired in: `TableOutputDev::drawChar()` looks each glyph up in the
+in-memory glyph index (`GlyphIndex`, loaded from `data/gylph_index.db` at
+construction) by font/style/CID, and on a hit feeds the corrected text
+to `TextPage::addChar()` — which also handles multi-character ligature
+entries. On a miss the original character is kept, so fonts not in the
+index (e.g. plain Latin text) pass through unchanged.
 
 ## Project layout
 

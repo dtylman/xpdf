@@ -24,6 +24,7 @@
 #include "GfxState.h"
 #include "SplashFont.h"
 #include "SplashGlyphBitmap.h"
+#include "GlyphIndex.h"
 #include "GlyphDbOutputDev.h"
 
 // White border, in pixels, added around each captured glyph so ink
@@ -87,97 +88,6 @@ std::string GlyphDbOutputDev::makeKey(GfxFont *gfxFont, CharCode c) {
   char hex[8];
   snprintf(hex, sizeof(hex), "%04X", (unsigned)(c & 0xffff));
   return name + "_" + hex;
-}
-
-std::string GlyphDbOutputDev::toKebab(const std::string &s) {
-  std::string out;
-  out.reserve(s.size());
-  for (size_t i = 0; i < s.size(); ++i) {
-    unsigned char ch = (unsigned char)s[i];
-    if (isalnum(ch) && ch < 0x80) {
-      out.push_back((char)tolower(ch));
-    } else {
-      out.push_back('-');
-    }
-  }
-  // collapse runs of '-'
-  std::string out2;
-  out2.reserve(out.size());
-  GBool prevDash = gFalse;
-  for (size_t i = 0; i < out.size(); ++i) {
-    if (out[i] == '-') {
-      if (!prevDash) {
-	out2.push_back('-');
-      }
-      prevDash = gTrue;
-    } else {
-      out2.push_back(out[i]);
-      prevDash = gFalse;
-    }
-  }
-  // strip leading/trailing '-'
-  size_t a = 0, b = out2.size();
-  while (a < b && out2[a] == '-') {
-    ++a;
-  }
-  while (b > a && out2[b - 1] == '-') {
-    --b;
-  }
-  return out2.substr(a, b - a);
-}
-
-void GlyphDbOutputDev::splitNameStyle(const std::string &font,
-				      std::string &name,
-				      std::string &style) {
-  static const char *styleTokens[] = {
-    "bolditalic", "boldoblique", "semibold",
-    "bold", "italic", "oblique"
-  };
-  static const char *styleSeps[] = { ",", "-", "" };
-
-  std::string n = font;
-  // strip a 'XXXXXX+' subset tag if present
-  if (n.size() > 7 && n[6] == '+') {
-    GBool isSubset = gTrue;
-    for (int i = 0; i < 6; ++i) {
-      if (!isupper((unsigned char)n[i])) {
-	isSubset = gFalse;
-	break;
-      }
-    }
-    if (isSubset) {
-      n = n.substr(7);
-    }
-  }
-
-  // lowercase copy for trailing-suffix matching
-  std::string low = n;
-  for (size_t i = 0; i < low.size(); ++i) {
-    low[i] = (char)tolower((unsigned char)low[i]);
-  }
-
-  style.clear();
-  GBool peeled = gFalse;
-  for (int si = 0; si < 3 && !peeled; ++si) {
-    for (int ti = 0; ti < 6 && !peeled; ++ti) {
-      std::string suffix = std::string(styleSeps[si]) + styleTokens[ti];
-      size_t sl = suffix.size();
-      if (low.size() > sl &&
-	  low.compare(low.size() - sl, sl, suffix) == 0) {
-	n.erase(n.size() - sl);
-	style = styleTokens[ti];
-	peeled = gTrue;
-      }
-    }
-  }
-
-  name = toKebab(n);
-  if (name.empty()) {
-    name = "unnamed";
-  }
-  if (style.empty()) {
-    style = "regular";
-  }
 }
 
 void GlyphDbOutputDev::writeGlyphPPM(const std::string &name,
@@ -291,7 +201,7 @@ void GlyphDbOutputDev::drawChar(GfxState *state, double x, double y,
       fontName = buf;
     }
     std::string name, style;
-    splitNameStyle(fontName, name, style);
+    GlyphIndex::splitNameStyle(fontName, name, style);
     char cidHex[8];
     snprintf(cidHex, sizeof(cidHex), "%04X", (unsigned)(c & 0xffff));
     writeGlyphPPM(name, style, cidHex, &glyph);

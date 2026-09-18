@@ -61,17 +61,6 @@ private:
   // re-rasterizing the same glyph on every page it appears on.
   std::string makeKey(GfxFont *font, CharCode c);
 
-  // lowercase kebab: collapse non-[a-z0-9] to '-', strip ends.  No
-  // CamelCase split, so distinct master fonts stay distinct
-  // (TimesNewRoman -> timesnewroman vs "Times New Roman" ->
-  // times-new-roman).
-  static std::string toKebab(const std::string &s);
-
-  // strip a 'XXXXXX+' subset tag, peel one trailing style token, and
-  // return (kebab name, style).  Empty style becomes "regular".
-  static void splitNameStyle(const std::string &font,
-			     std::string &name, std::string &style);
-
   // Write the glyph as <name>_<style>_<cid>.ppm.  Overwrites if it exists
   // (a re-run or a different PDF with the same (font, CID) simply
   // overwrites -- the bitmap is the same glyph at 900 DPI except for

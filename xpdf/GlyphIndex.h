@@ -69,6 +69,21 @@ public:
   // Returns NULL if there is no entry for that key.
   const char *lookup(const char *fontName, const char *style, int cid) const;
 
+  // Normalize a raw embedded font name exactly the way pass 1 did when
+  // it created the db keys: strip a leading 'XXXXXX+' subset tag, peel
+  // one trailing style token, and kebab-case the remainder.  <style>
+  // comes out as "regular" if no style token is present.  Shared with
+  // GlyphDbOutputDev so pass 1 and pass 2 always agree on the key
+  // format.
+  static void splitNameStyle(const std::string &font,
+			     std::string &name, std::string &style);
+
+  // lowercase kebab: collapse non-[a-z0-9] to '-', strip ends.  No
+  // CamelCase split, so distinct master fonts stay distinct
+  // (TimesNewRoman -> timesnewroman vs "Times New Roman" ->
+  // times-new-roman).
+  static std::string toKebab(const std::string &s);
+
 private:
 
   // "font\tstyle" -> (CID -> corrected UTF-8 text)
