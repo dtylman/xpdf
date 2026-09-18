@@ -106,6 +106,8 @@ data/
   *.pdf          input documents (e.g. 24_Sicil_no.031.pdf, sample-tables.pdf)
   gylph_db/      pass 1 output: one <font>_<CIDhex>.ppm bitmap per unique glyph
   out/           pass 2 output: extracted JSON (one file per input document)
+tools/
+  pretty_sicil.py  pretty-print / clean the pass-2 JSON (ascii / md / cleaned json)
 ```
 
 ## Build
@@ -126,6 +128,10 @@ xpdf/pdftoglyphs data/24_Sicil_no.031.pdf data/gylph_db
 
 # Pass 2: extract paragraph/table/cell JSON
 xpdf/pdftotext -tablecells data/sample-tables.pdf data/out/sample-tables.json
+
+# Pretty-print / clean the JSON (terminal, markdown, or cleaned json)
+python3 tools/pretty_sicil.py data/out/24_Sicil_no.031.json
+python3 tools/pretty_sicil.py data/out/24_Sicil_no.031.json --pages 1-10 --format md
 ```
 
 `pdftoglyphs` rasterizes glyphs at a fixed 900 DPI -- not user-configurable,
