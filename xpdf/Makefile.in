@@ -69,6 +69,9 @@ CXX_SRC = \
 	$(srcdir)/GfxFont.cc \
 	$(srcdir)/GfxState.cc \
 	$(srcdir)/GlobalParams.cc \
+	$(srcdir)/GlyphDbOutputDev.cc \
+	$(srcdir)/GlyphIndex.cc \
+	$(srcdir)/GlyphIndexLogger.cc \
 	$(srcdir)/HTMLGen.cc \
 	$(srcdir)/ImageOutputDev.cc \
 	$(srcdir)/JArithmeticDecoder.cc \
@@ -92,6 +95,7 @@ CXX_SRC = \
 	$(srcdir)/SecurityHandler.cc \
 	$(srcdir)/SplashOutputDev.cc \
 	$(srcdir)/Stream.cc \
+	$(srcdir)/TableOutputDev.cc \
 	$(srcdir)/TextOutputDev.cc \
 	$(srcdir)/TextString.cc \
 	$(srcdir)/UnicodeMap.cc \
@@ -104,6 +108,7 @@ CXX_SRC = \
 	$(srcdir)/XpdfPluginAPI.cc \
 	$(srcdir)/XRef.cc \
 	$(srcdir)/Zoox.cc \
+	$(srcdir)/pdftoglyphs.cc \
 	$(srcdir)/pdftops.cc \
 	$(srcdir)/pdftotext.cc \
 	$(srcdir)/pdftohtml.cc \
@@ -119,7 +124,7 @@ CXX_SRC = \
 
 all: xpdf$(EXE) pdftops$(EXE) pdftotext$(EXE) pdftohtml$(EXE) \
 	pdfinfo$(EXE) pdffonts$(EXE) pdfdetach$(EXE) pdftoppm$(EXE) \
-	pdftopng$(EXE) pdfimages$(EXE)
+	pdftopng$(EXE) pdfimages$(EXE) pdftoglyphs$(EXE)
 
 all-no-x: pdftops$(EXE) pdftotext$(EXE) pdftohtml$(EXE) pdfinfo$(EXE) \
 	pdffonts$(EXE) pdfdetach$(EXE) pdfimages$(EXE)
@@ -243,6 +248,61 @@ pdftops$(EXE): $(PDFTOPS_OBJS) $(GOOLIBDIR)/$(LIBPREFIX)Goo.a
 
 #------------------------------------------------------------------------
 
+PDFTOGLYPHS_OBJS = \
+	AcroForm.o \
+	Annot.o \
+	Array.o \
+	BuiltinFont.o \
+	BuiltinFontTables.o \
+	Catalog.o \
+	CharCodeToUnicode.o \
+	CMap.o \
+	Decrypt.o \
+	Dict.o \
+	Error.o \
+	FontEncodingTables.o \
+	Form.o \
+	Function.o \
+	Gfx.o \
+	GfxFont.o \
+	GfxState.o \
+	GlobalParams.o \
+	GlyphDbOutputDev.o \
+	JArithmeticDecoder.o \
+	JBIG2Stream.o \
+	JPXStream.o \
+	Lexer.o \
+	Link.o \
+	NameToCharCode.o \
+	OptionalContent.o \
+	Outline.o \
+	Object.o \
+	OutputDev.o \
+	Page.o \
+	Parser.o \
+	PDFDoc.o \
+	PDFDocEncoding.o \
+	PSTokenizer.o \
+	SecurityHandler.o \
+	SplashOutputDev.o \
+	Stream.o \
+	TextString.o \
+	UnicodeMap.o \
+	XFAForm.o \
+	XpdfPluginAPI.o \
+	XRef.o \
+	Zoox.o \
+	GlyphIndex.o \
+	pdftoglyphs.o
+PDFTOGLYPHS_LIBS = -L$(GOOLIBDIR) -lGoo $(SPLASHLIBS) $(FTLIBS) \
+	$(OTHERLIBS) -lm
+
+pdftoglyphs$(EXE): $(PDFTOGLYPHS_OBJS) $(GOOLIBDIR)/$(LIBPREFIX)Goo.a
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o pdftoglyphs$(EXE) $(PDFTOGLYPHS_OBJS) \
+		$(PDFTOGLYPHS_LIBS)
+
+#------------------------------------------------------------------------
+
 PDFTOTEXT_OBJS = \
 	AcroForm.o \
 	Annot.o \
@@ -279,6 +339,9 @@ PDFTOTEXT_OBJS = \
 	PSTokenizer.o \
 	SecurityHandler.o \
 	Stream.o \
+	GlyphIndex.o \
+	GlyphIndexLogger.o \
+	TableOutputDev.o \
 	TextOutputDev.o \
 	TextString.o \
 	UnicodeMap.o \

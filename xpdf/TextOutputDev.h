@@ -335,14 +335,19 @@ public:
   // Build a flat word list, in the specified ordering.
   TextWordList *makeWordList();
 
+  // Add a "shown" character to the page.  Public (rather than private)
+  // so that TextOutputDev subclasses can also insert characters --
+  // e.g. TableOutputDev replaces the (ToUnicode-garbled) Unicode from
+  // the PDF with corrected text from its glyph index.
+  void addChar(GfxState *state, double x, double y,
+	       double dx, double dy,
+	       CharCode c, int nBytes, Unicode *u, int uLen);
+
 private:
 
   void startPage(GfxState *state);
   void clear();
   void updateFont(GfxState *state);
-  void addChar(GfxState *state, double x, double y,
-	       double dx, double dy,
-	       CharCode c, int nBytes, Unicode *u, int uLen);
   void incCharCount(int nChars);
   void beginActualText(GfxState *state, Unicode *u, int uLen);
   void endActualText(GfxState *state);
@@ -574,7 +579,13 @@ public:
   // Turn extra processing for HTML conversion on or off.
   void enableHTMLExtras(GBool html) { control.html = html; }
 
-private:
+// (The members below are protected, rather than private, so subclasses
+// can insert characters into the current page -- e.g. TableOutputDev
+// replaces the ToUnicode-garbled Unicode from the PDF with corrected
+// text from its glyph index via TextPage::addChar().  Note: the member
+// order must not be changed without a full rebuild -- the makefiles
+// don't track header dependencies.)
+protected:
 
   TextOutputFunc outputFunc;	// output function
   void *outputStream;		// output stream
