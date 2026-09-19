@@ -18,6 +18,7 @@
 #include <string>
 #include "gmem.h"
 #include "GlyphIndex.h"
+#include "GlyphIndexLogger.h"
 #include "GString.h"
 #include "GfxFont.h"
 #include "GfxState.h"
@@ -41,6 +42,12 @@ TableOutputDev::TableOutputDev(char *fileName, TextOutputControl *controlA) : Te
   // warns and translation is simply disabled.
   glyphIndex = new GlyphIndex();
   glyphIndex->load();
+
+  // Debug log for the glyph index: <output>.log, written next to the
+  // output file, recording per-line text / char codes / font names so
+  // errors in the index db can be traced.  A no-op when the output
+  // goes to stdout (no path to derive a log file name from).
+  glyphLogger = new GlyphIndexLogger(fileName);
 
   tblOk = gTrue;
   curPageNum = 0;
@@ -98,6 +105,7 @@ TableOutputDev::~TableOutputDev()
     fclose(outFile);
   }
   delete glyphIndex;
+  delete glyphLogger;
 }
 
 void TableOutputDev::startPage(int pageNum, GfxState *state)
@@ -317,6 +325,41 @@ static int decodeUTF8(const char *s, Unicode *u, int max)
   return n;
 }
 
+// Encode a Unicode (UCS-4) string as UTF-8 -- used to log the original
+// (ToUnicode-mapped) text of glyphs that miss the glyph index, since
+// that text is what reaches the output for them.
+static std::string unicodeToUTF8(Unicode *u, int uLen)
+{
+  std::string out;
+  for (int i = 0; i < uLen; ++i)
+  {
+    Unicode ch = u[i];
+    if (ch < 0x80)
+    {
+      out.push_back((char)ch);
+    }
+    else if (ch < 0x800)
+    {
+      out.push_back((char)(0xc0 | (ch >> 6)));
+      out.push_back((char)(0x80 | (ch & 0x3f)));
+    }
+    else if (ch < 0x10000)
+    {
+      out.push_back((char)(0xe0 | (ch >> 12)));
+      out.push_back((char)(0x80 | ((ch >> 6) & 0x3f)));
+      out.push_back((char)(0x80 | (ch & 0x3f)));
+    }
+    else
+    {
+      out.push_back((char)(0xf0 | (ch >> 18)));
+      out.push_back((char)(0x80 | ((ch >> 12) & 0x3f)));
+      out.push_back((char)(0x80 | ((ch >> 6) & 0x3f)));
+      out.push_back((char)(0x80 | (ch & 0x3f)));
+    }
+  }
+  return out;
+}
+
 // If the glyph index has a corrected entry for this glyph, replace the
 // (ToUnicode-garbled) Unicode from the PDF with the corrected text.
 // One glyph can map to more than one character (ligatures); the whole
@@ -368,9 +411,17 @@ void TableOutputDev::drawChar(GfxState *state, double x, double y,
       hit.name = name;
       hit.style = style;
       fontHits.push_back(hit);
+      glyphLogger->log(s, (int)(c & 0xffff), name.c_str(), y);
       text->addChar(state, x, y, dx, dy, c, nBytes, uNew, uNewLen);
       return;
     }
+
+    // Lookup miss (or an entry whose text didn't decode): the original
+    // ToUnicode-mapped Unicode is what reaches the output for this
+    // glyph -- log it too, with its char code and font, so missing or
+    // bad index db entries can be spotted in the log.
+    glyphLogger->log(unicodeToUTF8(u, uLen).c_str(), (int)(c & 0xffff),
+                     name.c_str(), y);
   }
 
   TextOutputDev::drawChar(state, x, y, dx, dy, originX, originY,

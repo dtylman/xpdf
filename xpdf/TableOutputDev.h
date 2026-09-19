@@ -30,6 +30,7 @@
 
 class GfxState;
 class GlyphIndex;
+class GlyphIndexLogger;
 
 //------------------------------------------------------------------------
 // TableOutputDev
@@ -147,6 +148,12 @@ private:
   // (data/gylph_index.db), used to translate extracted text GStrings
   // from ToUnicode-garbled to correct text.
   GlyphIndex *glyphIndex;
+
+  // Per-line debug log (text / char codes / font names) of everything
+  // handed to TextPage::addChar() after a glyph index lookup, written
+  // next to the output file as <output>.log -- for hunting errors in
+  // data/gylph_index.db.
+  GlyphIndexLogger *glyphLogger;
 };
 
 #endif
