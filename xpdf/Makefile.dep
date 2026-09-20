@@ -1,0 +1,303 @@
+AcroForm.o: AcroForm.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/GString.h ../goo/gtypes.h ../goo/GList.h Error.h config.h \
+ ../goo/gfile.h Object.h ../goo/gtypes.h Array.h Dict.h Stream.h PDFDoc.h \
+ XRef.h Catalog.h CharTypes.h Page.h TextString.h Gfx.h GfxFont.h \
+ OptionalContent.h Annot.h Lexer.h AcroForm.h Form.h
+Annot.o: Annot.cc ../aconf.h ../aconf2.h ../goo/gmem.h ../goo/GList.h \
+ ../goo/gtypes.h Error.h config.h ../goo/gfile.h Object.h ../goo/gtypes.h \
+ ../goo/GString.h Array.h Dict.h Stream.h Catalog.h CharTypes.h Gfx.h \
+ GfxFont.h Lexer.h PDFDoc.h XRef.h Page.h OptionalContent.h Form.h \
+ Annot.h
+Array.o: Array.cc ../aconf.h ../aconf2.h ../goo/gmem.h Object.h \
+ ../goo/gtypes.h ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h Array.h \
+ Dict.h Stream.h
+BuiltinFont.o: BuiltinFont.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ FontEncodingTables.h BuiltinFont.h ../goo/gtypes.h
+BuiltinFontTables.o: BuiltinFontTables.cc ../aconf.h ../aconf2.h \
+ FontEncodingTables.h BuiltinFontTables.h BuiltinFont.h ../goo/gtypes.h
+CMap.o: CMap.cc ../aconf.h ../aconf2.h ../goo/gmem.h ../goo/gfile.h \
+ ../goo/gtypes.h ../goo/GString.h Error.h config.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h PSTokenizer.h Object.h Array.h Dict.h \
+ Stream.h CMap.h
+Catalog.o: Catalog.cc ../aconf.h ../aconf2.h ../goo/gmem.h ../goo/gfile.h \
+ ../goo/gtypes.h ../goo/GList.h Object.h ../goo/gtypes.h ../goo/GString.h \
+ Array.h Dict.h Stream.h CharTypes.h PDFDoc.h XRef.h Catalog.h Page.h \
+ Error.h config.h Link.h Form.h TextString.h
+CharCodeToUnicode.o: CharCodeToUnicode.cc ../aconf.h ../aconf2.h \
+ ../goo/gmem.h ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h Error.h \
+ config.h GlobalParams.h ../goo/gtypes.h CharTypes.h PSTokenizer.h \
+ CharCodeToUnicode.h
+CoreOutputDev.o: CoreOutputDev.cc ../aconf.h ../aconf2.h Object.h \
+ ../goo/gtypes.h ../goo/gmem.h ../goo/gfile.h ../goo/gtypes.h \
+ ../goo/GString.h Array.h Dict.h Stream.h TextOutputDev.h GfxFont.h \
+ CharTypes.h OutputDev.h CoreOutputDev.h ../splash/SplashTypes.h \
+ SplashOutputDev.h config.h GfxState.h Function.h
+Decrypt.o: Decrypt.cc ../aconf.h ../aconf2.h ../goo/gmem.h Decrypt.h \
+ ../goo/gtypes.h ../goo/GString.h ../goo/gtypes.h Object.h ../goo/gfile.h \
+ Array.h Dict.h Stream.h
+Dict.o: Dict.cc ../aconf.h ../aconf2.h ../goo/gmem.h Object.h \
+ ../goo/gtypes.h ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h Array.h \
+ Dict.h Stream.h XRef.h
+Error.o: Error.cc ../aconf.h ../aconf2.h ../goo/GString.h ../goo/gtypes.h \
+ GlobalParams.h ../goo/gtypes.h CharTypes.h Error.h config.h \
+ ../goo/gfile.h
+FontEncodingTables.o: FontEncodingTables.cc ../aconf.h ../aconf2.h \
+ FontEncodingTables.h
+Form.o: Form.cc ../aconf.h ../aconf2.h GlobalParams.h ../goo/gtypes.h \
+ CharTypes.h Error.h config.h ../goo/gfile.h ../goo/gtypes.h Object.h \
+ ../goo/gmem.h ../goo/GString.h Array.h Dict.h Stream.h PDFDoc.h XRef.h \
+ Catalog.h Page.h AcroForm.h Form.h XFAForm.h
+Function.o: Function.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/GList.h ../goo/gtypes.h Object.h ../goo/gtypes.h ../goo/gfile.h \
+ ../goo/GString.h Array.h Dict.h Stream.h Error.h config.h Function.h
+Gfx.o: Gfx.cc ../aconf.h ../aconf2.h ../goo/gmem.h ../goo/GString.h \
+ ../goo/gtypes.h ../goo/GList.h GlobalParams.h ../goo/gtypes.h \
+ CharTypes.h Object.h ../goo/gfile.h Array.h Dict.h Stream.h PDFDoc.h \
+ XRef.h Catalog.h Page.h Lexer.h Parser.h GfxFont.h GfxState.h Function.h \
+ OutputDev.h Annot.h OptionalContent.h Error.h config.h TextString.h \
+ Gfx.h
+GfxFont.o: GfxFont.cc ../aconf.h ../aconf2.h ../goo/gmem.h Error.h \
+ config.h ../goo/gfile.h ../goo/gtypes.h Object.h ../goo/gtypes.h \
+ ../goo/GString.h Array.h Dict.h Stream.h GlobalParams.h CharTypes.h \
+ CMap.h CharCodeToUnicode.h FontEncodingTables.h BuiltinFontTables.h \
+ BuiltinFont.h ../fofi/FoFiIdentifier.h ../fofi/FoFiType1.h \
+ ../fofi/FoFiBase.h ../fofi/FoFiType1C.h ../fofi/FoFiTrueType.h GfxFont.h
+GfxState.o: GfxState.cc ../aconf.h ../aconf2.h ../goo/gmem.h Error.h \
+ config.h ../goo/gfile.h ../goo/gtypes.h Object.h ../goo/gtypes.h \
+ ../goo/GString.h Array.h Dict.h Stream.h Page.h XRef.h GfxState.h \
+ Function.h
+GlobalParams.o: GlobalParams.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/GString.h ../goo/gtypes.h ../goo/GList.h ../goo/GHash.h \
+ ../goo/gfile.h ../fofi/FoFiIdentifier.h Error.h config.h \
+ NameToCharCode.h CharTypes.h CharCodeToUnicode.h UnicodeMap.h \
+ ../goo/gtypes.h CMap.h BuiltinFontTables.h BuiltinFont.h \
+ FontEncodingTables.h GlobalParams.h NameToUnicodeTable.h \
+ UnicodeMapTables.h UTF8.h
+GlyphDbOutputDev.o: GlyphDbOutputDev.cc ../aconf.h ../aconf2.h \
+ ../goo/gmem.h ../goo/GString.h ../goo/gtypes.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h GfxFont.h Object.h ../goo/gfile.h Array.h \
+ Dict.h Stream.h GfxState.h Function.h ../splash/SplashFont.h \
+ ../splash/SplashTypes.h ../splash/SplashGlyphBitmap.h GlyphIndex.h \
+ GlyphDbOutputDev.h SplashOutputDev.h ../splash/SplashTypes.h config.h \
+ OutputDev.h
+GlyphIndex.o: GlyphIndex.cc ../aconf.h ../aconf2.h ../goo/gtypes.h \
+ GlyphIndex.h
+HTMLGen.o: HTMLGen.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/GString.h ../goo/gtypes.h ../goo/GList.h ../splash/SplashBitmap.h \
+ ../splash/SplashTypes.h ../goo/gtypes.h PDFDoc.h XRef.h ../goo/gfile.h \
+ Object.h Array.h Dict.h Stream.h Catalog.h CharTypes.h Page.h \
+ TextOutputDev.h GfxFont.h OutputDev.h SplashOutputDev.h \
+ ../splash/SplashTypes.h config.h GfxState.h Function.h ErrorCodes.h \
+ HTMLGen.h
+ImageOutputDev.o: ImageOutputDev.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ config.h Error.h ../goo/gfile.h ../goo/gtypes.h GfxState.h \
+ ../goo/gtypes.h Object.h ../goo/GString.h Array.h Dict.h Stream.h \
+ Function.h ImageOutputDev.h OutputDev.h CharTypes.h
+JArithmeticDecoder.o: JArithmeticDecoder.cc ../aconf.h ../aconf2.h \
+ Object.h ../goo/gtypes.h ../goo/gmem.h ../goo/gfile.h ../goo/gtypes.h \
+ ../goo/GString.h Array.h Dict.h Stream.h JArithmeticDecoder.h
+JBIG2Stream.o: JBIG2Stream.cc ../aconf.h ../aconf2.h ../goo/GList.h \
+ ../goo/gtypes.h Error.h config.h ../goo/gfile.h JArithmeticDecoder.h \
+ ../goo/gtypes.h JBIG2Stream.h Object.h ../goo/gmem.h ../goo/GString.h \
+ Array.h Dict.h Stream.h Stream-CCITT.h
+JPXStream.o: JPXStream.cc ../aconf.h ../aconf2.h ../goo/gmem.h Error.h \
+ config.h ../goo/gfile.h ../goo/gtypes.h JArithmeticDecoder.h \
+ ../goo/gtypes.h JPXStream.h Object.h ../goo/GString.h Array.h Dict.h \
+ Stream.h
+Lexer.o: Lexer.cc ../aconf.h ../aconf2.h Lexer.h Object.h ../goo/gtypes.h \
+ ../goo/gmem.h ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h Array.h \
+ Dict.h Stream.h Error.h config.h
+Link.o: Link.cc ../aconf.h ../aconf2.h ../goo/gmem.h ../goo/GString.h \
+ ../goo/gtypes.h Error.h config.h ../goo/gfile.h Object.h ../goo/gtypes.h \
+ Array.h Dict.h Stream.h Link.h
+NameToCharCode.o: NameToCharCode.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ NameToCharCode.h CharTypes.h
+Object.o: Object.cc ../aconf.h ../aconf2.h Object.h ../goo/gtypes.h \
+ ../goo/gmem.h ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h Array.h \
+ Dict.h Stream.h Error.h config.h XRef.h
+OptionalContent.o: OptionalContent.cc ../aconf.h ../aconf2.h \
+ ../goo/GString.h ../goo/gtypes.h ../goo/GList.h Error.h config.h \
+ ../goo/gfile.h Object.h ../goo/gtypes.h ../goo/gmem.h Array.h Dict.h \
+ Stream.h PDFDoc.h XRef.h Catalog.h CharTypes.h Page.h TextString.h \
+ OptionalContent.h
+Outline.o: Outline.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/GString.h ../goo/gtypes.h ../goo/GList.h Error.h config.h \
+ ../goo/gfile.h Link.h Object.h ../goo/gtypes.h Array.h Dict.h Stream.h \
+ TextString.h CharTypes.h Outline.h
+OutputDev.o: OutputDev.cc ../aconf.h ../aconf2.h Object.h ../goo/gtypes.h \
+ ../goo/gmem.h ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h Array.h \
+ Dict.h Stream.h GfxState.h Function.h OutputDev.h CharTypes.h
+PDFCore.o: PDFCore.cc ../aconf.h ../aconf2.h ../goo/GString.h \
+ ../goo/gtypes.h ../goo/GList.h GlobalParams.h ../goo/gtypes.h \
+ CharTypes.h ../splash/Splash.h ../splash/SplashTypes.h \
+ ../splash/SplashClip.h ../splash/SplashMath.h ../splash/SplashBitmap.h \
+ ../splash/SplashPattern.h ../splash/SplashPath.h Error.h config.h \
+ ../goo/gfile.h ErrorCodes.h PDFDoc.h XRef.h Object.h ../goo/gmem.h \
+ Array.h Dict.h Stream.h Catalog.h Page.h Link.h TextOutputDev.h \
+ GfxFont.h OutputDev.h CoreOutputDev.h ../splash/SplashTypes.h \
+ SplashOutputDev.h GfxState.h Function.h PDFCore.h
+PDFDoc.o: PDFDoc.cc ../aconf.h ../aconf2.h ../goo/GString.h \
+ ../goo/gtypes.h config.h GlobalParams.h ../goo/gtypes.h CharTypes.h \
+ Page.h Object.h ../goo/gmem.h ../goo/gfile.h Array.h Dict.h Stream.h \
+ Catalog.h XRef.h Link.h OutputDev.h Error.h ErrorCodes.h Lexer.h \
+ Parser.h SecurityHandler.h Outline.h OptionalContent.h PDFDoc.h
+PDFDocEncoding.o: PDFDocEncoding.cc PDFDocEncoding.h CharTypes.h
+PSOutputDev.o: PSOutputDev.cc ../aconf.h ../aconf2.h ../goo/GString.h \
+ ../goo/gtypes.h ../goo/GList.h ../goo/GHash.h config.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h Object.h ../goo/gmem.h ../goo/gfile.h \
+ Array.h Dict.h Stream.h Error.h Function.h Gfx.h GfxState.h GfxFont.h \
+ UnicodeMap.h ../fofi/FoFiType1C.h ../fofi/FoFiBase.h \
+ ../fofi/FoFiTrueType.h Catalog.h Page.h Annot.h PDFDoc.h XRef.h \
+ PreScanOutputDev.h OutputDev.h CharCodeToUnicode.h Form.h TextString.h \
+ ../splash/Splash.h ../splash/SplashTypes.h ../splash/SplashClip.h \
+ ../splash/SplashMath.h ../splash/SplashBitmap.h SplashOutputDev.h \
+ ../splash/SplashTypes.h PSOutputDev.h
+PSTokenizer.o: PSTokenizer.cc ../aconf.h ../aconf2.h PSTokenizer.h \
+ ../goo/gtypes.h
+Page.o: Page.cc ../aconf.h ../aconf2.h GlobalParams.h ../goo/gtypes.h \
+ CharTypes.h Object.h ../goo/gmem.h ../goo/gfile.h ../goo/gtypes.h \
+ ../goo/GString.h Array.h Dict.h Stream.h PDFDoc.h XRef.h Catalog.h \
+ Page.h Link.h OutputDev.h Gfx.h GfxState.h Function.h Annot.h Form.h \
+ Error.h config.h
+Parser.o: Parser.cc ../aconf.h ../aconf2.h Object.h ../goo/gtypes.h \
+ ../goo/gmem.h ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h Array.h \
+ Dict.h Stream.h Decrypt.h Parser.h Lexer.h XRef.h Error.h config.h
+PreScanOutputDev.o: PreScanOutputDev.cc ../aconf.h ../aconf2.h \
+ GlobalParams.h ../goo/gtypes.h CharTypes.h Page.h Object.h ../goo/gmem.h \
+ ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h Array.h Dict.h Stream.h \
+ Gfx.h GfxFont.h Link.h PreScanOutputDev.h GfxState.h Function.h \
+ OutputDev.h
+SecurityHandler.o: SecurityHandler.cc ../aconf.h ../aconf2.h \
+ ../goo/GString.h ../goo/gtypes.h PDFDoc.h XRef.h ../goo/gtypes.h \
+ ../goo/gfile.h Object.h ../goo/gmem.h Array.h Dict.h Stream.h Catalog.h \
+ CharTypes.h Page.h Decrypt.h Error.h config.h GlobalParams.h PDFCore.h \
+ ../splash/SplashTypes.h SecurityHandler.h
+SplashOutputDev.o: SplashOutputDev.cc ../aconf.h ../aconf2.h \
+ ../goo/gfile.h ../goo/gtypes.h GlobalParams.h ../goo/gtypes.h \
+ CharTypes.h Error.h config.h Object.h ../goo/gmem.h ../goo/GString.h \
+ Array.h Dict.h Stream.h Gfx.h GfxFont.h Link.h CharCodeToUnicode.h \
+ FontEncodingTables.h BuiltinFont.h BuiltinFontTables.h \
+ ../fofi/FoFiTrueType.h ../fofi/FoFiBase.h JPXStream.h \
+ ../splash/SplashBitmap.h ../splash/SplashTypes.h \
+ ../splash/SplashGlyphBitmap.h ../splash/SplashPattern.h \
+ ../splash/SplashScreen.h ../splash/SplashPath.h ../splash/SplashState.h \
+ ../splash/SplashErrorCodes.h ../splash/SplashFontEngine.h \
+ ../splash/SplashFont.h ../splash/SplashFontFile.h \
+ ../splash/SplashFontFileID.h ../splash/Splash.h ../splash/SplashClip.h \
+ ../splash/SplashMath.h SplashOutputDev.h ../splash/SplashTypes.h \
+ OutputDev.h GfxState.h Function.h
+Stream.o: Stream.cc ../aconf.h ../aconf2.h ../goo/gmem.h ../goo/gfile.h \
+ ../goo/gtypes.h config.h Error.h Object.h ../goo/gtypes.h \
+ ../goo/GString.h Array.h Dict.h Stream.h Lexer.h GfxState.h Function.h \
+ JBIG2Stream.h JPXStream.h Stream-CCITT.h
+TableOutputDev.o: TableOutputDev.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ GlyphIndex.h ../goo/gtypes.h ../goo/GString.h ../goo/gtypes.h GfxFont.h \
+ Object.h ../goo/gfile.h Array.h Dict.h Stream.h CharTypes.h GfxState.h \
+ Function.h TableOutputDev.h TextOutputDev.h OutputDev.h
+TextOutputDev.o: TextOutputDev.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/GString.h ../goo/gtypes.h ../goo/GList.h config.h Error.h \
+ ../goo/gfile.h GlobalParams.h ../goo/gtypes.h CharTypes.h UnicodeMap.h \
+ UnicodeTypeTable.h GfxState.h Object.h Array.h Dict.h Stream.h \
+ Function.h Link.h TextOutputDev.h GfxFont.h OutputDev.h
+TextString.o: TextString.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/GString.h ../goo/gtypes.h PDFDocEncoding.h CharTypes.h \
+ TextString.h
+UnicodeMap.o: UnicodeMap.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h ../goo/GList.h Error.h \
+ config.h GlobalParams.h ../goo/gtypes.h CharTypes.h UnicodeMap.h
+UnicodeTypeTable.o: UnicodeTypeTable.cc CharTypes.h UnicodeTypeTable.h \
+ ../goo/gtypes.h
+XFAForm.o: XFAForm.cc ../aconf.h ../aconf2.h ../goo/GString.h \
+ ../goo/gtypes.h ../goo/GList.h ../goo/GHash.h Error.h config.h \
+ ../goo/gfile.h Object.h ../goo/gtypes.h ../goo/gmem.h Array.h Dict.h \
+ Stream.h PDFDoc.h XRef.h Catalog.h CharTypes.h Page.h Gfx.h GfxFont.h \
+ Zoox.h XFAForm.h Form.h
+XPDFApp.o: XPDFApp.cc ../aconf.h ../aconf2.h ../goo/GString.h \
+ ../goo/gtypes.h ../goo/GList.h Error.h config.h ../goo/gfile.h \
+ XPDFViewer.h ../goo/gtypes.h XPDFCore.h ../splash/SplashTypes.h \
+ PDFCore.h CharTypes.h XPDFApp.h
+XPDFCore.o: XPDFCore.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/GString.h ../goo/gtypes.h ../goo/GList.h Error.h config.h \
+ ../goo/gfile.h GlobalParams.h ../goo/gtypes.h CharTypes.h PDFDoc.h \
+ XRef.h Object.h Array.h Dict.h Stream.h Catalog.h Page.h Link.h \
+ ErrorCodes.h GfxState.h Function.h CoreOutputDev.h \
+ ../splash/SplashTypes.h SplashOutputDev.h OutputDev.h PSOutputDev.h \
+ TextOutputDev.h GfxFont.h ../splash/SplashBitmap.h \
+ ../splash/SplashTypes.h ../splash/SplashPattern.h XPDFApp.h XPDFCore.h \
+ PDFCore.h
+XPDFTree.o: XPDFTree.cc ../aconf.h ../aconf2.h ../goo/gmem.h XPDFTreeP.h \
+ XPDFTree.h
+XPDFViewer.o: XPDFViewer.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/gfile.h ../goo/gtypes.h ../goo/GString.h ../goo/GList.h Error.h \
+ config.h GlobalParams.h ../goo/gtypes.h CharTypes.h PDFDoc.h XRef.h \
+ Object.h Array.h Dict.h Stream.h Catalog.h Page.h Link.h ErrorCodes.h \
+ Outline.h UnicodeMap.h XPDFTree.h XPDFApp.h ../splash/SplashTypes.h \
+ XPDFViewer.h XPDFCore.h PDFCore.h PSOutputDev.h OutputDev.h xpdfIcon.xpm \
+ leftArrow.xbm leftArrowDis.xbm dblLeftArrow.xbm dblLeftArrowDis.xbm \
+ rightArrow.xbm rightArrowDis.xbm dblRightArrow.xbm dblRightArrowDis.xbm \
+ backArrow.xbm backArrowDis.xbm forwardArrow.xbm forwardArrowDis.xbm \
+ find.xbm findDis.xbm print.xbm printDis.xbm about.xbm about-text.h
+XpdfPluginAPI.o: XpdfPluginAPI.cc ../aconf.h ../aconf2.h
+XRef.o: XRef.cc ../aconf.h ../aconf2.h ../goo/gmem.h ../goo/gfile.h \
+ ../goo/gtypes.h Object.h ../goo/gtypes.h ../goo/GString.h Array.h Dict.h \
+ Stream.h Lexer.h Parser.h Error.h config.h ErrorCodes.h XRef.h
+Zoox.o: Zoox.cc ../aconf.h ../aconf2.h ../goo/gmem.h ../goo/GString.h \
+ ../goo/gtypes.h ../goo/GList.h ../goo/GHash.h Zoox.h ../goo/gtypes.h
+pdftoglyphs.o: pdftoglyphs.cc ../aconf.h ../aconf2.h ../goo/parseargs.h \
+ ../goo/gtypes.h ../goo/gmem.h ../goo/GString.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h Object.h ../goo/gfile.h Array.h Dict.h \
+ Stream.h PDFDoc.h XRef.h Catalog.h Page.h GlyphDbOutputDev.h \
+ SplashOutputDev.h ../splash/SplashTypes.h config.h OutputDev.h \
+ GfxState.h Function.h
+pdftops.o: pdftops.cc ../aconf.h ../aconf2.h ../goo/parseargs.h \
+ ../goo/gtypes.h ../goo/GString.h ../goo/gmem.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h Object.h ../goo/gfile.h Array.h Dict.h \
+ Stream.h XRef.h Catalog.h Page.h PDFDoc.h PSOutputDev.h config.h \
+ OutputDev.h Error.h
+pdftotext.o: pdftotext.cc ../aconf.h ../aconf2.h ../goo/parseargs.h \
+ ../goo/gtypes.h ../goo/GString.h ../goo/gmem.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h Object.h ../goo/gfile.h Array.h Dict.h \
+ Stream.h XRef.h Catalog.h Page.h PDFDoc.h TextOutputDev.h GfxFont.h \
+ OutputDev.h TableOutputDev.h UnicodeMap.h TextString.h Error.h config.h
+pdftohtml.o: pdftohtml.cc ../aconf.h ../aconf2.h ../goo/parseargs.h \
+ ../goo/gtypes.h ../goo/gmem.h ../goo/gfile.h ../goo/GString.h \
+ GlobalParams.h ../goo/gtypes.h CharTypes.h PDFDoc.h XRef.h Object.h \
+ Array.h Dict.h Stream.h Catalog.h Page.h HTMLGen.h Error.h config.h \
+ ErrorCodes.h
+pdfinfo.o: pdfinfo.cc ../aconf.h ../aconf2.h ../goo/parseargs.h \
+ ../goo/gtypes.h ../goo/GString.h ../goo/gmem.h ../goo/gfile.h \
+ GlobalParams.h ../goo/gtypes.h CharTypes.h Object.h Array.h Dict.h \
+ Stream.h XRef.h Catalog.h Page.h PDFDoc.h UnicodeMap.h TextString.h \
+ Error.h config.h
+pdffonts.o: pdffonts.cc ../aconf.h ../aconf2.h ../goo/parseargs.h \
+ ../goo/gtypes.h ../goo/GString.h ../goo/gmem.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h Error.h config.h ../goo/gfile.h Object.h \
+ Array.h Dict.h Stream.h GfxFont.h Annot.h Form.h PDFDoc.h XRef.h \
+ Catalog.h Page.h
+pdfdetach.o: pdfdetach.cc ../aconf.h ../aconf2.h ../goo/gtypes.h \
+ ../goo/gmem.h ../goo/parseargs.h ../goo/gtypes.h GlobalParams.h \
+ CharTypes.h PDFDoc.h XRef.h ../goo/gfile.h Object.h ../goo/GString.h \
+ Array.h Dict.h Stream.h Catalog.h Page.h UnicodeMap.h Error.h config.h
+pdftoppm.o: pdftoppm.cc ../aconf.h ../aconf2.h ../goo/parseargs.h \
+ ../goo/gtypes.h ../goo/gmem.h ../goo/GString.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h Object.h ../goo/gfile.h Array.h Dict.h \
+ Stream.h PDFDoc.h XRef.h Catalog.h Page.h ../splash/SplashBitmap.h \
+ ../splash/SplashTypes.h ../splash/Splash.h ../splash/SplashClip.h \
+ ../splash/SplashMath.h SplashOutputDev.h ../splash/SplashTypes.h \
+ config.h OutputDev.h GfxState.h Function.h
+pdftopng.o: pdftopng.cc ../aconf.h ../aconf2.h ../goo/parseargs.h \
+ ../goo/gtypes.h ../goo/gmem.h ../goo/GString.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h Object.h ../goo/gfile.h Array.h Dict.h \
+ Stream.h PDFDoc.h XRef.h Catalog.h Page.h ../splash/SplashBitmap.h \
+ ../splash/SplashTypes.h ../splash/Splash.h ../splash/SplashClip.h \
+ ../splash/SplashMath.h SplashOutputDev.h ../splash/SplashTypes.h \
+ config.h OutputDev.h GfxState.h Function.h
+pdfimages.o: pdfimages.cc ../aconf.h ../aconf2.h ../goo/parseargs.h \
+ ../goo/gtypes.h ../goo/GString.h ../goo/gmem.h GlobalParams.h \
+ ../goo/gtypes.h CharTypes.h Object.h ../goo/gfile.h Array.h Dict.h \
+ Stream.h XRef.h Catalog.h Page.h PDFDoc.h ImageOutputDev.h OutputDev.h \
+ Error.h config.h
+xpdf.o: xpdf.cc ../aconf.h ../aconf2.h ../goo/gtypes.h ../goo/GString.h \
+ ../goo/gtypes.h ../goo/parseargs.h ../goo/gfile.h ../goo/gmem.h \
+ GlobalParams.h CharTypes.h Object.h Array.h Dict.h Stream.h XPDFApp.h \
+ ../splash/SplashTypes.h config.h

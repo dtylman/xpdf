@@ -1,0 +1,9 @@
+GHash.o: GHash.cc ../aconf.h ../aconf2.h gmem.h GString.h gtypes.h \
+ GHash.h
+GList.o: GList.cc ../aconf.h ../aconf2.h gmem.h GList.h gtypes.h
+GString.o: GString.cc ../aconf.h ../aconf2.h gmem.h GString.h gtypes.h
+gmem.o: gmem.cc ../aconf.h ../aconf2.h gmem.h
+gmempp.o: gmempp.cc ../aconf.h ../aconf2.h gmem.h
+gfile.o: gfile.cc ../aconf.h ../aconf2.h GString.h gtypes.h gfile.h
+FixedPoint.o: FixedPoint.cc ../aconf.h ../aconf2.h
+parseargs.o: parseargs.c parseargs.h gtypes.h

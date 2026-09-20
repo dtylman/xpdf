@@ -30,7 +30,6 @@
 
 class GfxState;
 class GlyphIndex;
-class GlyphIndexLogger;
 
 //------------------------------------------------------------------------
 // TableOutputDev

@@ -70,7 +70,7 @@ CXX_SRC = \
 	$(srcdir)/GfxState.cc \
 	$(srcdir)/GlobalParams.cc \
 	$(srcdir)/GlyphDbOutputDev.cc \
-	$(srcdir)/GlyphIndex.cc \	
+	$(srcdir)/GlyphIndex.cc \
 	$(srcdir)/HTMLGen.cc \
 	$(srcdir)/ImageOutputDev.cc \
 	$(srcdir)/JArithmeticDecoder.cc \
@@ -338,7 +338,7 @@ PDFTOTEXT_OBJS = \
 	PSTokenizer.o \
 	SecurityHandler.o \
 	Stream.o \
-	GlyphIndex.o \	
+	GlyphIndex.o \
 	TableOutputDev.o \
 	TextOutputDev.o \
 	TextString.o \

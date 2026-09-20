@@ -1,0 +1,15 @@
+FoFiBase.o: FoFiBase.cc ../aconf.h ../aconf2.h ../goo/gmem.h FoFiBase.h \
+ ../goo/gtypes.h
+FoFiEncodings.o: FoFiEncodings.cc ../aconf.h ../aconf2.h FoFiEncodings.h \
+ ../goo/gtypes.h
+FoFiIdentifier.o: FoFiIdentifier.cc ../aconf.h ../aconf2.h \
+ ../goo/gtypes.h ../goo/gmem.h ../goo/GString.h ../goo/gtypes.h \
+ ../goo/GList.h FoFiIdentifier.h
+FoFiTrueType.o: FoFiTrueType.cc ../aconf.h ../aconf2.h ../goo/gtypes.h \
+ ../goo/gmem.h ../goo/GString.h ../goo/gtypes.h ../goo/GHash.h \
+ FoFiType1C.h FoFiBase.h FoFiTrueType.h
+FoFiType1.o: FoFiType1.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ FoFiEncodings.h ../goo/gtypes.h FoFiType1.h FoFiBase.h
+FoFiType1C.o: FoFiType1C.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ ../goo/GString.h ../goo/gtypes.h FoFiEncodings.h ../goo/gtypes.h \
+ FoFiType1C.h FoFiBase.h

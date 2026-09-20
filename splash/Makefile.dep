@@ -1,0 +1,115 @@
+Splash.o: Splash.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ SplashErrorCodes.h SplashMath.h SplashTypes.h ../goo/gtypes.h \
+ SplashBitmap.h SplashState.h SplashPath.h SplashXPath.h \
+ SplashXPathScanner.h SplashPattern.h SplashScreen.h SplashFont.h \
+ SplashGlyphBitmap.h Splash.h SplashClip.h
+SplashBitmap.o: SplashBitmap.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ SplashErrorCodes.h SplashBitmap.h SplashTypes.h ../goo/gtypes.h
+SplashClip.o: SplashClip.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ SplashErrorCodes.h SplashPath.h SplashTypes.h ../goo/gtypes.h \
+ SplashXPath.h SplashXPathScanner.h SplashClip.h SplashMath.h
+SplashFTFont.o: SplashFTFont.cc ../aconf.h ../aconf2.h \
+ /usr/include/freetype2/ft2build.h \
+ /usr/include/freetype2/freetype/config/ftheader.h \
+ /usr/include/freetype2/freetype/ftoutln.h \
+ /usr/include/freetype2/freetype/freetype.h \
+ /usr/include/freetype2/freetype/config/ftconfig.h \
+ /usr/include/freetype2/freetype/config/ftoption.h \
+ /usr/include/freetype2/freetype/config/ftstdlib.h \
+ /usr/include/freetype2/freetype/config/integer-types.h \
+ /usr/include/freetype2/freetype/config/public-macros.h \
+ /usr/include/freetype2/freetype/config/mac-support.h \
+ /usr/include/freetype2/freetype/fttypes.h \
+ /usr/include/freetype2/freetype/ftsystem.h \
+ /usr/include/freetype2/freetype/ftimage.h \
+ /usr/include/freetype2/freetype/fterrors.h \
+ /usr/include/freetype2/freetype/ftmoderr.h \
+ /usr/include/freetype2/freetype/fterrdef.h \
+ /usr/include/freetype2/freetype/ftsizes.h \
+ /usr/include/freetype2/freetype/ftglyph.h ../goo/gmem.h SplashMath.h \
+ SplashTypes.h ../goo/gtypes.h SplashGlyphBitmap.h SplashPath.h \
+ SplashFontEngine.h SplashFTFontEngine.h SplashFTFontFile.h \
+ SplashFontFile.h SplashFTFont.h SplashFont.h
+SplashFTFontEngine.o: SplashFTFontEngine.cc ../aconf.h ../aconf2.h \
+ ../goo/gmem.h ../goo/GString.h ../goo/gtypes.h ../goo/gfile.h \
+ ../fofi/FoFiTrueType.h ../goo/gtypes.h ../fofi/FoFiBase.h \
+ ../fofi/FoFiType1C.h SplashFTFontFile.h \
+ /usr/include/freetype2/ft2build.h \
+ /usr/include/freetype2/freetype/config/ftheader.h \
+ /usr/include/freetype2/freetype/freetype.h \
+ /usr/include/freetype2/freetype/config/ftconfig.h \
+ /usr/include/freetype2/freetype/config/ftoption.h \
+ /usr/include/freetype2/freetype/config/ftstdlib.h \
+ /usr/include/freetype2/freetype/config/integer-types.h \
+ /usr/include/freetype2/freetype/config/public-macros.h \
+ /usr/include/freetype2/freetype/config/mac-support.h \
+ /usr/include/freetype2/freetype/fttypes.h \
+ /usr/include/freetype2/freetype/ftsystem.h \
+ /usr/include/freetype2/freetype/ftimage.h \
+ /usr/include/freetype2/freetype/fterrors.h \
+ /usr/include/freetype2/freetype/ftmoderr.h \
+ /usr/include/freetype2/freetype/fterrdef.h SplashFontFile.h \
+ SplashTypes.h SplashFTFontEngine.h \
+ /usr/include/freetype2/freetype/ftmodapi.h \
+ /usr/include/freetype2/freetype/ftdriver.h \
+ /usr/include/freetype2/freetype/ftparams.h
+SplashFTFontFile.o: SplashFTFontFile.cc ../aconf.h ../aconf2.h \
+ ../goo/gmem.h ../goo/GString.h ../goo/gtypes.h SplashFTFontEngine.h \
+ /usr/include/freetype2/ft2build.h \
+ /usr/include/freetype2/freetype/config/ftheader.h \
+ /usr/include/freetype2/freetype/freetype.h \
+ /usr/include/freetype2/freetype/config/ftconfig.h \
+ /usr/include/freetype2/freetype/config/ftoption.h \
+ /usr/include/freetype2/freetype/config/ftstdlib.h \
+ /usr/include/freetype2/freetype/config/integer-types.h \
+ /usr/include/freetype2/freetype/config/public-macros.h \
+ /usr/include/freetype2/freetype/config/mac-support.h \
+ /usr/include/freetype2/freetype/fttypes.h \
+ /usr/include/freetype2/freetype/ftsystem.h \
+ /usr/include/freetype2/freetype/ftimage.h \
+ /usr/include/freetype2/freetype/fterrors.h \
+ /usr/include/freetype2/freetype/ftmoderr.h \
+ /usr/include/freetype2/freetype/fterrdef.h ../goo/gtypes.h \
+ SplashFTFont.h SplashFont.h SplashTypes.h SplashFTFontFile.h \
+ SplashFontFile.h
+SplashFont.o: SplashFont.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ SplashMath.h SplashTypes.h ../goo/gtypes.h SplashGlyphBitmap.h \
+ SplashFontFile.h SplashFont.h
+SplashFontEngine.o: SplashFontEngine.cc ../aconf.h ../aconf2.h \
+ ../goo/gmem.h ../goo/GString.h ../goo/gtypes.h SplashMath.h \
+ SplashTypes.h ../goo/gtypes.h SplashFTFontEngine.h \
+ /usr/include/freetype2/ft2build.h \
+ /usr/include/freetype2/freetype/config/ftheader.h \
+ /usr/include/freetype2/freetype/freetype.h \
+ /usr/include/freetype2/freetype/config/ftconfig.h \
+ /usr/include/freetype2/freetype/config/ftoption.h \
+ /usr/include/freetype2/freetype/config/ftstdlib.h \
+ /usr/include/freetype2/freetype/config/integer-types.h \
+ /usr/include/freetype2/freetype/config/public-macros.h \
+ /usr/include/freetype2/freetype/config/mac-support.h \
+ /usr/include/freetype2/freetype/fttypes.h \
+ /usr/include/freetype2/freetype/ftsystem.h \
+ /usr/include/freetype2/freetype/ftimage.h \
+ /usr/include/freetype2/freetype/fterrors.h \
+ /usr/include/freetype2/freetype/ftmoderr.h \
+ /usr/include/freetype2/freetype/fterrdef.h SplashFontFile.h \
+ SplashFontFileID.h SplashFont.h SplashFontEngine.h
+SplashFontFile.o: SplashFontFile.cc ../aconf.h ../aconf2.h \
+ ../goo/GString.h ../goo/gtypes.h SplashFontFile.h ../goo/gtypes.h \
+ SplashTypes.h SplashFontFileID.h
+SplashFontFileID.o: SplashFontFileID.cc ../aconf.h ../aconf2.h \
+ SplashFontFileID.h ../goo/gtypes.h
+SplashPath.o: SplashPath.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ SplashErrorCodes.h SplashPath.h SplashTypes.h ../goo/gtypes.h
+SplashPattern.o: SplashPattern.cc ../aconf.h ../aconf2.h SplashMath.h \
+ SplashTypes.h ../goo/gtypes.h SplashScreen.h SplashPattern.h
+SplashScreen.o: SplashScreen.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ SplashMath.h SplashTypes.h ../goo/gtypes.h SplashScreen.h
+SplashState.o: SplashState.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ SplashPattern.h SplashTypes.h ../goo/gtypes.h SplashScreen.h \
+ SplashClip.h SplashMath.h SplashBitmap.h SplashState.h
+SplashXPath.o: SplashXPath.cc ../aconf.h ../aconf2.h ../goo/gmem.h \
+ SplashMath.h SplashTypes.h ../goo/gtypes.h SplashPath.h SplashXPath.h
+SplashXPathScanner.o: SplashXPathScanner.cc ../aconf.h ../aconf2.h \
+ ../goo/gmem.h ../goo/GList.h ../goo/gtypes.h SplashMath.h SplashTypes.h \
+ ../goo/gtypes.h SplashXPath.h SplashXPathScanner.h
