@@ -51,7 +51,8 @@ class SijilRecord:
         return bool(mention_jews)
 
     def print(self):
-        print(f"Page: {self.page}, Row: {self.row}, Qadi: {self.qadi}, Record Number: {self.record_number}, Subject: {self.subject}, Summary: {self.summary}, Jews Mentioned: {self.jews_mentioned}")
+        # prints as CSV:
+        print(f"{self.page}\t{self.row}\t{self.qadi}\t{self.record_number}\t{self.subject}\t{self.summary}\t{self.jews_mentioned}\t{self.date}")
 
 class TableExtractor:
     def __init__(self, json_file):
@@ -66,8 +67,10 @@ class TableExtractor:
                 if type == "table":                    
                     for row in paragraph["rows"]:
                         cells = row["cells"]
-                        row_num = row["row"]
+                        row_num = row["row"]                        
                         if len(cells) ==9:
+                            if row_num == 2: # header row
+                                continue
                             self.add_sigil_row(num, int(row_num/2), cells)
                             
                             
@@ -91,12 +94,11 @@ class TableExtractor:
             return json.load(f)
 
 def main(argv=None):
-    # ap = argparse.ArgumentParser(description='Extract table from JSON file')
-    # ap.add_argument('json_file', help='Path to the JSON file')    
-    # args = ap.parse_args(argv)
-    # file_path = args.json_file
-    file_name = "/home/danny/src/xpdf/data/out/24_Sicil_no.031.json"
-    extractor = TableExtractor(file_name)
+    ap = argparse.ArgumentParser(description='Extract table from JSON file')
+    ap.add_argument('json_file', help='Path to the JSON file')    
+    args = ap.parse_args(argv)
+    file_path = args.json_file    
+    extractor = TableExtractor(file_path)
     
     extractor.extract()
 
