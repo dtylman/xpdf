@@ -18,7 +18,6 @@
 #include <string>
 #include "gmem.h"
 #include "GlyphIndex.h"
-#include "GlyphIndexLogger.h"
 #include "GString.h"
 #include "GfxFont.h"
 #include "GfxState.h"
@@ -41,13 +40,7 @@ TableOutputDev::TableOutputDev(char *fileName, TextOutputControl *controlA) : Te
   // to correct text.  A missing/unreadable db is not fatal -- load()
   // warns and translation is simply disabled.
   glyphIndex = new GlyphIndex();
-  glyphIndex->load();
-
-  // Debug log for the glyph index: <output>.log, written next to the
-  // output file, recording per-line text / char codes / font names so
-  // errors in the index db can be traced.  A no-op when the output
-  // goes to stdout (no path to derive a log file name from).
-  glyphLogger = new GlyphIndexLogger(fileName);
+  glyphIndex->load();  
 
   tblOk = gTrue;
   curPageNum = 0;
@@ -104,8 +97,7 @@ TableOutputDev::~TableOutputDev()
   {
     fclose(outFile);
   }
-  delete glyphIndex;
-  delete glyphLogger;
+  delete glyphIndex;  
 }
 
 void TableOutputDev::startPage(int pageNum, GfxState *state)
@@ -410,18 +402,10 @@ void TableOutputDev::drawChar(GfxState *state, double x, double y,
       hit.y = hitY;
       hit.name = name;
       hit.style = style;
-      fontHits.push_back(hit);
-      glyphLogger->log(s, (int)(c & 0xffff), name.c_str(), y);
+      fontHits.push_back(hit);      
       text->addChar(state, x, y, dx, dy, c, nBytes, uNew, uNewLen);
       return;
-    }
-
-    // Lookup miss (or an entry whose text didn't decode): the original
-    // ToUnicode-mapped Unicode is what reaches the output for this
-    // glyph -- log it too, with its char code and font, so missing or
-    // bad index db entries can be spotted in the log.
-    glyphLogger->log(unicodeToUTF8(u, uLen).c_str(), (int)(c & 0xffff),
-                     name.c_str(), y);
+    }  
   }
 
   TextOutputDev::drawChar(state, x, y, dx, dy, originX, originY,
