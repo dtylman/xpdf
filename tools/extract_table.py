@@ -9,8 +9,25 @@ from datetime import date
 
 import requests
 
+class TransliteratedString:
+    def __init__(self, original, transliterated):
+        self.original = original
+        self.transliterated = transliterated
+
+    def __repr__(self):
+        return f"TransliteratedString(original={self.original!r}, transliterated={self.transliterated!r})"
+        
+class Person:
+    def __init__(self, name: TransliteratedString, role):
+        self.name = name
+        self.transliterated_name = None
+        self.role = role
+
+    def __repr__(self):
+        return f"Person(name={self.name!r}, role={self.role!r})"
+                
 class SijilRecord:
-    def __init__(self, page, row, qadi, record_number, subject, summary):
+    def __init__(self, page: int, row: int, qadi: str, record_number: str, subject: str, summary: str):
         self.page = page
         self.row = row
         self.qadi = qadi
@@ -23,8 +40,8 @@ class SijilRecord:
         self.hebrew_summary = None
         self.hebrew_subject = None
         self.hebrew_subject_short = None
-        self.persons = None # change to []
-        self.places = None # change to []
+        self.persons = []
+        self.places = []
         
     def extract_date(self):
         pattern = r'([٠-٩0-9]{4})/([٠-٩0-9]{1,2})/([٠-٩0-9]{1,2})'
@@ -94,12 +111,27 @@ class SijilRecord:
     def extract_persons(self, date_str):        
         prompt = 'Following is a record summary from the Ottoman Sharia Court in Jerusalem from '+date_str+'. Extract all persons names and roles in the following json format: [{"name":"محمد أفندي بن إبراهيم", "role":"seller"},...]. Keep the exact original Arabic name and spelling. The record is: '
         prompt += f"qadi: {self.qadi}, subject: '{self.subject}', summary: '{self.summary}'"
-        return self.call_ollama(prompt)
+        persons_json = self.call_ollama_json(prompt)
+
+        persons = []
+        if isinstance(persons_json, list):
+            for p in persons_json:
+                # transliteration is filled in later by a separate algorithm
+                name = TransliteratedString(p.get('name'), None)
+                persons.append(Person(name, p.get('role')))
+        return persons
 
     def extract_places(self, date_str):        
         prompt = 'Following is a record summary from the Ottoman Sharia Court in Jerusalem from '+date_str+'. Extract all places mentioned in the record in the following json format: [{"place":"بيت صفافا"},...]. Keep the exact original Arabic name and spelling. The record is: '
         prompt += f"qadi: {self.qadi}, subject: '{self.subject}', summary: '{self.summary}'"
-        return self.call_ollama(prompt)
+        places_json = self.call_ollama_json(prompt)
+
+        places = []
+        if isinstance(places_json, list):
+            for p in places_json:
+                # transliteration is filled in later by a separate algorithm
+                places.append(TransliteratedString(p.get('place'), None))
+        return places
 
     def get_hebrew_description(self,date_str):
         prompt = f'Following is a record summary from the Ottoman Sharia Court in Jerusalem from {date_str}. Provide up to 10 words summary of this record, in Hebrew. The record is: '
@@ -124,26 +156,55 @@ class SijilRecord:
         response = requests.post(url, json=payload)
         return response.json()['response']
 
-    def call_ollama_json(self, prompt):
-        text = self.call_ollama(prompt)
-
+    def _try_parse_json(self, text):
+        """Try to parse a JSON object out of the model's response.
+        Returns (obj, None) on success, or (None, error_message) on failure."""
         # Strip markdown code fences the model may wrap the JSON in,
         # e.g. ```json ... ```
-        text = re.sub(r'^```(?:json)?\s*', '', text.strip())
-        text = re.sub(r'\s*```$', '', text.strip())
+        cleaned = re.sub(r'^```(?:json)?\s*', '', text.strip()).strip()
+        cleaned = re.sub(r'\s*```$', '', cleaned).strip()
 
         try:
-            return json.loads(text)
-        except json.JSONDecodeError:
+            return json.loads(cleaned), None
+        except json.JSONDecodeError as e:
             # Fall back to extracting the first JSON object or array
             # in case the model added extra text around it
-            match = re.search(r'[\[{].*[\]}]', text, re.DOTALL)
+            match = re.search(r'[\[{].*[\]}]', cleaned, re.DOTALL)
             if match:
                 try:
-                    return json.loads(match.group(0))
+                    return json.loads(match.group(0)), None
                 except json.JSONDecodeError:
                     pass
-            raise ValueError(f"Ollama did not return valid JSON: {text}")
+            return None, str(e)
+
+    def call_ollama_json(self, prompt, max_retries=3):
+        current_prompt = prompt
+        last_response = None
+
+        for attempt in range(1, max_retries + 1):
+            response = self.call_ollama(current_prompt)
+            last_response = response
+
+            # An empty response means there are no results - return an
+            # empty JSON object instead of an empty string
+            if not response or not response.strip():
+                return {}
+
+            obj, error = self._try_parse_json(response)
+            if error is None:
+                return obj
+
+            if attempt < max_retries:
+                print(f"Invalid JSON from Ollama (attempt {attempt}/{max_retries}): {error}")
+                current_prompt = (
+                    f"{prompt}\n\n"
+                    f"Your previous response was not valid JSON: '{response}'\n"
+                    f"The error was: {error}\n"
+                    "Please respond with only valid JSON and nothing else. "
+                    "If there are no results, return an empty JSON object '{}'."
+                )
+
+        raise ValueError(f"Ollama did not return valid JSON after {max_retries} attempts: {last_response}")
     
     def print(self):
         # prints as CSV:
