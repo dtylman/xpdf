@@ -5,6 +5,7 @@ PATTERN=~/src/sijil/lib/ircica/*.pdf
 
 for file in $PATTERN; do
     # xpdf/pdftoglyphs "$file" data/gylph_db/
+    echo "Processing $file"    
     output_file="data/out/$(basename "$file" .pdf).json"
     xpdf/pdftotext -tablecells "$file" "$output_file"
 done
