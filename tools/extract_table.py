@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
-from ast import pattern
 import json
 import sys
-import argparse
 import re
+import glob
 from datetime import date
 
 import requests
@@ -400,8 +399,10 @@ class SijilRecord:
         print(f"{self.page}\t{self.row}\t{self.qadi.value}\t{self.record_number}\t{self.subject}\t{self.summary}\t{self.jews_mentioned}\t{self.date}")
 
 class TableExtractor:
-    def __init__(self, json_file):
+    def __init__(self, json_file, file_number:int, volume:int):
         self.json_file = json_file
+        self.file_number = file_number
+        self.volume = volume
 
     def extract(self):
         doc = self.load_json()
@@ -439,15 +440,17 @@ class TableExtractor:
         with open(self.json_file, 'r') as f:
             return json.load(f)
 
-def main(argv=None):
-    ap = argparse.ArgumentParser(description='Extract table from JSON file')
-    ap.add_argument('json_file', help='Path to the JSON file')    
-    args = ap.parse_args(argv)
-    file_path = args.json_file    
-    #file_path = "/home/danny/src/xpdf/data/out/01_Sicil_no.107.json"
-    extractor = TableExtractor(file_path)
-    
-    extractor.extract()
+def main():
+    base_path = "/home/danny/src/xpdf/data/out/"
+
+    for file_path in sorted(glob.glob(f"{base_path}*.json")):
+        base_name = file_path.split("/")[-1]
+        # 50_Sicil_no.021.json -- this is <file_number>_Sicil_no.<volume>.json
+        
+        file_number, volume = re.match(r'(\d+)_Sicil_no\.(\d+)\.json', base_name).groups()
+        print(f"Processing file: {base_name} (file_number={file_number}, volume={volume})")
+        
+        TableExtractor(file_path, file_number, volume).extract()
 
 if __name__ == '__main__':
     sys.exit(main())
