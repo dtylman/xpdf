@@ -123,6 +123,27 @@ class SijilRecord:
         print(f"Calling Ollama with prompt: {prompt}")
         response = requests.post(url, json=payload)
         return response.json()['response']
+
+    def call_ollama_json(self, prompt):
+        text = self.call_ollama(prompt)
+
+        # Strip markdown code fences the model may wrap the JSON in,
+        # e.g. ```json ... ```
+        text = re.sub(r'^```(?:json)?\s*', '', text.strip())
+        text = re.sub(r'\s*```$', '', text.strip())
+
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError:
+            # Fall back to extracting the first JSON object or array
+            # in case the model added extra text around it
+            match = re.search(r'[\[{].*[\]}]', text, re.DOTALL)
+            if match:
+                try:
+                    return json.loads(match.group(0))
+                except json.JSONDecodeError:
+                    pass
+            raise ValueError(f"Ollama did not return valid JSON: {text}")
     
     def print(self):
         # prints as CSV:
