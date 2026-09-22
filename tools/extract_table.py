@@ -33,6 +33,11 @@ class TransliteratedString:
     # Final letter forms at the end of a word
     FINAL_FORMS = {'מ': 'ם', 'נ': 'ן', 'פ': 'ף'}
 
+    # Arabic-Indic (٠-٩) and Eastern Arabic-Indic (۰-۹) digits,
+    # transliterated as 0-9
+    DIGITS = {**{chr(0x0660 + i): str(i) for i in range(10)},
+              **{chr(0x06f0 + i): str(i) for i in range(10)}}
+
     # Sun letters (אותיות שמש): the ל of the definite article assimilates
     SUN_LETTERS = set('تثدذرزسشصضطظلن')
 
@@ -55,7 +60,7 @@ class TransliteratedString:
         return f"TransliteratedString(original={self.value!r}, transliterated={self.transliterated!r})"
 
     def transliterate(self):
-        """Transliterate self.original from Arabic into Hebrew following the
+        """Transliterate self.value from Arabic into Hebrew following the
         Academy of the Hebrew Language rules (the simple, unpointed form).
         The result is stored in self.transliterated and returned."""
         if not self.value:
@@ -172,11 +177,14 @@ class TransliteratedString:
                               or prev_mark in cls.HARAKAT)
                 letter = cls.LETTER_MAP[ch]
                 hebrew.append(letter * 2 if (consonantal and after_vowel) else letter)
+            elif ch in cls.DIGITS:
+                # Arabic-Indic digits are transliterated as 0-9 (١٢٥ -> 125)
+                hebrew.append(cls.DIGITS[ch])
             elif ch in cls.LETTER_MAP:
                 hebrew.append(cls.LETTER_MAP[ch])
             else:
-                # non-Arabic characters (digits, Latin letters,
-                # punctuation) are passed through unchanged
+                # non-Arabic characters (Latin letters, punctuation,
+                # Western digits) are passed through unchanged
                 hebrew.append(ch)
 
             prev_letter = ch
