@@ -212,7 +212,9 @@ class Person:
         return f"Person(name={self.name!r}, role={self.role!r})"
                 
 class SijilRecord:
-    def __init__(self, page: int, row: int, qadi: str, record_number: str, subject: str, summary: str):
+    def __init__(self, file_number: int, volume: int, page: int, row: int, qadi: str, record_number: str, subject: str, summary: str):
+        self.file_number = file_number
+        self.volume = volume
         self.page = page
         self.row = row
         self.qadi =  TransliteratedString(qadi)
@@ -278,7 +280,6 @@ class SijilRecord:
         self.places = self.extract_places(date_str)
         print(self.places)
         
-
     def translate_summary(self,date_str):
         if not self.summary:
             return ""
@@ -396,7 +397,7 @@ class SijilRecord:
     
     def print(self):
         # prints as CSV:
-        print(f"{self.page}\t{self.row}\t{self.qadi.value}\t{self.record_number}\t{self.subject}\t{self.summary}\t{self.jews_mentioned}\t{self.date}")
+        print(f"{self.file_number}\t{self.volume}\t{self.page}\t{self.row}\t{self.qadi.value}\t{self.record_number}\t{self.subject}\t{self.summary}\t{self.jews_mentioned}\t{self.date}")
 
 class TableExtractor:
     def __init__(self, json_file, file_number:int, volume:int):
@@ -406,6 +407,7 @@ class TableExtractor:
 
     def extract(self):
         doc = self.load_json()
+        max_entries = 5 
         for page in doc:
             num = page["page"]
             for paragraph in page["paragraphs"]:
@@ -414,24 +416,34 @@ class TableExtractor:
                     for row in paragraph["rows"]:
                         cells = row["cells"]
                         row_num = row["row"]                        
-                        if len(cells) ==9:
+                        if len(cells)==9:
                             if row_num == 2: # header row
                                 continue
-                            self.add_sigil_row(num, int(row_num/2), cells)
-                            
-                            
+                            summary = self.clean_up_text(cells[1]["text"])
+                            subject = self.clean_up_text(cells[3]["text"])
+                            record_number = self.clean_up_text(cells[5]["text"])
+                            qadi = self.clean_up_text(cells[7]["text"])
+                            self.add_sigil_row(num, int(row_num/2), summary, subject, record_number, qadi)
+                            max_entries -= 1
+                        if len(cells)==4:
+                            if row_num == 1: # header row
+                                continue
+                            summary = self.clean_up_text(cells[0]["text"])
+                            subject = self.clean_up_text(cells[1]["text"])
+                            record_number = self.clean_up_text(cells[2]["text"])
+                            qadi = self.clean_up_text(cells[3]["text"])
+                            self.add_sigil_row(num, int(row_num), summary, subject, record_number, qadi)
+                            max_entries -= 1
+                        if max_entries <= 0:                            
+                            return
+
     def clean_up_text(self,text):
         # Remove leading/trailing whitespace and replace multiple spaces with a single space
         clean_text = re.sub(r'[\u202A-\u202C\u200E\u200F]', '', text)
         return ' '.join(clean_text.strip().split())    
 
-    def add_sigil_row(self, page,row, cells):        
-        summary = self.clean_up_text(cells[1]["text"])
-        subject = self.clean_up_text(cells[3]["text"])
-        record_number = self.clean_up_text(cells[5]["text"])
-        qadi = self.clean_up_text(cells[7]["text"])
-        
-        record = SijilRecord(page, row, qadi, record_number, subject, summary)
+    def add_sigil_row(self, page,row, summary, subject, record_number, qadi):                        
+        record = SijilRecord(self.file_number,self.volume, page, row, qadi, record_number, subject, summary)
         # if record.jews_mentioned:
         #     record.translate()
         record.print()
@@ -448,7 +460,7 @@ def main():
         # 50_Sicil_no.021.json -- this is <file_number>_Sicil_no.<volume>.json
         
         file_number, volume = re.match(r'(\d+)_Sicil_no\.(\d+)\.json', base_name).groups()
-        print(f"Processing file: {base_name} (file_number={file_number}, volume={volume})")
+        # print(f"Processing file: {base_name} (file_number={file_number}, volume={volume})")
         
         TableExtractor(file_path, file_number, volume).extract()
 
